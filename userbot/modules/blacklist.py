@@ -90,13 +90,17 @@ async def list_blacklist(event):
     await event.edit(msg)
 
 
-CMD_HELP.update({"blacklist": "✘ Pʟᴜɢɪɴ : Blacklist"
-                 "\nFunctions : **Disables ALL USERBOT Functions on Blacklisted Groups.**"
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.blacklist <Username/ID>`"
-                 "\n↳ : Blacklists Provided Chat."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.unblacklist <Username/ID>`"
-                 "\n↳ : Removes Provided Chat From Blacklist."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.unblacklist all`"
-                 "\n↳ : Removes All Chats From Blacklist."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.blacklists`"
-                 "\n↳ : Lists All Blacklisted Chats."})
+CMD_HELP.update(
+    {
+        "blacklist": "✘ Pʟᴜɢɪɴ : Blacklist"
+        "\nFunctions : **Disables ALL USERBOT Functions on Blacklisted Groups.**"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.blacklist <Username/ID>`"
+        "\n↳ : Blacklists Provided Chat."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.unblacklist <Username/ID>`"
+        "\n↳ : Removes Provided Chat From Blacklist."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.unblacklist all`"
+        "\n↳ : Removes All Chats From Blacklist."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.blacklists`"
+        "\n↳ : Lists All Blacklisted Chats."
+    }
+)

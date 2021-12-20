@@ -26,7 +26,8 @@ async def figlet(e):
         "dotm": "dotmatrix",
         "bubble": "bubble",
         "bulb": "bulbhead",
-        "digi": "digital"}
+        "digi": "digital",
+    }
     input_str = e.pattern_match.group(1)
     if "." in input_str:
         text, cmd = input_str.split(".", maxsplit=1)
@@ -48,10 +49,13 @@ async def figlet(e):
     await e.respond("‌‌‎`{}`".format(result))
     await e.delete()
 
-CMD_HELP.update({
-    "figlet": "✘ Pʟᴜɢɪɴ : Figlet"
-    "\n\n⚡𝘾𝙈𝘿⚡: `.fg` TEXT.STYLE"
-    "\n↳ : Enhance ur text to strip line with anvil."
-    "\n\nExample : `.fg Okay.3D`"
-    "\nSTYLE List: `slant`| `3D`| `5line`| `alpha`| `banner`| `doh`| `iso`| `letter`| `allig`| `dotm`| `bubble`| `bulb`| `digi`"
-})
+
+CMD_HELP.update(
+    {
+        "figlet": "✘ Pʟᴜɢɪɴ : Figlet"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.fg` TEXT.STYLE"
+        "\n↳ : Enhance ur text to strip line with anvil."
+        "\n\nExample : `.fg Okay.3D`"
+        "\nSTYLE List: `slant`| `3D`| `5line`| `alpha`| `banner`| `doh`| `iso`| `letter`| `allig`| `dotm`| `bubble`| `bulb`| `digi`"
+    }
+)

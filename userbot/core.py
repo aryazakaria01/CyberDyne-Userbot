@@ -13,18 +13,26 @@ async def install(event):
         return
     if event.reply_to_msg_id:
         try:
-            downloaded_file_name = await event.client.download_media(  # pylint:disable=E0602
-                await event.get_reply_message(),
-                "userbot/modules/"  # pylint:disable=E0602
+            downloaded_file_name = (
+                await event.client.download_media(  # pylint:disable=E0602
+                    await event.get_reply_message(),
+                    "userbot/modules/",  # pylint:disable=E0602
+                )
             )
             if "(" not in downloaded_file_name:
                 path1 = Path(downloaded_file_name)
                 shortname = path1.stem
                 load_module(shortname.replace(".py", ""))
-                await event.edit("Installed Plugin `{}`".format(os.path.basename(downloaded_file_name)))
+                await event.edit(
+                    "Installed Plugin `{}`".format(
+                        os.path.basename(downloaded_file_name)
+                    )
+                )
             else:
                 os.remove(downloaded_file_name)
-                await event.edit("Errors! This plugin is already installed/pre-installed.")
+                await event.edit(
+                    "Errors! This plugin is already installed/pre-installed."
+                )
         except Exception as e:  # pylint:disable=C0103,W0703
             await event.edit(str(e))
             os.remove(downloaded_file_name)
@@ -45,7 +53,7 @@ async def send(event):
         the_plugin_file,
         force_document=True,
         allow_cache=False,
-        reply_to=message_id
+        reply_to=message_id,
     )
     end = datetime.now()
     time_taken_in_ms = (end - start).seconds
@@ -63,7 +71,9 @@ async def unload(event):
         remove_plugin(shortname)
         await event.edit(f"Unloaded {shortname} successfully")
     except Exception as e:
-        await event.edit("Successfully unload {shortname}\n{}".format(shortname, str(e)))
+        await event.edit(
+            "Successfully unload {shortname}\n{}".format(shortname, str(e))
+        )
 
 
 @command(pattern=r"^.load (?P<shortname>\w+)$", outgoing=True)
@@ -80,5 +90,5 @@ async def load(event):
         await event.edit(f"Successfully loaded {shortname}")
     except Exception as e:
         await event.edit(
-            f'Could not load {shortname} because of the following error.\n{e}'
+            f"Could not load {shortname} because of the following error.\n{e}"
         )

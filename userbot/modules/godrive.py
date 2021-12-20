@@ -151,17 +151,13 @@ async def generate_credentials(gdrive):
     flow = InstalledAppFlow.from_client_config(
         configs, SCOPES, redirect_uri=REDIRECT_URI
     )
-    auth_url, _ = flow.authorization_url(
-        access_type="offline", prompt="consent")
+    auth_url, _ = flow.authorization_url(access_type="offline", prompt="consent")
     msg = await gdrive.respond("`Go to your BOTLOG group to authenticate token...`")
     async with gdrive.client.conversation(BOTLOG_CHATID) as conv:
         url_msg = await conv.send_message(
             "Please go to this URL:\n" f"{auth_url}\nauthorize then reply the code"
         )
-        r = conv.wait_event(
-            events.NewMessage(
-                outgoing=True,
-                chats=BOTLOG_CHATID))
+        r = conv.wait_event(events.NewMessage(outgoing=True, chats=BOTLOG_CHATID))
         r = await r
         code = r.message.message.strip()
         flow.fetch_token(code=code)
@@ -188,8 +184,9 @@ async def create_app(gdrive):
             await gdrive.edit("`Refreshing credentials...`")
             """ - Refresh credentials - """
             creds.refresh(Request())
-            helper.save_credentials(str(gdrive.sender_id),
-                                    base64.b64encode(pickle.dumps(creds)).decode())
+            helper.save_credentials(
+                str(gdrive.sender_id), base64.b64encode(pickle.dumps(creds)).decode()
+            )
         else:
             await gdrive.edit("`Credentials is empty, please generate it...`")
             return False
@@ -235,9 +232,7 @@ async def download(gdrive, service, uri=None):
             )
         else:
             uri = [uri]
-            downloads = aria2.add_uris(
-                uri, options={
-                    "dir": full_path}, position=None)
+            downloads = aria2.add_uris(uri, options={"dir": full_path}, position=None)
         gid = downloads.gid
         await check_progress_for_dl(gdrive, gid, previous=None)
         file = aria2.get_download(gid)
@@ -304,8 +299,7 @@ async def download(gdrive, service, uri=None):
             else:
                 reply += f"**GDrive Upload**\n\n📄 [{file_name}]({result[1]})"
                 if G_DRIVE_INDEX_URL:
-                    index_url = G_DRIVE_INDEX_URL.rstrip(
-                        "/") + "/" + quote(file_name)
+                    index_url = G_DRIVE_INDEX_URL.rstrip("/") + "/" + quote(file_name)
                     reply += f"\n👥 [Index URL]({index_url})"
                 reply += f"\n__Size : {humanbytes(result[0])}__"
                 return reply
@@ -329,14 +323,15 @@ async def download(gdrive, service, uri=None):
                 folder_size = await count_dir_size(service, parent_Id)
                 reply += f"**GDrive Upload**\n\n📁 [{file_name}]({webViewURL})"
                 if G_DRIVE_INDEX_URL:
-                    index_url = (G_DRIVE_INDEX_URL.rstrip(
-                        "/") + "/" + quote(file_name) + "/")
+                    index_url = (
+                        G_DRIVE_INDEX_URL.rstrip("/") + "/" + quote(file_name) + "/"
+                    )
                     reply += f"\n👥 [Index URL]({index_url})"
                 reply += f"\n__Size : {humanbytes(folder_size)}__"
                 await reset_parentId()
                 return reply
     except Exception as e:
-        reply += f'`[ERROR]`\n\n`Status` : **failed**\n`Reason` : `{e}`\n\n'
+        reply += f"`[ERROR]`\n\n`Status` : **failed**\n`Reason` : `{e}`\n\n"
         return reply
     return
 
@@ -361,8 +356,9 @@ async def download_gdrive(gdrive, service, uri):
                 file_Id = uri.split("/")[-2]
             else:
                 try:
-                    file_Id = uri.split("uc?export=download&confirm=")[
-                        1].split("id=")[1]
+                    file_Id = uri.split("uc?export=download&confirm=")[1].split("id=")[
+                        1
+                    ]
                 except IndexError:
                     """- if error parse in url, assume given value is Id -"""
                     file_Id = uri
@@ -382,13 +378,16 @@ async def download_gdrive(gdrive, service, uri):
             except KeyError:
                 page = BeautifulSoup(download.content, "lxml")
                 try:
-                    export = drive + \
-                        page.find("a", {"id": "uc-download-link"}).get("href")
+                    export = drive + page.find("a", {"id": "uc-download-link"}).get(
+                        "href"
+                    )
                 except AttributeError:
                     try:
-                        error = (page.find("p",
-                                           {"class": "uc-error-caption"}).text + "\n" + page.find("p",
-                                                                                                  {"class": "uc-error-subcaption"}).text)
+                        error = (
+                            page.find("p", {"class": "uc-error-caption"}).text
+                            + "\n"
+                            + page.find("p", {"class": "uc-error-subcaption"}).text
+                        )
                     except Exception:
                         reply += (
                             "`[FILE - ERROR]`\n\n"
@@ -515,10 +514,7 @@ async def download_gdrive(gdrive, service, uri):
     async with gdrive.client.conversation(BOTLOG_CHATID) as conv:
         ask = await conv.send_message("`Proceed with mirroring? [y/N]`")
         try:
-            r = conv.wait_event(
-                events.NewMessage(
-                    outgoing=True,
-                    chats=BOTLOG_CHATID))
+            r = conv.wait_event(events.NewMessage(outgoing=True, chats=BOTLOG_CHATID))
             r = await r
         except Exception:
             ans = "N"
@@ -598,10 +594,10 @@ async def create_dir(service, folder_name):
         """- Override G_DRIVE_FOLDER_ID because parent_Id not empty -"""
         metadata["parents"] = [parent_Id]
     folder = (
-        service.files() .create(
-            body=metadata,
-            fields="id, webViewLink",
-            supportsAllDrives=True) .execute())
+        service.files()
+        .create(body=metadata, fields="id, webViewLink", supportsAllDrives=True)
+        .execute()
+    )
     await change_permission(service, folder.get("id"))
     return folder
 
@@ -752,8 +748,9 @@ async def lists(gdrive):
     if service is False:
         return False
     message = ""
-    fields = ("nextPageToken, files(name, size, id, "
-              "mimeType, webViewLink, webContentLink)")
+    fields = (
+        "nextPageToken, files(name, size, id, " "mimeType, webViewLink, webContentLink)"
+    )
     page_token = None
     result = []
     while True:
@@ -774,7 +771,9 @@ async def lists(gdrive):
                 .execute()
             )
         except HttpError as e:
-            await gdrive.edit(f'`[GDRIVE - LIST]`\n\n`Status` : **BAD**\n`Reason` : {e}')
+            await gdrive.edit(
+                f"`[GDRIVE - LIST]`\n\n`Status` : **BAD**\n`Reason` : {e}"
+            )
             return
         for files in response.get("files", []):
             if len(result) >= page_size:
@@ -899,7 +898,7 @@ async def google_drive_managers(gdrive):
                 try:
                     f = await get_information(service, f_id)
                 except Exception as e:
-                    reply += f'`[FILE/FOLDER - ERROR]`\n\n`Status` : **BAD**\n`Reason` : `{e}`\n\n'
+                    reply += f"`[FILE/FOLDER - ERROR]`\n\n`Status` : **BAD**\n`Reason` : `{e}`\n\n"
                     continue
             name = f.get("name")
             mimeType = f.get("mimeType")
@@ -911,7 +910,7 @@ async def google_drive_managers(gdrive):
                 service.files().delete(fileId=f_id, supportsAllDrives=True).execute()
             except HttpError as e:
                 status.replace("DELETE]", "ERROR]")
-                reply += f'`{status}`\n\n`Status` : **BAD**`Reason` : {e}\n\n'
+                reply += f"`{status}`\n\n`Status` : **BAD**`Reason` : {e}\n\n"
                 continue
             else:
                 reply += f"`{status}`\n\n" f"`{name}`\n" "`Status` : **OK**\n\n"
@@ -925,7 +924,7 @@ async def google_drive_managers(gdrive):
                 try:
                     f = await get_information(service, f_id)
                 except Exception as e:
-                    reply += f'`[FILE/FOLDER - ERROR]`\n\n`Status` : **BAD**\n`Reason` : `{e}`\n\n'
+                    reply += f"`[FILE/FOLDER - ERROR]`\n\n`Status` : **BAD**\n`Reason` : `{e}`\n\n"
                     continue
             """ - If exists parse file/folder information - """
             name_or_id = f.get("name")  # override input value
@@ -940,9 +939,8 @@ async def google_drive_managers(gdrive):
             else:
                 status = "[FILE - EXIST]"
             msg = (
-                f"`{status}`\n\n"
-                f"`Name  :` `{name_or_id}`\n"
-                f"`ID    :` `{f_id}`\n")
+                f"`{status}`\n\n" f"`Name  :` `{name_or_id}`\n" f"`ID    :` `{f_id}`\n"
+            )
             if mimeType != "application/vnd.google-apps.folder":
                 msg += f"`Size  :` `{humanbytes(f_size)}`\n"
                 msg += f"`Link  :` [{name_or_id}]({downloadURL})\n\n"
@@ -1015,7 +1013,7 @@ async def google_drive(gdrive):
             return True
         except Exception as e:
             await gdrive.edit(
-                f'`[FOLDER - UPLOAD]`\n\n`{folder_name}`\n`Status` : **BAD**\n`Reason` : {e}'
+                f"`[FOLDER - UPLOAD]`\n\n`{folder_name}`\n`Status` : **BAD**\n`Reason` : {e}"
             )
 
             await reset_parentId()
@@ -1023,8 +1021,9 @@ async def google_drive(gdrive):
         else:
             msg = f"**GDrive Upload**\n\n📁 [{folder_name}]({webViewURL})"
             if G_DRIVE_INDEX_URL:
-                index_url = (G_DRIVE_INDEX_URL.rstrip("/") +
-                             "/" + quote(folder_name) + "/")
+                index_url = (
+                    G_DRIVE_INDEX_URL.rstrip("/") + "/" + quote(folder_name) + "/"
+                )
                 msg += f"\n👥 [Index URL]({index_url})"
             folder_size = await count_dir_size(service, parent_Id)
             msg += f"\n__Size : {humanbytes(folder_size)}__"
@@ -1050,7 +1049,9 @@ async def google_drive(gdrive):
                     )
                     break
                 except Exception as e:
-                    reply += f'`[FILE - ERROR]`\n\n`Status` : **BAD**\n`Reason` : {e}\n\n'
+                    reply += (
+                        f"`[FILE - ERROR]`\n\n`Status` : **BAD**\n`Reason` : {e}\n\n"
+                    )
                     continue
             if reply:
                 await gdrive.respond(reply, link_preview=False)
@@ -1077,7 +1078,7 @@ async def google_drive(gdrive):
                         )
                         break
                     except Exception as e:
-                        reply += f'`[FILE - ERROR]`\n\n`Status` : **BAD**\n`Reason` : {e}\n\n'
+                        reply += f"`[FILE - ERROR]`\n\n`Status` : **BAD**\n`Reason` : {e}\n\n"
                         continue
             if reply:
                 await gdrive.respond(reply, link_preview=False)
@@ -1109,7 +1110,7 @@ async def google_drive(gdrive):
                     break
                 else:
                     """- if something bad happened, continue to next uri -"""
-                    reply += f'`[UNKNOWN - ERROR]`\n\n`Status` : **BAD**\n`Reason` : `{dl}` | `{e}`\n\n'
+                    reply += f"`[UNKNOWN - ERROR]`\n\n`Status` : **BAD**\n`Reason` : `{dl}` | `{e}`\n\n"
 
                     continue
         await gdrive.respond(reply, link_preview=False)
@@ -1120,8 +1121,9 @@ async def google_drive(gdrive):
     try:
         result = await upload(gdrive, service, file_path, file_name, mimeType)
     except CancelProcess:
-        gdrive.respond("`[FILE - CANCELLED]`\n\n"
-                       "`Status` : **OK** - received signal cancelled.")
+        gdrive.respond(
+            "`[FILE - CANCELLED]`\n\n" "`Status` : **OK** - received signal cancelled."
+        )
     if result:
         msg = f"**GDrive Upload**\n\n📄 [{file_name}]({result[1]})"
         if G_DRIVE_INDEX_URL:
@@ -1421,36 +1423,40 @@ async def gdrive_clone(event):
     await event.edit(msg)
 
 
-CMD_HELP.update({"godrive": "✘ Pʟᴜɢɪɴ : Google Drive"
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.gdauth`"
-                 "\n↳ : Generate Token to Enable All CMD Google Drive Service."
-                 "\nThis Only Need to Run Once in Life Time."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.gdreset`"
-                 "\n↳ : Reset Your Token if Something BAD Happened or Change Drive Acc."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.gd`"
-                 "\n↳ : Upload File From Local or uri/url/drivelink into google drive."
-                 "\nfor Drive Link it's Upload Only if You Want to."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.gdabort`"
-                 "\n↳ : Abort process uploading or downloading."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.gdlist`"
-                 "\n↳ : Get list of folders and files with default size 50."
-                 "\nUse flags `-l range[1-1000]` for limit output."
-                 "\nUse flags `-p parents-folder_id` for lists given folder in gdrive."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.gdf mkdir`"
-                 "\n↳ : Create Google Drive Folder."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.gdf chck`"
-                 "\n↳ : Check file/folder in Google Drive."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.gdf rm`"
-                 "\n↳ : Delete files/folders in Google Drive."
-                 "\nCan't be Undone, this Method Skipping File Trash, so be CAUTION..."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.gdfset put`"
-                 "\n↳ : Change Upload Directory in Google Drive."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.gdfset rm`"
-                 "\n↳ : Remove set parentId from cmd\n>`.gdfset put` "
-                 "into **G_DRIVE_FOLDER_ID** and if empty upload will go to root."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.gcl <Public GDrive Link / GDrive ID>`"
-                 "\n↳ : Copy File or Folder into your Drive"
-                 "\n\n📌 NOTE :"
-                 "\nFor 𝘾𝙈𝘿 >`.gdlist` You Can Combine -l and -p Flags With or Without Name "
-                 "at the Same Time, it Must be `-l` Flags First Before use `-p` Flags.\n"
-                 "And by Default it Lists From Latest 'modifiedTime' and Then Folders."})
+CMD_HELP.update(
+    {
+        "godrive": "✘ Pʟᴜɢɪɴ : Google Drive"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.gdauth`"
+        "\n↳ : Generate Token to Enable All CMD Google Drive Service."
+        "\nThis Only Need to Run Once in Life Time."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.gdreset`"
+        "\n↳ : Reset Your Token if Something BAD Happened or Change Drive Acc."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.gd`"
+        "\n↳ : Upload File From Local or uri/url/drivelink into google drive."
+        "\nfor Drive Link it's Upload Only if You Want to."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.gdabort`"
+        "\n↳ : Abort process uploading or downloading."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.gdlist`"
+        "\n↳ : Get list of folders and files with default size 50."
+        "\nUse flags `-l range[1-1000]` for limit output."
+        "\nUse flags `-p parents-folder_id` for lists given folder in gdrive."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.gdf mkdir`"
+        "\n↳ : Create Google Drive Folder."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.gdf chck`"
+        "\n↳ : Check file/folder in Google Drive."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.gdf rm`"
+        "\n↳ : Delete files/folders in Google Drive."
+        "\nCan't be Undone, this Method Skipping File Trash, so be CAUTION..."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.gdfset put`"
+        "\n↳ : Change Upload Directory in Google Drive."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.gdfset rm`"
+        "\n↳ : Remove set parentId from cmd\n>`.gdfset put` "
+        "into **G_DRIVE_FOLDER_ID** and if empty upload will go to root."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.gcl <Public GDrive Link / GDrive ID>`"
+        "\n↳ : Copy File or Folder into your Drive"
+        "\n\n📌 NOTE :"
+        "\nFor 𝘾𝙈𝘿 >`.gdlist` You Can Combine -l and -p Flags With or Without Name "
+        "at the Same Time, it Must be `-l` Flags First Before use `-p` Flags.\n"
+        "And by Default it Lists From Latest 'modifiedTime' and Then Folders."
+    }
+)

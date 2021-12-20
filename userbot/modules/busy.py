@@ -95,8 +95,9 @@ async def set_not_afk(event):
         os.system("rm -rf *.jpg")
 
 
-@bot.on(events.NewMessage(incoming=True,
-                          func=lambda e: bool(e.mentioned or e.is_private)))
+@bot.on(
+    events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private))
+)
 async def on_afk(event):
     if event.fwd_from:
         return
@@ -116,12 +117,11 @@ async def on_afk(event):
         msg = None
         if reason:
             message_to_reply = (
-                f"{ALIVE_NAME} 𝗦𝗲𝗱𝗮𝗻𝗴 𝙎𝙞𝙗𝙪𝙠.\n𝗦𝗲𝗷𝗮𝗸 : `{total_afk_time}` 𝗬𝗮𝗻𝗴 𝗟𝗮𝗹𝘂.\n" +
-                f"» Aʟᴀsᴀɴ : `{reason}`")
-        else:
-            message_to_reply = (
-                f"{ALIVE_NAME} 𝗦𝗲𝗱𝗮𝗻𝗴 𝙎𝙞𝙗𝙪𝙠.\n𝗦𝗲𝗷𝗮𝗸 : `{total_afk_time}` 𝗬𝗮𝗻𝗴 𝗟𝗮𝗹𝘂.\n» Aʟᴀsᴀɴ : `{reason}` "
+                f"{ALIVE_NAME} 𝗦𝗲𝗱𝗮𝗻𝗴 𝙎𝙞𝙗𝙪𝙠.\n𝗦𝗲𝗷𝗮𝗸 : `{total_afk_time}` 𝗬𝗮𝗻𝗴 𝗟𝗮𝗹𝘂.\n"
+                + f"» Aʟᴀsᴀɴ : `{reason}`"
             )
+        else:
+            message_to_reply = f"{ALIVE_NAME} 𝗦𝗲𝗱𝗮𝗻𝗴 𝙎𝙞𝙗𝙪𝙠.\n𝗦𝗲𝗷𝗮𝗸 : `{total_afk_time}` 𝗬𝗮𝗻𝗴 𝗟𝗮𝗹𝘂.\n» Aʟᴀsᴀɴ : `{reason}` "
         try:
             if pic.endswith((".tgs", ".webp")):
                 msg = await event.reply(file=pic)
@@ -200,12 +200,11 @@ async def _(event):
             try:
                 if pic.endswith((".tgs", ".webp")):
                     await bot.send_message(event.chat_id, file=pic)
-                    await bot.send_message(
-                        event.chat_id, f"{ALIVE_NAME} 𝗦𝗲𝗱𝗮𝗻𝗴 𝙎𝙞𝙗𝙪𝙠."
-                    )
+                    await bot.send_message(event.chat_id, f"{ALIVE_NAME} 𝗦𝗲𝗱𝗮𝗻𝗴 𝙎𝙞𝙗𝙪𝙠.")
                 else:
                     await bot.send_message(
-                        event.chat_id, f"{ALIVE_NAME} 𝗦𝗲𝗱𝗮𝗻𝗴 𝙎𝙞𝙗𝙪𝙠.",
+                        event.chat_id,
+                        f"{ALIVE_NAME} 𝗦𝗲𝗱𝗮𝗻𝗴 𝙎𝙞𝙗𝙪𝙠.",
                         file=pic,
                     )
             except BaseException:
@@ -250,10 +249,12 @@ async def _(event):
             BOTLOG_CHATIDger.warn(str(e))
 
 
-CMD_HELP.update({
-    "busy": "✘ Pʟᴜɢɪɴ : Busy.\
+CMD_HELP.update(
+    {
+        "busy": "✘ Pʟᴜɢɪɴ : Busy.\
 \n\n⚡𝘾𝙈𝘿⚡: `.busy` <Alasan/Reason> & <Reply Image/Gambar>\
 \n↳ : Lakukan Ketika Anda Sedang Sibuk.\nSiapapun Yang Balas, Tag, Atau Chat Kamu,\
 Mereka Akan Tau Alasan Kamu Sibuk.\n\nSystem Ini Bisa Dilakukan Dan Dibatalkan Dimanapun.\
 "
-})
+    }
+)

@@ -25,7 +25,9 @@ async def igsaver(event):
         return
     reply_message = await event.get_reply_message()
     if not reply_message.text:
-        await event.edit("`Mohon Maaf, Saya Membutuhkan Link Media Instagram Untuk di Download.`")
+        await event.edit(
+            "`Mohon Maaf, Saya Membutuhkan Link Media Instagram Untuk di Download.`"
+        )
         return
     chat = "@SaveAsBot"
     reply_message.sender
@@ -41,12 +43,12 @@ async def igsaver(event):
             await event.client.send_message(chat, reply_message)
             response = await response
         except YouBlockedUserError:
-            await event.edit("`Terjadi Kesalahan, Mohon Pergi ke ` @SaveAsbot `Lalu Tekan Start dan Coba Kembali.`")
+            await event.edit(
+                "`Terjadi Kesalahan, Mohon Pergi ke ` @SaveAsbot `Lalu Tekan Start dan Coba Kembali.`"
+            )
             return
         if response.text.startswith("Forward"):
-            await event.edit(
-                "Uhmm Sepertinya Private."
-            )
+            await event.edit("Uhmm Sepertinya Private.")
         else:
             await event.delete()
             await event.client.send_file(
@@ -59,6 +61,10 @@ async def igsaver(event):
             await event.delete()
 
 
-CMD_HELP.update({"instasaver": "✘ Pʟᴜɢɪɴ : Instagram Saver"
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.igsaver` <Reply Link>"
-                 "\n↳ : Download Postingan di Instagram, Silahkan Salin Link Postingan Instagram Yang Ingin Anda Download Terus Kirim Link, Lalu Reply dan Ketik `.igsaver`"})
+CMD_HELP.update(
+    {
+        "instasaver": "✘ Pʟᴜɢɪɴ : Instagram Saver"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.igsaver` <Reply Link>"
+        "\n↳ : Download Postingan di Instagram, Silahkan Salin Link Postingan Instagram Yang Ingin Anda Download Terus Kirim Link, Lalu Reply dan Ketik `.igsaver`"
+    }
+)

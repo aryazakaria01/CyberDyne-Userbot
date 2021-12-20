@@ -58,13 +58,7 @@ async def okgoogle(img):
 
     # https://stackoverflow.com/questions/23270175/google-reverse-image-search-using-post-request#28792943
     searchUrl = "https://www.google.com/searchbyimage/upload"
-    multipart = {
-        "encoded_image": (
-            name,
-            open(
-                name,
-                "rb")),
-        "image_content": ""}
+    multipart = {"encoded_image": (name, open(name, "rb")), "image_content": ""}
     response = requests.post(searchUrl, files=multipart, allow_redirects=False)
     fetchUrl = response.headers["Location"]
 
@@ -147,8 +141,9 @@ async def ParseSauce(googleurl):
 
     try:
         for similar_image in soup.findAll("input", {"class": "gLFyf"}):
-            url = "https://www.google.com/search?tbm=isch&q=" + \
-                urllib.parse.quote_plus(similar_image.get("value"))
+            url = "https://www.google.com/search?tbm=isch&q=" + urllib.parse.quote_plus(
+                similar_image.get("value")
+            )
             results["similar_images"] = url
     except BaseException:
         pass
@@ -160,9 +155,13 @@ async def ParseSauce(googleurl):
     return results
 
 
-CMD_HELP.update({"reverse": "✘ Pʟᴜɢɪɴ : Reverse"
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.rvs [counter] <optional>`"
-                 "\n↳ : Reply to a pic/sticker to reverse-search it on Google Images."
-                 "\nNumber of results can be specified, default is 3."
-                 "\nIf counter is 0, only info and links will be provided."
-                 "\nBot might fail to upload images if a high number of results are requested."})
+CMD_HELP.update(
+    {
+        "reverse": "✘ Pʟᴜɢɪɴ : Reverse"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.rvs [counter] <optional>`"
+        "\n↳ : Reply to a pic/sticker to reverse-search it on Google Images."
+        "\nNumber of results can be specified, default is 3."
+        "\nIf counter is 0, only info and links will be provided."
+        "\nBot might fail to upload images if a high number of results are requested."
+    }
+)

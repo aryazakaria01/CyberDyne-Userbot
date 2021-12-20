@@ -3,7 +3,8 @@
 import asyncio
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import ChannelParticipantsAdmins
-#from userbot.utils import admin_cmd
+
+# from userbot.utils import admin_cmd
 from userbot.events import register
 from userbot import ALIVE_NAME, CMD_HELP, bot
 
@@ -33,14 +34,17 @@ async def gbun(event):
         idd = reply_message.from_id
         # make meself invulnerable cuz why not xD
         if idd == 1036951071:
-            await reply_message.reply("`Wait a second, This is my master!`\n**How dare you threaten to ban my master nigger!**\n\n__Your account has been hacked! Pay 6969$ to my master__ [Heyworld](tg://user?id=1036951071) __to release your account__😏")
+            await reply_message.reply(
+                "`Wait a second, This is my master!`\n**How dare you threaten to ban my master nigger!**\n\n__Your account has been hacked! Pay 6969$ to my master__ [Heyworld](tg://user?id=1036951071) __to release your account__😏"
+            )
         else:
-            jnl = ("`Warning!!`"
-                   "[{}](tg://user?id={})"
-                   f"` 𝙂𝘽𝘼𝙉𝙉𝙀𝘿 By` {DEFAULTUSER}\n\n"
-                   "**Name: ** __{}__\n"
-                   "**ID : ** `{}`\n"
-                   ).format(firstname, idd, firstname, idd)
+            jnl = (
+                "`Warning!!`"
+                "[{}](tg://user?id={})"
+                f"` 𝙂𝘽𝘼𝙉𝙉𝙀𝘿 By` {DEFAULTUSER}\n\n"
+                "**Name: ** __{}__\n"
+                "**ID : ** `{}`\n"
+            ).format(firstname, idd, firstname, idd)
             if usname is None:
                 jnl += "**Username: ** `Doesn't own a username!`\n"
             elif usname != "None":
@@ -54,10 +58,10 @@ async def gbun(event):
                 jnl += no_reason
             await reply_message.reply(jnl)
     else:
-        mention = (
-            f"Warning!! User 𝙂𝘽𝘼𝙉𝙉𝙀𝘿 By {DEFAULTUSER} \nReason: No Reason Given. ")
+        mention = f"Warning!! User 𝙂𝘽𝘼𝙉𝙉𝙀𝘿 By {DEFAULTUSER} \nReason: No Reason Given. "
         await event.reply(mention)
     await event.delete()
+
 
 # Port by @VckyouuBitch (GeezProject)
 # Language en to id from King-Userbot
@@ -136,8 +140,9 @@ async def _(event):
         await asyncio.sleep(t)
 
 
-CMD_HELP.update({
-    "fakeaction": "✘ Pʟᴜɢɪɴ : Fake Action\
+CMD_HELP.update(
+    {
+        "fakeaction": "✘ Pʟᴜɢɪɴ : Fake Action\
     \n\n⚡𝘾𝙈𝘿⚡: `.fgban` <Reply> & <Alasan/Reason>\
     \n↳ : Melakukan Fake Global Banned.\
     \n\n⚡𝘾𝙈𝘿⚡: `.ftyping`\
@@ -147,4 +152,6 @@ CMD_HELP.update({
     \n\n⚡𝘾𝙈𝘿⚡: `.fvideo`\
     \n↳ : Seolah-olah Anda Sedang Mengirim Video Di Dalam Group, Padahal Tidak.\
     \n\n⚡𝘾𝙈𝘿⚡: `.fgame`\
-    \n↳ : Seolah-olah Anda Sedang Memainkan Game Di Dalam Group, Padahal Tidak."})
+    \n↳ : Seolah-olah Anda Sedang Memainkan Game Di Dalam Group, Padahal Tidak."
+    }
+)

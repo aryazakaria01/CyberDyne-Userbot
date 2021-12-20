@@ -27,7 +27,6 @@ for module_name in ALL_MODULES:
     imported_module = import_module("userbot.modules." + module_name)
 
 
-LOGS.info(
-    f"⚡𝐂𝐲𝐛𝐞𝐫𝐃𝐲𝐧𝐞-𝐔𝐬𝐞𝐫𝐛𝐨𝐭⚡ ⚙️ v. {BOT_VER} [TELAH DIAKTIFKAN!]")
+LOGS.info(f"⚡𝐂𝐲𝐛𝐞𝐫𝐃𝐲𝐧𝐞-𝐔𝐬𝐞𝐫𝐛𝐨𝐭⚡ ⚙️ v. {BOT_VER} [TELAH DIAKTIFKAN!]")
 
 bot.run_until_disconnected()

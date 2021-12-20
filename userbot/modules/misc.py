@@ -51,9 +51,7 @@ async def killthebot(event):
     """For .shutdown command, shut the bot down."""
     await event.edit("`Shutting down...`")
     if BOTLOG:
-        await event.client.send_message(
-            BOTLOG_CHATID,
-            "#SHUTDOWN \n" "Bot shut down")
+        await event.client.send_message(BOTLOG_CHATID, "#SHUTDOWN \n" "Bot shut down")
     await bot.disconnect()
 
 
@@ -62,8 +60,7 @@ async def killdabot(event):
     await event.edit("`i would be back in a moment`")
     if BOTLOG:
         await event.client.send_message(
-            BOTLOG_CHATID,
-            "#RESTART \n" "Restarting bot..."
+            BOTLOG_CHATID, "#RESTART \n" "Restarting bot..."
         )
     try:
         from userbot.modules.sql_helper.globals import addgvar, delgvar
@@ -84,7 +81,8 @@ async def reedme(e):
         "Here's Something for You to Read :\n"
         "\n[⚡CyberDyne-Userbot⚡ Repo](https://github.com/aryazakaria01/CyberDyne-Userbot/blob/CyberDyne-Userbot/README.md)"
         "\n[Setup Guide - Basic](https://telegra.ph/How-to-host-a-Telegram-Userbot-11-02)"
-        "\n[Special - Note](https://telegra.ph/Special-Note-11-02)")
+        "\n[Special - Note](https://telegra.ph/Special-Note-11-02)"
+    )
 
 
 @register(outgoing=True, pattern=r"^\.repeat (.*)")
@@ -140,29 +138,31 @@ async def raw(event):
         )
 
 
-CMD_HELP.update({
-    "random": "✘ Pʟᴜɢɪɴ : Random List\
+CMD_HELP.update(
+    {
+        "random": "✘ Pʟᴜɢɪɴ : Random List\
     \n\n⚡𝘾𝙈𝘿⚡: `.random <item1> <item2> ... <itemN>`\
     \n↳ : Get a Random Item From The List of Items.",
-    "sleep": "✘ Pʟᴜɢɪɴ : Sleep\
+        "sleep": "✘ Pʟᴜɢɪɴ : Sleep\
     \n\n⚡𝘾𝙈𝘿⚡: `.sleep <seconds>`\
     \n↳ : Let Yours Snooze for a Few Seconds.",
-    "shutdown": "✘ Pʟᴜɢɪɴ : Shutdown\
+        "shutdown": "✘ Pʟᴜɢɪɴ : Shutdown\
     \n\n⚡𝘾𝙈𝘿⚡: `.shutdown`\
     \n↳ : Shutdown bot",
-    "repo": "✘ Pʟᴜɢɪɴ : Repository\
+        "repo": "✘ Pʟᴜɢɪɴ : Repository\
     \n\n⚡𝘾𝙈𝘿⚡: `.repo`\
     \n↳ : Github Repo of this bot",
-    "readme": "✘ Pʟᴜɢɪɴ : Read Me\
+        "readme": "✘ Pʟᴜɢɪɴ : Read Me\
     \n\n⚡𝘾𝙈𝘿⚡: `.readme`\
     \n↳ : Provide Links to Setup The Userbot and it's modules.",
-    "repeat": "✘ Pʟᴜɢɪɴ : Repeat\
+        "repeat": "✘ Pʟᴜɢɪɴ : Repeat\
     \n\n⚡𝘾𝙈𝘿⚡: `.repeat <no> <Text>`\
     \n↳ : Repeats The Text for a Number of Times. Don't Confuse This With Spam tho.",
-    "restart": "✘ Pʟᴜɢɪɴ : Restart\
+        "restart": "✘ Pʟᴜɢɪɴ : Restart\
     \n\n⚡𝘾𝙈𝘿⚡: `.restart`\
     \n↳ : Restarts the bot !!",
-    "raw": "✘ Pʟᴜɢɪɴ : RAW\
+        "raw": "✘ Pʟᴜɢɪɴ : RAW\
     \n\n⚡𝘾𝙈𝘿⚡: `.raw`\
-    \n↳ : Get Detailed JSON-Like Formatted Data About Replied Message."
-})
+    \n↳ : Get Detailed JSON-Like Formatted Data About Replied Message.",
+    }
+)

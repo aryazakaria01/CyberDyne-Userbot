@@ -41,7 +41,9 @@ async def kang(args):
     emoji = None
 
     if not message or not message.media:
-        return await args.edit("`Mohon Maaf Yang Mulia, Saya Gagal Mengambil Sticker Ini!`")
+        return await args.edit(
+            "`Mohon Maaf Yang Mulia, Saya Gagal Mengambil Sticker Ini!`"
+        )
 
     if isinstance(message.media, MessageMediaPhoto):
         await args.edit(f"`{random.choice(KANGING_STR)}`")
@@ -273,9 +275,7 @@ async def resize_photo(photo):
 @register(outgoing=True, pattern=r"^\.stkrinfo$")
 async def get_pack_info(event):
     if not event.is_reply:
-        return await event.edit(
-            "`Mohon Balas Ke Sticker.`"
-        )
+        return await event.edit("`Mohon Balas Ke Sticker.`")
 
     rep_msg = await event.get_reply_message()
     if not rep_msg.document:
@@ -345,14 +345,18 @@ async def sticker_to_png(sticker):
     return
 
 
-CMD_HELP.update({"stickers": "✘ Pʟᴜɢɪɴ : Stickers"
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.kang | .tikel [emoji('s)]?`"
-                 "\n↳ : Balas .tikel Ke Sticker Atau Gambar Untuk Menambahkan Ke Pack Mu "
-                 "\nBisa Memilih Emoji Sesuai Pilihanmu."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.kang | .tikel  (emoji['s]]?` [nomer]?"
-                 "\n↳ : Ambil Sticker/Gambar Ke Pack Baru Mu"
-                 "Dan Bisa Pilih Emoji Sticker Mu."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.stkrinfo`"
-                 "\n↳ : Dapatkan Informasi Pack Sticker."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.getsticker`"
-                 "\n↳ : Balas Ke Sticker Untuk Mendapatkan File 'PNG' Sticker."})
+CMD_HELP.update(
+    {
+        "stickers": "✘ Pʟᴜɢɪɴ : Stickers"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.kang | .tikel [emoji('s)]?`"
+        "\n↳ : Balas .tikel Ke Sticker Atau Gambar Untuk Menambahkan Ke Pack Mu "
+        "\nBisa Memilih Emoji Sesuai Pilihanmu."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.kang | .tikel  (emoji['s]]?` [nomer]?"
+        "\n↳ : Ambil Sticker/Gambar Ke Pack Baru Mu"
+        "Dan Bisa Pilih Emoji Sticker Mu."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.stkrinfo`"
+        "\n↳ : Dapatkan Informasi Pack Sticker."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.getsticker`"
+        "\n↳ : Balas Ke Sticker Untuk Mendapatkan File 'PNG' Sticker."
+    }
+)

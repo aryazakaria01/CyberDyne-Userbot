@@ -19,12 +19,12 @@ async def welcome_to_chat(event):
         user_joined=True,
         user_left=False,
         user_kicked=False"""
-        if (event.user_joined
-                or event.user_added) and not (await event.get_user()).bot:
+        if (event.user_joined or event.user_added) and not (await event.get_user()).bot:
             if CLEAN_WELCOME:
                 try:
-                    await event.client.delete_messages(event.chat_id,
-                                                       cws.previous_welcome)
+                    await event.client.delete_messages(
+                        event.chat_id, cws.previous_welcome
+                    )
                 except Exception as e:
                     LOGS.warn(str(e))
             a_user = await event.get_user()
@@ -39,8 +39,7 @@ async def welcome_to_chat(event):
             title = chat.title or "Grup Ini"
             participants = await event.client.get_participants(chat)
             count = len(participants)
-            mention = "[{}](tg://user?id={})".format(a_user.first_name,
-                                                     a_user.id)
+            mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
             my_mention = "[{}](tg://user?id={})".format(me.first_name, me.id)
             first = a_user.first_name
             last = a_user.last_name
@@ -55,27 +54,31 @@ async def welcome_to_chat(event):
             current_saved_welcome_message = None
             if cws:
                 if cws.f_mesg_id:
-                    msg_o = await event.client.get_messages(entity=BOTLOG_CHATID,
-                                                            ids=int(cws.f_mesg_id))
+                    msg_o = await event.client.get_messages(
+                        entity=BOTLOG_CHATID, ids=int(cws.f_mesg_id)
+                    )
                     file_media = msg_o.media
                     current_saved_welcome_message = msg_o.message
                 elif cws.reply:
                     current_saved_welcome_message = cws.reply
             current_message = await event.reply(
-                current_saved_welcome_message.format(mention=mention,
-                                                     title=title,
-                                                     count=count,
-                                                     first=first,
-                                                     last=last,
-                                                     fullname=fullname,
-                                                     username=username,
-                                                     userid=userid,
-                                                     my_first=my_first,
-                                                     my_last=my_last,
-                                                     my_fullname=my_fullname,
-                                                     my_username=my_username,
-                                                     my_mention=my_mention),
-                file=file_media)
+                current_saved_welcome_message.format(
+                    mention=mention,
+                    title=title,
+                    count=count,
+                    first=first,
+                    last=last,
+                    fullname=fullname,
+                    username=username,
+                    userid=userid,
+                    my_first=my_first,
+                    my_last=my_last,
+                    my_fullname=my_fullname,
+                    my_username=my_username,
+                    my_mention=my_mention,
+                ),
+                file=file_media,
+            )
             update_previous_welcome(event.chat_id, current_message.id)
 
 
@@ -91,15 +94,14 @@ async def save_welcome(event):
     if msg and msg.media and not string:
         if BOTLOG_CHATID:
             await event.client.send_message(
-                BOTLOG_CHATID, f"#SETWELCOME \nID GROUP : {event.chat_id}"
+                BOTLOG_CHATID,
+                f"#SETWELCOME \nID GROUP : {event.chat_id}"
                 "\nAnda Telah Memasang Pesan Welcome Digroup, Ini Adalah Catatan Pesan Welcome. "
-                "\n⚠️Peringatan : Jangan Dihapus !"
+                "\n⚠️Peringatan : Jangan Dihapus !",
             )
             msg_o = await event.client.forward_messages(
-                entity=BOTLOG_CHATID,
-                messages=msg,
-                from_peer=event.chat_id,
-                silent=True)
+                entity=BOTLOG_CHATID, messages=msg, from_peer=event.chat_id, silent=True
+            )
             msg_id = msg_o.id
         else:
             return await event.edit(
@@ -110,9 +112,9 @@ async def save_welcome(event):
         string = rep_msg.text
     success = "`Berhasil Menyimpan Pesan Welcome {} ツ`"
     if add_welcome_setting(event.chat_id, 0, string, msg_id) is True:
-        await event.edit(success.format('Disini'))
+        await event.edit(success.format("Disini"))
     else:
-        await event.edit(success.format('Disini'))
+        await event.edit(success.format("Disini"))
 
 
 @register(outgoing=True, pattern="^.checkwelcome$")
@@ -123,16 +125,17 @@ async def show_welcome(event):
         return await event.edit("`Running on Non-SQL mode!`")
     cws = get_current_welcome_settings(event.chat_id)
     if not cws:
-        return await event.edit("`❌NOTFOUND, Anda Tidak Menyimpan Pesan Welcome Disini.`")
+        return await event.edit(
+            "`❌NOTFOUND, Anda Tidak Menyimpan Pesan Welcome Disini.`"
+        )
     elif cws.f_mesg_id:
-        msg_o = await event.client.get_messages(entity=BOTLOG_CHATID,
-                                                ids=int(cws.f_mesg_id))
-        await event.edit(
-            "`☑️Berhasil, Pesan Welcome Telah Disimpan.`")
+        msg_o = await event.client.get_messages(
+            entity=BOTLOG_CHATID, ids=int(cws.f_mesg_id)
+        )
+        await event.edit("`☑️Berhasil, Pesan Welcome Telah Disimpan.`")
         await event.reply(msg_o.message, file=msg_o.media)
     elif cws.reply:
-        await event.edit(
-            "`☑️Berhasil, Pesan Welcome Telah Disimpan.`")
+        await event.edit("`☑️Berhasil, Pesan Welcome Telah Disimpan.`")
         await event.reply(cws.reply)
 
 
@@ -148,16 +151,18 @@ async def del_welcome(event):
         await event.edit("`❌NOTFOUND, Anda Tidak Menyimpan Pesan Welcome Disini`")
 
 
-CMD_HELP.update({
-    "welcome": "✘ Pʟᴜɢɪɴ : `Welcome`"
-    "\n\n⚡𝘾𝙈𝘿⚡: `.setwelcome` <Reply Text/Sticker>"
-    "\n↳ : Menyimpan Pesan Welcome Di Group."
-    "\n\nFormat Variabel Yang Bisa Digunakan Sebagai Berikut :"
-    "\n`{mention}, {title}, {count}, {first}, {last}, {fullname}, "
-    "{userid}, {username}, {my_first}, {my_fullname}, {my_last}, "
-    "{my_mention}, {my_username}`"
-    "\n\n⚡𝘾𝙈𝘿⚡: `.checkwelcome`"
-    "\n↳ : Check Pesan Welcome Yang Anda Simpan Di Group."
-    "\n\n⚡𝘾𝙈𝘿⚡: `.rmwelcome`"
-    "\n↳ : Menghapus pesan welcome yang anda simpan."
-})
+CMD_HELP.update(
+    {
+        "welcome": "✘ Pʟᴜɢɪɴ : `Welcome`"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.setwelcome` <Reply Text/Sticker>"
+        "\n↳ : Menyimpan Pesan Welcome Di Group."
+        "\n\nFormat Variabel Yang Bisa Digunakan Sebagai Berikut :"
+        "\n`{mention}, {title}, {count}, {first}, {last}, {fullname}, "
+        "{userid}, {username}, {my_first}, {my_fullname}, {my_last}, "
+        "{my_mention}, {my_username}`"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.checkwelcome`"
+        "\n↳ : Check Pesan Welcome Yang Anda Simpan Di Group."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.rmwelcome`"
+        "\n↳ : Menghapus pesan welcome yang anda simpan."
+    }
+)
