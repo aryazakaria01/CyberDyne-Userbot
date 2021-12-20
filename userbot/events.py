@@ -150,9 +150,8 @@ def register(**args):
                         )
                         url = f"https://nekobin.com/raw/{key}"
                         text = (
-                            "**USERBOT ERROR REPORT**\n"
-                            + "Nothing is logged except the fact of error and date\n\n"
-                        )
+                            "**USERBOT ERROR REPORT**\n" +
+                            "Nothing is logged except the fact of error and date\n\n")
 
                         anu = f"{text}Pasted to: [Nekobin]({url})"
 

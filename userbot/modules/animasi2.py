@@ -54,7 +54,6 @@ async def _(event):
             '🌖',
         ]
 
-
         animation_interval = 0.1
 
         animation_ttl = range(117)

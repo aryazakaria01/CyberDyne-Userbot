@@ -399,7 +399,6 @@ async def _(event):
             '`Cintaku Sekarang Sepenuhnya Terkirim Padamu, Dan Sekarang Aku Sangat Mencintai Mu, I Love You 💞`',
         ]
 
-
         animation_interval = 2
 
         animation_ttl = range(11)

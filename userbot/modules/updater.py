@@ -27,8 +27,9 @@ from userbot.events import register
 
 async def gen_chlog(repo, diff):
     d_form = "%d/%m/%y"
-    return "".join(f"•[{c.committed_datetime.strftime(d_form)}]: "
-            f"{c.summary} <{c.author}>\n" for c in repo.iter_commits(diff))
+    return "".join(
+        f"•[{c.committed_datetime.strftime(d_form)}]: "
+        f"{c.summary} <{c.author}>\n" for c in repo.iter_commits(diff))
 
 
 async def print_changelogs(event, ac_br, changelog):

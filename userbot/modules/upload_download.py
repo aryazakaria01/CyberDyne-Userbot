@@ -207,9 +207,11 @@ async def upload(event):
             if input_str.lower().endswith(("mp4", "mkv", "webm")):
                 thumb = await get_video_thumb(input_str, "thumb_image.jpg")
                 metadata = extractMetadata(createParser(input_str))
-                duration = metadata.get("duration").seconds if metadata.has("duration") else 0
+                duration = metadata.get(
+                    "duration").seconds if metadata.has("duration") else 0
                 width = metadata.get("width") if metadata.has("width") else 0
-                height = metadata.get("height") if metadata.has("height") else 0
+                height = metadata.get(
+                    "height") if metadata.has("height") else 0
                 attributes = [
                     DocumentAttributeVideo(
                         duration=duration,
@@ -221,9 +223,11 @@ async def upload(event):
                 ]
             elif input_str.lower().endswith(("mp3", "flac", "wav")):
                 metadata = extractMetadata(createParser(input_str))
-                duration = metadata.get("duration").seconds if metadata.has("duration") else 0
+                duration = metadata.get(
+                    "duration").seconds if metadata.has("duration") else 0
                 title = metadata.get("title") if metadata.has("title") else ""
-                artist = metadata.get("artist") if metadata.has("artist") else ""
+                artist = metadata.get(
+                    "artist") if metadata.has("artist") else ""
                 attributes = [
                     DocumentAttributeAudio(
                         duration=duration,
@@ -267,9 +271,12 @@ async def upload(event):
                 if file_name.lower().endswith(("mp4", "mkv", "webm")):
                     thumb = await get_video_thumb(files, "thumb_image.jpg")
                     metadata = extractMetadata(createParser(files))
-                    duration = metadata.get("duration").seconds if metadata.has("duration") else 0
-                    width = metadata.get("width") if metadata.has("width") else 0
-                    height = metadata.get("height") if metadata.has("height") else 0
+                    duration = metadata.get(
+                        "duration").seconds if metadata.has("duration") else 0
+                    width = metadata.get(
+                        "width") if metadata.has("width") else 0
+                    height = metadata.get(
+                        "height") if metadata.has("height") else 0
                     attributes = [
                         DocumentAttributeVideo(
                             duration=duration,
@@ -281,9 +288,12 @@ async def upload(event):
                     ]
                 elif file_name.lower().endswith(("mp3", "flac", "wav")):
                     metadata = extractMetadata(createParser(files))
-                    duration = metadata.get("duration").seconds if metadata.has("duration") else 0
-                    title = metadata.get("title") if metadata.has("title") else ""
-                    artist = metadata.get("artist") if metadata.has("artist") else ""
+                    duration = metadata.get(
+                        "duration").seconds if metadata.has("duration") else 0
+                    title = metadata.get(
+                        "title") if metadata.has("title") else ""
+                    artist = metadata.get(
+                        "artist") if metadata.has("artist") else ""
                     attributes = [
                         DocumentAttributeAudio(
                             duration=duration,

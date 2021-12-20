@@ -662,7 +662,8 @@ async def download_video(v_url):
         ]
         thumb_image = img_filenames[0]
         metadata = extractMetadata(createParser(f_name))
-        duration = metadata.get("duration").seconds if metadata.has("duration") else 0
+        duration = metadata.get(
+            "duration").seconds if metadata.has("duration") else 0
         await v_url.client.send_file(
             v_url.chat_id,
             result,
@@ -710,7 +711,8 @@ async def download_video(v_url):
             )
         thumb_image = await get_video_thumb(f_path, "thumb.png")
         metadata = extractMetadata(createParser(f_path))
-        duration = metadata.get("duration").seconds if metadata.has("duration") else 0
+        duration = metadata.get(
+            "duration").seconds if metadata.has("duration") else 0
         width = metadata.get("width") if metadata.has("width") else 0
         height = metadata.get("height") if metadata.has("height") else 0
         await v_url.client.send_file(

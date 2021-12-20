@@ -846,7 +846,7 @@ async def get_bots(show):
 @register(outgoing=True, pattern="^.allkick(?: |$)(.*)")
 async def allkick(event):
     lynxuser = await event.get_chat()
-    lynxget = await event.client.get_me()
+    await event.client.get_me()
     admin = lynxuser.admin_rights
     creator = lynxuser.creator
     if not admin and not creator:
