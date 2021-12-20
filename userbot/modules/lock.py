@@ -71,7 +71,9 @@ async def locks(event):
         if not input_str:
             await event.edit("`Mohon Maaf, Apa Yang Harus Saya Kunci ? 😾`")
         else:
-            await event.edit(f"`Mohon Maaf Yang Mulia, Jenis Yang Mau Anda Kunci Tidak Valid` `{input_str}`")
+            await event.edit(
+                f"`Mohon Maaf Yang Mulia, Jenis Yang Mau Anda Kunci Tidak Valid` `{input_str}`"
+            )
         return
     lock_rights = ChatBannedRights(
         until_date=None,
@@ -88,12 +90,12 @@ async def locks(event):
     )
     try:
         await event.client(
-            EditChatDefaultBannedRightsRequest(peer=peer_id,
-                                               banned_rights=lock_rights))
+            EditChatDefaultBannedRightsRequest(peer=peer_id, banned_rights=lock_rights)
+        )
         await event.edit(f"⚡ `Yang Mulia Telah Mengunci {what} Untuk Obrolan Ini` ⚡")
     except BaseException as e:
         await event.edit(
-            f'`Apakah Yang Mulia Mempunyai Izin Melakukan Itu Disini ? 😿`\n**Kesalahan:** {e}'
+            f"`Apakah Yang Mulia Mempunyai Izin Melakukan Itu Disini ? 😿`\n**Kesalahan:** {e}"
         )
 
         return
@@ -159,7 +161,9 @@ async def rem_locks(event):
         if not input_str:
             await event.edit("`Mohon Maaf Yang Mulia, Apa Yang Harus Saya Buka ? 😾`")
         else:
-            await event.edit(f"`Mohon Maaf Yang Mulia, Jenis Kunci Yang Mau Anda Buka Tidak Valid. 😿` `{input_str}`")
+            await event.edit(
+                f"`Mohon Maaf Yang Mulia, Jenis Kunci Yang Mau Anda Buka Tidak Valid. 😿` `{input_str}`"
+            )
         return
     unlock_rights = ChatBannedRights(
         until_date=None,
@@ -176,22 +180,27 @@ async def rem_locks(event):
     )
     try:
         await event.client(
-            EditChatDefaultBannedRightsRequest(peer=peer_id,
-                                               banned_rights=unlock_rights))
-        await event.edit(f"⚡ `Yang Mulia Telah Membuka Kunci {what} Untuk Obrolan Ini` ⚡")
+            EditChatDefaultBannedRightsRequest(
+                peer=peer_id, banned_rights=unlock_rights
+            )
+        )
+        await event.edit(
+            f"⚡ `Yang Mulia Telah Membuka Kunci {what} Untuk Obrolan Ini` ⚡"
+        )
     except BaseException as e:
         await event.edit(
-            f'`Mohon Maaf, Apakah Yang Mulia Mempunyai Izin Melakukan Itu Disini ? 😿`\n**Kesalahan:** {e}'
+            f"`Mohon Maaf, Apakah Yang Mulia Mempunyai Izin Melakukan Itu Disini ? 😿`\n**Kesalahan:** {e}"
         )
 
         return
 
 
-CMD_HELP.update({
-    "locks":
-    "⚡𝘾𝙈𝘿⚡: `.lock <all atau Jenis>` atau `.unlock <all atau Jenis>`\
+CMD_HELP.update(
+    {
+        "locks": "⚡𝘾𝙈𝘿⚡: `.lock <all atau Jenis>` atau `.unlock <all atau Jenis>`\
 \n↳ : Memungkinkan anda kunci atau membuka kunci, beberapa jenis pesan dalam obrolan.\
 \n[Anda Harus Jadi Admin Grup Untuk Menggunakan Perintah!]\
 \n\nJenis pesan yang bisa dikunci atau dibuka adalah: \
 \n`all, msg, media, sticker, gif, game, inline, poll, invite, pin, info`\n**Contoh:** `.lock msg` atau `.unlock msg`"
-})
+    }
+)

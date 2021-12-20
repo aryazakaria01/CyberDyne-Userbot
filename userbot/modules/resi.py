@@ -1,4 +1,3 @@
-
 from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from userbot import bot, CMD_HELP
@@ -11,15 +10,14 @@ async def _(event):
         return
     event.pattern_match.group(1)
     chat = "@GeDebugBetaBot"  # pylint:disable=E0602
-    resi = 'resi'
+    resi = "resi"
     await event.edit("Processing....")
     async with bot.conversation("@GeDebugBetaBot") as conv:
         try:
             response = conv.wait_event(
-                events.NewMessage(
-                    incoming=True,
-                    from_users=443213072))
-            await conv.send_message(f'{kurir} {resi}')
+                events.NewMessage(incoming=True, from_users=443213072)
+            )
+            await conv.send_message(f"{kurir} {resi}")
             response = await response
         except YouBlockedUserError:
             await event.reply("Unblock @ GeDebugBetaBot dulu Goblok!!")
@@ -29,10 +27,11 @@ async def _(event):
             await event.client.delete_messages(response.message.message)
 
 
-CMD_HELP.update({
-    "resi":
-    "`.resi`\
+CMD_HELP.update(
+    {
+        "resi": "`.resi`\
 \nUsage: Cek resi \
 \n\n`.lacak`\
 \nUsage:lacak paket"
-})
+    }
+)

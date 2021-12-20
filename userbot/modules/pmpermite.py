@@ -20,14 +20,14 @@ from userbot import (
     LOGS,
     PM_AUTO_BAN,
     ALIVE_NAME,
-    CUSTOM_PMPERMIT_TEXT
+    CUSTOM_PMPERMIT_TEXT,
 )
 from userbot.events import register
 
 
-PM_PERMIT_PIC = os.environ.get(
-    "PM_PERMIT_PIC",
-    None) or "resource/logo/CyberDyneUserbot-Button.jpg"
+PM_PERMIT_PIC = (
+    os.environ.get("PM_PERMIT_PIC", None) or "resource/logo/CyberDyneUserbot-Button.jpg"
+)
 if PM_PERMIT_PIC is None:
     WARN_PIC = "resource/logo/CyberDyneUserbot-Button.jpg"
 else:
@@ -39,8 +39,11 @@ LASTMSG = {}
 # ========================= CONSTANTS ============================
 
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
-CUSTOM_MIDDLE_PMP = str(
-    CUSTOM_PMPERMIT_TEXT) if CUSTOM_PMPERMIT_TEXT else f"│Jangan Spam Bangsat \n│Atau Kau Bisa Diblokir, Tunggu Sampai {DEFAULTUSER}\n│Pemilik ini Menerima Pesan Anda, Terimakasih.\n"
+CUSTOM_MIDDLE_PMP = (
+    str(CUSTOM_PMPERMIT_TEXT)
+    if CUSTOM_PMPERMIT_TEXT
+    else f"│Jangan Spam Bangsat \n│Atau Kau Bisa Diblokir, Tunggu Sampai {DEFAULTUSER}\n│Pemilik ini Menerima Pesan Anda, Terimakasih.\n"
+)
 DEF_UNAPPROVED_MSG = (
     "◄┈─╼━━━━━━━━━━━━━━━━━━╾─┈╮\n"
     "ㅤ  “𝖂𝖊𝖑𝖈𝖔𝖒𝖊 𝕿𝖔 𝕻𝖗𝖎𝖛𝖆𝖈𝖞 𝕸𝖊𝖘𝖘𝖆𝖌𝖊.”\n"
@@ -51,7 +54,8 @@ DEF_UNAPPROVED_MSG = (
     "▰▱▰▱▰▱▰▱▰▱▰▱▰▱▰▱▰▱\n"
     "┣[○› `𝕻𝖊𝖘𝖆𝖓 𝕺𝖙𝖔𝖒𝖆𝖙𝖎𝖘`\n"
     f"┣[○› `𝕭𝖞` © @Badboyanim\n"
-    "▰▱▰▱▰▱▰▱▰▱▰▱▰▱▰▱▰▱")
+    "▰▱▰▱▰▱▰▱▰▱▰▱▰▱▰▱▰▱"
+)
 
 # =================================================================
 
@@ -95,18 +99,15 @@ async def permitpm(event):
                 # Send the Unapproved Message again
                 if event.text != prevmsg:
                     async for message in event.client.iter_messages(
-                        event.chat_id, from_user="me", search=UNAPPROVED_MSG, file=WARN_PIC
+                        event.chat_id,
+                        from_user="me",
+                        search=UNAPPROVED_MSG,
+                        file=WARN_PIC,
                     ):
                         await message.delete()
-                    await event.reply(
-                        file=file,
-                        caption=search
-                    )
+                    await event.reply(file=file, caption=search)
             else:
-                await event.reply(
-                    file=file,
-                    caption=search
-                )
+                await event.reply(file=file, caption=search)
             LASTMSG.update({event.chat_id: event.text})
             if notifsoff:
                 await event.client.send_read_acknowledge(event.chat_id)
@@ -203,7 +204,9 @@ async def notifoff(noff_event):
     except AttributeError:
         return await noff_event.edit("`Running on Non-SQL mode!`")
     addgvar("NOTIF_OFF", True)
-    await noff_event.edit("#NOTIF OFF ❌\n`Notifikasi Dari Pesan Pribadi Telah Dinonaktifkan.`")
+    await noff_event.edit(
+        "#NOTIF OFF ❌\n`Notifikasi Dari Pesan Pribadi Telah Dinonaktifkan.`"
+    )
 
 
 @register(outgoing=True, pattern=r"^\.notifon$")
@@ -214,7 +217,9 @@ async def notifon(non_event):
     except AttributeError:
         return await non_event.edit("`Running on Non-SQL mode!`")
     delgvar("NOTIF_OFF")
-    await non_event.edit("#NOTIF ON ☑️\n`Notifikasi Dari Pesan Pribadi Telah Diaktifkan.`")
+    await non_event.edit(
+        "#NOTIF ON ☑️\n`Notifikasi Dari Pesan Pribadi Telah Diaktifkan.`"
+    )
 
 
 @register(outgoing=True, pattern=r"^\.(?:setuju|ok)\s?(.)?")
@@ -257,8 +262,7 @@ async def approvepm(apprvpm):
 
     if BOTLOG:
         await apprvpm.client.send_message(
-            BOTLOG_CHATID,
-            "#DITERIMA\n" + "User: " + f"[{name0}](tg://user?id={uid})"
+            BOTLOG_CHATID, "#DITERIMA\n" + "User: " + f"[{name0}](tg://user?id={uid})"
         )
 
 
@@ -287,8 +291,7 @@ async def disapprovepm(disapprvpm):
     if BOTLOG:
         await disapprvpm.client.send_message(
             BOTLOG_CHATID,
-            f"[{name0}](tg://user?id={disapprvpm.chat_id})"
-            " `Berhasil Ditolak` !",
+            f"[{name0}](tg://user?id={disapprvpm.chat_id})" " `Berhasil Ditolak` !",
         )
 
 
@@ -345,7 +348,9 @@ async def unblockpm(unblock):
 async def add_pmsg(cust_msg):
     """Set your own Unapproved message"""
     if not PM_AUTO_BAN:
-        return await cust_msg.edit("**Mohon Maaf, Anda Harus Menyetel** `PM_AUTO_BAN` **Ke** `True`\n Silahkan Lakukan set var.\nUsage : `.set var PM_AUTO_BAN True`")
+        return await cust_msg.edit(
+            "**Mohon Maaf, Anda Harus Menyetel** `PM_AUTO_BAN` **Ke** `True`\n Silahkan Lakukan set var.\nUsage : `.set var PM_AUTO_BAN True`"
+        )
     try:
         import userbot.modules.sql_helper.globals as sql
     except AttributeError:
@@ -375,13 +380,16 @@ async def add_pmsg(cust_msg):
 
         if BOTLOG:
             await cust_msg.client.send_message(
-                BOTLOG_CHATID, f"**{status} PM Yang Tersimpan Dalam Room Chat Anda :** \n\n{msg}"
+                BOTLOG_CHATID,
+                f"**{status} PM Yang Tersimpan Dalam Room Chat Anda :** \n\n{msg}",
             )
 
     if conf.lower() == "reset":
         if custom_message is not None:
             sql.delgvar("unapproved_msg")
-            await cust_msg.edit("#DELETE ☑️\n`Anda Telah Menghapus Pesan Custom PM Ke Default.`")
+            await cust_msg.edit(
+                "#DELETE ☑️\n`Anda Telah Menghapus Pesan Custom PM Ke Default.`"
+            )
         else:
 
             await cust_msg.edit("`Pesan PM Anda Sudah Default Sejak Awal.`")
@@ -421,4 +429,6 @@ CMD_HELP.update(
         "\n↳ : Menghapus Pesan PM ke Default."
         "\n\nPesan Pribadi Yang Belum Diterima Saat Ini Tidak Dapat Disetel"
         "\nke Teks Format. Seperti : Bold, Underline, Link, dll."
-        "\nPesan Akan Terkirim Secara Normal."})
+        "\nPesan Akan Terkirim Secara Normal."
+    }
+)

@@ -42,12 +42,10 @@ async def _(event):
     msg += f"\n**Source :**\n[{code}]({doujin.url})"
     if doujin.parody:
         msg += "\n**Parodies :**"
-        parodies = ["#" +
-                    parody.name.replace(
-                        " ",
-                        "_").replace(
-                        "-",
-                        "_") for parody in doujin.parody]
+        parodies = [
+            "#" + parody.name.replace(" ", "_").replace("-", "_")
+            for parody in doujin.parody
+        ]
         msg += "\n" + " ".join(natsorted(parodies))
     if doujin.character:
         msg += "\n**Characters :**"
@@ -60,37 +58,30 @@ async def _(event):
     if doujin.tag:
         msg += "\n**Tags :**"
         tags = [
-            "#" + tag.name.replace(" ", "_").replace("-", "_")
-            for tag in doujin.tag
+            "#" + tag.name.replace(" ", "_").replace("-", "_") for tag in doujin.tag
         ]
 
         msg += "\n" + " ".join(natsorted(tags))
     if doujin.artist:
         msg += "\n**Artists :**"
-        artists = ["#" +
-                   artist.name.replace(
-                       " ",
-                       "_").replace(
-                       "-",
-                       "_") for artist in doujin.artist]
+        artists = [
+            "#" + artist.name.replace(" ", "_").replace("-", "_")
+            for artist in doujin.artist
+        ]
         msg += "\n" + " ".join(natsorted(artists))
     if doujin.language:
         msg += "\n**Languages :**"
-        languages = ["#" +
-                     language.name.replace(
-                         " ",
-                         "_").replace(
-                         "-",
-                         "_") for language in doujin.language]
+        languages = [
+            "#" + language.name.replace(" ", "_").replace("-", "_")
+            for language in doujin.language
+        ]
         msg += "\n" + " ".join(natsorted(languages))
     if doujin.category:
         msg += "\n**Categories :**"
-        categories = ["#" +
-                      category.name.replace(
-                          " ",
-                          "_").replace(
-                          "-",
-                          "_") for category in doujin.category]
+        categories = [
+            "#" + category.name.replace(" ", "_").replace("-", "_")
+            for category in doujin.category
+        ]
         msg += "\n" + " ".join(natsorted(categories))
     msg += f"\n**Pages :**\n{doujin.num_pages}"
     await event.edit(msg, link_preview=True)

@@ -28,8 +28,9 @@ from userbot.events import register
 async def gen_chlog(repo, diff):
     d_form = "%d/%m/%y"
     return "".join(
-        f"•[{c.committed_datetime.strftime(d_form)}]: "
-        f"{c.summary} <{c.author}>\n" for c in repo.iter_commits(diff))
+        f"•[{c.committed_datetime.strftime(d_form)}]: " f"{c.summary} <{c.author}>\n"
+        for c in repo.iter_commits(diff)
+    )
 
 
 async def print_changelogs(event, ac_br, changelog):
@@ -208,7 +209,9 @@ async def upstream(event):
     if conf == "" and not force_update:
         await print_changelogs(event, ac_br, changelog)
         await event.delete()
-        return await event.respond('`".update -pull or .update -push"\n\nTo Update CyberDyne-Userbot.`')
+        return await event.respond(
+            '`".update -pull or .update -push"\n\nTo Update CyberDyne-Userbot.`'
+        )
 
     if force_update:
         await event.edit(

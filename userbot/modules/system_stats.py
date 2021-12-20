@@ -26,7 +26,7 @@ from userbot import (
     CMD_HELP,
     UPSTREAM_REPO_BRANCH,
     INSTAGRAM_ALIVE,
-    bot
+    bot,
 )
 from userbot.events import register
 
@@ -48,9 +48,7 @@ async def get_readable_time(seconds: int) -> str:
 
     while count < 4:
         count += 1
-        remainder, result = divmod(
-            seconds, 60) if count < 3 else divmod(
-            seconds, 24)
+        remainder, result = divmod(seconds, 60) if count < 3 else divmod(seconds, 24)
         if seconds == 0 and remainder == 0:
             break
         time_list.append(int(result))
@@ -82,10 +80,8 @@ async def psu(event):
     softw += f"`Waktu Hidup: {bt.day}/{bt.month}/{bt.year}  {bt.hour}:{bt.minute}:{bt.second}`\n"
     # CPU Cores
     cpuu = "📉 **Informasi CPU**\n"
-    cpuu += "`Physical cores   : " + \
-        str(psutil.cpu_count(logical=False)) + "`\n"
-    cpuu += "`Total cores      : " + \
-        str(psutil.cpu_count(logical=True)) + "`\n"
+    cpuu += "`Physical cores   : " + str(psutil.cpu_count(logical=False)) + "`\n"
+    cpuu += "`Total cores      : " + str(psutil.cpu_count(logical=True)) + "`\n"
     # CPU frequencies
     cpufreq = psutil.cpu_freq()
     cpuu += f"`Max Frequency    : {cpufreq.max:.2f}Mhz`\n"
@@ -108,10 +104,10 @@ async def psu(event):
     bw = "📁 **Bandwith Digunakan**\n"
     bw += f"`Unggah  : {get_size(psutil.net_io_counters().bytes_sent)}`\n"
     bw += f"`Download: {get_size(psutil.net_io_counters().bytes_recv)}`\n"
-    help_string = f'{softw}\n'
-    help_string += f'{cpuu}\n'
-    help_string += f'{memm}\n'
-    help_string += f'{bw}\n'
+    help_string = f"{softw}\n"
+    help_string += f"{cpuu}\n"
+    help_string += f"{memm}\n"
+    help_string += f"{bw}\n"
     help_string += "⚙️ **Informasi Mesin**\n"
     help_string += f"`Python {sys.version}`\n"
     help_string += f"`Telethon {__version__}`"
@@ -138,8 +134,7 @@ async def sysdetails(sysd):
             )
 
             stdout, stderr = await fetch.communicate()
-            result = str(stdout.decode().strip()) + \
-                str(stderr.decode().strip())
+            result = str(stdout.decode().strip()) + str(stderr.decode().strip())
 
             await sysd.edit("`" + result + "`")
         except FileNotFoundError:
@@ -161,8 +156,7 @@ async def bot_ver(event):
             stderr=asyncPIPE,
         )
         stdout, stderr = await ver.communicate()
-        verout = str(stdout.decode().strip()) + \
-            str(stderr.decode().strip())
+        verout = str(stdout.decode().strip()) + str(stderr.decode().strip())
 
         rev = await asyncrunapp(
             "git",
@@ -173,8 +167,7 @@ async def bot_ver(event):
             stderr=asyncPIPE,
         )
         stdout, stderr = await rev.communicate()
-        revout = str(stdout.decode().strip()) + \
-            str(stderr.decode().strip())
+        revout = str(stdout.decode().strip()) + str(stderr.decode().strip())
 
         await event.edit(
             "`CyberDyne Version: " f"{verout}" "` \n" "`Revision: " f"{revout}" "`"
@@ -329,7 +322,8 @@ async def amireallyalive(alive):
         f"│    **𝖀𝖘𝖊𝖗𝖇𝖔𝖙, 𝕳𝖔𝖜 𝕿𝖔 𝕻𝖗𝖊𝖘𝖘 𝕭𝖊𝖑𝖔𝖜.**\n"
         f"╰╼════════════════════╾╯\n"
         f"| [𝕽𝖊𝖕𝖔](https://aryazakaria01.github.io/CyberDyne-Userbot) | [𝕮𝖞𝖇𝖊𝖗𝕯𝖞𝖓𝖊-𝕿𝖊𝖆𝖒](t.me/GroupTidakDiketahui) | "
-        f"[𝕸𝖞 𝕴𝖓𝖘𝖙𝖆𝖌𝖗𝖆𝖒]({INSTAGRAM_ALIVE}) | ")
+        f"[𝕸𝖞 𝕴𝖓𝖘𝖙𝖆𝖌𝖗𝖆𝖒]({INSTAGRAM_ALIVE}) | "
+    )
     if ALIVE_LOGO:
         try:
             logo = ALIVE_LOGO
@@ -365,24 +359,26 @@ async def amireallyalivereset(ureset):
     await ureset.edit("`" "Successfully reset user for alive!" "`")
 
 
-CMD_HELP.update({
-    "system": "✘ Pʟᴜɢɪɴ : System Stats"
-    "\n\n⚡𝘾𝙈𝘿⚡: `.sysd`"
-    "\n↳ : Shows system information using neofetch."
-    "\n\n⚡𝘾𝙈𝘿⚡: `.db`"
-    "\n↳ : Shows database related info."
-    "\n\n⚡𝘾𝙈𝘿⚡: `.spc`"
-    "\n↳ : Show system specification.",
-    "alive": "✘ Pʟᴜɢɪɴ : Alive"
-    "\n\n⚡𝘾𝙈𝘿⚡: `.cyberdyne` or `.cdy` or `.alive`"
-    "\n↳ : To see whether your bot is working or not."
-    "\n\n⚡𝘾𝙈𝘿⚡: `.dealiveu` <New Username>"
-    "\n↳ : Changes the 'user' in alive to the text you want."
-    "\n\n⚡𝘾𝙈𝘿⚡: `.restalive`"
-    "\n↳ : Resets the user to default.",
-    "botversion": "✘ Pʟᴜɢɪɴ : Robot Version"
-    "\n\n⚡𝘾𝙈𝘿⚡: `.botver`"
-    "\n↳ : Shows the userbot version."
-    "\n\n⚡𝘾𝙈𝘿⚡: `.pip` <module(s)>"
-    "\n↳ : Does a search of pip modules(s)."
-})
+CMD_HELP.update(
+    {
+        "system": "✘ Pʟᴜɢɪɴ : System Stats"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.sysd`"
+        "\n↳ : Shows system information using neofetch."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.db`"
+        "\n↳ : Shows database related info."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.spc`"
+        "\n↳ : Show system specification.",
+        "alive": "✘ Pʟᴜɢɪɴ : Alive"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.cyberdyne` or `.cdy` or `.alive`"
+        "\n↳ : To see whether your bot is working or not."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.dealiveu` <New Username>"
+        "\n↳ : Changes the 'user' in alive to the text you want."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.restalive`"
+        "\n↳ : Resets the user to default.",
+        "botversion": "✘ Pʟᴜɢɪɴ : Robot Version"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.botver`"
+        "\n↳ : Shows the userbot version."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.pip` <module(s)>"
+        "\n↳ : Does a search of pip modules(s).",
+    }
+)

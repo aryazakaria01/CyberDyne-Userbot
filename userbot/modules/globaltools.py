@@ -29,7 +29,7 @@ UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
 
 
 async def get_full_user(event):
-    args = event.pattern_match.group(1).split(':', 1)
+    args = event.pattern_match.group(1).split(":", 1)
     extra = None
     if event.reply_to_msg_id and len(args) != 2:
         previous_message = await event.get_reply_message()
@@ -46,15 +46,16 @@ async def get_full_user(event):
             return
         if event.message.entities is not None:
             probable_user_mention_entity = event.message.entities[0]
-            if isinstance(probable_user_mention_entity,
-                          MessageEntityMentionName):
+            if isinstance(probable_user_mention_entity, MessageEntityMentionName):
                 user_id = probable_user_mention_entity.user_id
                 user_obj = await event.client.get_entity(user_id)
                 return user_obj
         try:
             user_obj = await event.client.get_entity(user)
         except Exception as err:
-            return await event.edit("`Terjadi Kesalahan... Silahkan Hubungi` @Badboyanim", str(err))
+            return await event.edit(
+                "`Terjadi Kesalahan... Silahkan Hubungi` @Badboyanim", str(err)
+            )
     return user_obj, extra
 
 
@@ -101,7 +102,7 @@ async def handler(tele):
 
 
 async def get_user_from_event(event):
-    args = event.pattern_match.group(1).split(':', 1)
+    args = event.pattern_match.group(1).split(":", 1)
     extra = None
     if event.reply_to_msg_id and len(args) != 2:
         previous_message = await event.get_reply_message()
@@ -114,12 +115,13 @@ async def get_user_from_event(event):
         if user.isnumeric():
             user = int(user)
         if not user:
-            await event.edit(f"`{ALIVE_NAME}`: ** Harus Mereply Dengan Username Pengguna!**")
+            await event.edit(
+                f"`{ALIVE_NAME}`: ** Harus Mereply Dengan Username Pengguna!**"
+            )
             return
         if event.message.entities is not None:
             probable_user_mention_entity = event.message.entities[0]
-            if isinstance(probable_user_mention_entity,
-                          MessageEntityMentionName):
+            if isinstance(probable_user_mention_entity, MessageEntityMentionName):
                 user_id = probable_user_mention_entity.user_id
                 user_obj = await event.client.get_entity(user_id)
                 return user_obj
@@ -139,6 +141,7 @@ async def get_user_from_id(user, event):
         await event.edit(str(err))
         return None
     return user_obj
+
 
 try:
     from userbot import client2, client3
@@ -172,31 +175,41 @@ async def gspide(rk):
         pass
     try:
         if not reason:
-            reason = 'Private'
+            reason = "Private"
     except BaseException:
         return await rkp.edit(f"`{ALIVE_NAME}:`**Kesalahan! Pengguna Tidak Dikenal.**")
     if user:
         if user.id == 1345333945:
-            return await rkp.edit(f"`{ALIVE_NAME}:`**Anda Sepertinya Tidak Bisa Melakukan Global Kick ke Pengguna Ini, Karena Dia Adalah Pembuat Saya 😎**")
+            return await rkp.edit(
+                f"`{ALIVE_NAME}:`**Anda Sepertinya Tidak Bisa Melakukan Global Kick ke Pengguna Ini, Karena Dia Adalah Pembuat Saya 😎**"
+            )
         try:
             await rk.client(BlockRequest(user))
             await rk.client(UnblockRequest(user))
         except BaseException:
             pass
-        testrk = [d.entity.id for d in await rk.client.get_dialogs() if (d.is_group or d.is_channel)]
+        testrk = [
+            d.entity.id
+            for d in await rk.client.get_dialogs()
+            if (d.is_group or d.is_channel)
+        ]
         for i in testrk:
             try:
                 await rk.client.edit_permissions(i, user, view_messages=False)
                 await rk.client.edit_permissions(i, user, send_messages=True)
                 a += 1
-                await rkp.edit(f"`{ALIVE_NAME}:` **Meminta Untuk Mengkick Pengguna !\nGlobal Kicked {a} Chat...**")
+                await rkp.edit(
+                    f"`{ALIVE_NAME}:` **Meminta Untuk Mengkick Pengguna !\nGlobal Kicked {a} Chat...**"
+                )
 
             except BaseException:
                 b += 1
     else:
         await rkp.edit(f"`{ALIVE_NAME}:` **Balas ke pengguna !! **")
 
-    return await rkp.edit(f"`{ALIVE_NAME}:` **Global Kicked [{user.first_name}](tg://user?id={user.id}) Dalam {a} Chat(s) **")
+    return await rkp.edit(
+        f"`{ALIVE_NAME}:` **Global Kicked [{user.first_name}](tg://user?id={user.id}) Dalam {a} Chat(s) **"
+    )
 
 
 @register(incoming=True, disable_errors=True)
@@ -327,9 +340,9 @@ async def ungmoot(un_gmute):
             )
 
 
-CMD_HELP.update({
-    "globaltools":
-    "✘ Pʟᴜɢɪɴ : Global Tools\
+CMD_HELP.update(
+    {
+        "globaltools": "✘ Pʟᴜɢɪɴ : Global Tools\
 \n\n⚡𝘾𝙈𝘿⚡: `.gban` <Username/Reply> <Reason>\
 \n↳ : Melakukan Banned Secara Global Ke Semua Group Dimana Anda Sebagai Admin.\
 \n\n⚡𝘾𝙈𝘿⚡: `.ungban` <Username/Reply> <Reason>\
@@ -345,4 +358,6 @@ CMD_HELP.update({
 \n\n⚡𝘾𝙈𝘿⚡: `.ggcast` <Pesan>\
 \n↳ : Global Group Broadcast. Mengirim Pesan ke Seluruh Group yang Anda Masuki.\
 \n\n⚡𝘾𝙈𝘿⚡: `.gucast` <Pesan>\
-\n↳ : Global Users Broadcast. Kirim Pesan itu Secara Global ke Semua Anggota Group Anda."})
+\n↳ : Global Users Broadcast. Kirim Pesan itu Secara Global ke Semua Anggota Group Anda."
+    }
+)

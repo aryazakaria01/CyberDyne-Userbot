@@ -6,7 +6,7 @@ from userbot import CMD_HELP
 
 @register(outgoing=True, pattern="^.buat (gb|g|c)(?: |$)(.*)")
 async def telegraphs(grop):
-    """ For .create command, Creating New Group & Channel """
+    """For .create command, Creating New Group & Channel"""
     if grop.text[0].isalpha() or grop.text[0] in ("/", "#", "@", "!"):
         return
     if grop.fwd_from:
@@ -15,17 +15,25 @@ async def telegraphs(grop):
     group_name = grop.pattern_match.group(2)
     if type_of_group == "gb":
         try:
-            result = await grop.client(functions.messages.CreateChatRequest(  # pylint:disable=E0602
-                users=["@MissRose_bot"],
-                # Not enough users (to create a chat, for example)
-                # Telegram, no longer allows creating a chat with ourselves
-                title=group_name
-            ))
+            result = await grop.client(
+                functions.messages.CreateChatRequest(  # pylint:disable=E0602
+                    users=["@MissRose_bot"],
+                    # Not enough users (to create a chat, for example)
+                    # Telegram, no longer allows creating a chat with ourselves
+                    title=group_name,
+                )
+            )
             created_chat_id = result.chats[0].id
-            result = await grop.client(functions.messages.ExportChatInviteRequest(
-                peer=created_chat_id,
-            ))
-            await grop.edit("Grup/Channel {} Berhasil Dibuat. Tekan [{}]({}) Untuk Melihatnya".format(group_name, group_name, result.link))
+            result = await grop.client(
+                functions.messages.ExportChatInviteRequest(
+                    peer=created_chat_id,
+                )
+            )
+            await grop.edit(
+                "Grup/Channel {} Berhasil Dibuat. Tekan [{}]({}) Untuk Melihatnya".format(
+                    group_name, group_name, result.link
+                )
+            )
         except Exception as e:  # pylint:disable=C0103,W0703
             await grop.edit(str(e))
     elif type_of_group in ["g", "c"]:
@@ -39,15 +47,23 @@ async def telegraphs(grop):
             )
 
             created_chat_id = r.chats[0].id
-            result = await grop.client(functions.messages.ExportChatInviteRequest(
-                peer=created_chat_id,
-            ))
-            await grop.edit("Grup/Channel {} Berhasil Dibuat. Tekan [{}]({}) Untuk Melihatnya".format(group_name, group_name, result.link))
+            result = await grop.client(
+                functions.messages.ExportChatInviteRequest(
+                    peer=created_chat_id,
+                )
+            )
+            await grop.edit(
+                "Grup/Channel {} Berhasil Dibuat. Tekan [{}]({}) Untuk Melihatnya".format(
+                    group_name, group_name, result.link
+                )
+            )
         except Exception as e:  # pylint:disable=C0103,W0703
             await grop.edit(str(e))
 
-CMD_HELP.update({
-    "membuat": "\
+
+CMD_HELP.update(
+    {
+        "membuat": "\
 Membuat\
 \nPenggunaan : Untuk membuat Channel, Grup dan Grup bersama Bot.\
 \n\n⚡𝘾𝙈𝘿⚡: `.buat g` <Nama Group>\
@@ -56,4 +72,6 @@ Membuat\
 \n↳ : Membuat Group Bersama Dengan Bot.\
 \n\n⚡𝘾𝙈𝘿⚡: `.buat c` <Nama Channel>\
 \n↳ : Membuat Sebuah Channel.\
-"})
+"
+    }
+)

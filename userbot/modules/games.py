@@ -17,6 +17,7 @@ async def _(event):
     await tap[0].click(event.chat_id)
     await event.delete()
 
+
 # Alvin Gans
 
 
@@ -31,6 +32,7 @@ async def _(event):
     tap = await bot.inline_query(botusername, wwwspr)
     await tap[0].click(event.chat_id)
     await event.delete()
+
 
 # Alvin Gans
 
@@ -47,13 +49,17 @@ async def _(event):
     await tap[0].click(event.chat_id)
     await event.delete()
 
+
 # Ported For Lord-Userbot By liualvinas/Alvin
 
-CMD_HELP.update({
-    "games": "\
+CMD_HELP.update(
+    {
+        "games": "\
 ⚡𝘾𝙈𝘿⚡: `.xogame`\
 \n↳ : Mainkan game XO bersama temanmu.\
 \n\n⚡𝘾𝙈𝘿⚡: `.mod <nama app>`\
 \n↳ : Dapatkan applikasi mod\
 \n\n⚡𝘾𝙈𝘿⚡: `.wp <teks> <username/ID>`\
-\n↳ : Berikan pesan rahasia"})
+\n↳ : Berikan pesan rahasia"
+    }
+)

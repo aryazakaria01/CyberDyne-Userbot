@@ -58,9 +58,7 @@ async def download(target_file):
             # https://stackoverflow.com/a/761825/4723940
             file_name = file_name.strip()
             head, tail = os.path.split(file_name)
-            if head and not os.path.isdir(
-                os.path.join(TEMP_DOWNLOAD_DIRECTORY, head)
-            ):
+            if head and not os.path.isdir(os.path.join(TEMP_DOWNLOAD_DIRECTORY, head)):
                 os.makedirs(os.path.join(TEMP_DOWNLOAD_DIRECTORY, head))
                 file_name = os.path.join(head, tail)
         downloaded_file_name = TEMP_DOWNLOAD_DIRECTORY + "" + file_name
@@ -92,9 +90,7 @@ async def download(target_file):
                     f"\n`ETA` -> {estimated_total_time}"
                 )
 
-                if round(
-                        diff %
-                        15.00) == 0 and current_message != display_message:
+                if round(diff % 15.00) == 0 and current_message != display_message:
                     await target_file.edit(current_message)
                     display_message = current_message
             except Exception as e:
@@ -117,18 +113,12 @@ async def download(target_file):
                 if not filename:
                     if "audio" in mime_type:
                         filename = (
-                            "audio_" +
-                            datetime.now().isoformat(
-                                "_",
-                                "seconds") +
-                            ".ogg")
+                            "audio_" + datetime.now().isoformat("_", "seconds") + ".ogg"
+                        )
                     elif "video" in mime_type:
                         filename = (
-                            "video_" +
-                            datetime.now().isoformat(
-                                "_",
-                                "seconds") +
-                            ".mp4")
+                            "video_" + datetime.now().isoformat("_", "seconds") + ".mp4"
+                        )
                 outdir = TEMP_DOWNLOAD_DIRECTORY + filename
                 c_time = time.time()
                 start_time = datetime.now()
@@ -164,15 +154,7 @@ async def download(target_file):
 
 async def get_video_thumb(file, output):
     """Get video thumbnail"""
-    command = [
-        "ffmpeg",
-        "-i",
-        file,
-        "-ss",
-        "00:00:01.000",
-        "-vframes",
-        "1",
-        output]
+    command = ["ffmpeg", "-i", file, "-ss", "00:00:01.000", "-vframes", "1", output]
     t_resp, e_resp = await run_cmd(command)
     if os.path.lexists(output):
         return output
@@ -207,11 +189,11 @@ async def upload(event):
             if input_str.lower().endswith(("mp4", "mkv", "webm")):
                 thumb = await get_video_thumb(input_str, "thumb_image.jpg")
                 metadata = extractMetadata(createParser(input_str))
-                duration = metadata.get(
-                    "duration").seconds if metadata.has("duration") else 0
+                duration = (
+                    metadata.get("duration").seconds if metadata.has("duration") else 0
+                )
                 width = metadata.get("width") if metadata.has("width") else 0
-                height = metadata.get(
-                    "height") if metadata.has("height") else 0
+                height = metadata.get("height") if metadata.has("height") else 0
                 attributes = [
                     DocumentAttributeVideo(
                         duration=duration,
@@ -223,11 +205,11 @@ async def upload(event):
                 ]
             elif input_str.lower().endswith(("mp3", "flac", "wav")):
                 metadata = extractMetadata(createParser(input_str))
-                duration = metadata.get(
-                    "duration").seconds if metadata.has("duration") else 0
+                duration = (
+                    metadata.get("duration").seconds if metadata.has("duration") else 0
+                )
                 title = metadata.get("title") if metadata.has("title") else ""
-                artist = metadata.get(
-                    "artist") if metadata.has("artist") else ""
+                artist = metadata.get("artist") if metadata.has("artist") else ""
                 attributes = [
                     DocumentAttributeAudio(
                         duration=duration,
@@ -271,12 +253,13 @@ async def upload(event):
                 if file_name.lower().endswith(("mp4", "mkv", "webm")):
                     thumb = await get_video_thumb(files, "thumb_image.jpg")
                     metadata = extractMetadata(createParser(files))
-                    duration = metadata.get(
-                        "duration").seconds if metadata.has("duration") else 0
-                    width = metadata.get(
-                        "width") if metadata.has("width") else 0
-                    height = metadata.get(
-                        "height") if metadata.has("height") else 0
+                    duration = (
+                        metadata.get("duration").seconds
+                        if metadata.has("duration")
+                        else 0
+                    )
+                    width = metadata.get("width") if metadata.has("width") else 0
+                    height = metadata.get("height") if metadata.has("height") else 0
                     attributes = [
                         DocumentAttributeVideo(
                             duration=duration,
@@ -288,12 +271,13 @@ async def upload(event):
                     ]
                 elif file_name.lower().endswith(("mp3", "flac", "wav")):
                     metadata = extractMetadata(createParser(files))
-                    duration = metadata.get(
-                        "duration").seconds if metadata.has("duration") else 0
-                    title = metadata.get(
-                        "title") if metadata.has("title") else ""
-                    artist = metadata.get(
-                        "artist") if metadata.has("artist") else ""
+                    duration = (
+                        metadata.get("duration").seconds
+                        if metadata.has("duration")
+                        else 0
+                    )
+                    title = metadata.get("title") if metadata.has("title") else ""
+                    artist = metadata.get("artist") if metadata.has("artist") else ""
                     attributes = [
                         DocumentAttributeAudio(
                             duration=duration,

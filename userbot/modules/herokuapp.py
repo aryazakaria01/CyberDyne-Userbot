@@ -15,7 +15,8 @@ from userbot import (
     BOTLOG,
     BOTLOG_CHATID,
     CMD_HELP,
-    ALIVE_NAME)
+    ALIVE_NAME,
+)
 from userbot.events import register
 
 heroku_api = "https://api.heroku.com"
@@ -32,26 +33,23 @@ else:
 """
 
 
-@register(outgoing=True,
-          pattern=r"^.(get|del) var(?: |$)(\w*)")
+@register(outgoing=True, pattern=r"^.(get|del) var(?: |$)(\w*)")
 async def variable(var):
     exe = var.pattern_match.group(1)
     if app is None:
-        await var.edit("`[HEROKU]"
-                       "\nHarap Siapkan`  **HEROKU_APP_NAME**.")
+        await var.edit("`[HEROKU]" "\nHarap Siapkan`  **HEROKU_APP_NAME**.")
         return False
     if exe == "get":
         await var.edit("`Mendapatkan Informasi...`")
         variable = var.pattern_match.group(2)
-        if variable == '':
+        if variable == "":
             configvars = heroku_var.to_dict()
             if BOTLOG:
-                msg = ''.join(
-                    f"`{item}` = `{configvars[item]}`\n" for item in configvars)
+                msg = "".join(
+                    f"`{item}` = `{configvars[item]}`\n" for item in configvars
+                )
                 await var.client.send_message(
-                    BOTLOG_CHATID, "#GETCONFIGVARS\n\n"
-                    "**Config Vars** :\n"
-                    f"{msg}"
+                    BOTLOG_CHATID, "#GETCONFIGVARS\n\n" "**Config Vars** :\n" f"{msg}"
                 )
                 await var.edit("`Diterima Ke BOTLOG_CHATID`")
                 return True
@@ -61,9 +59,10 @@ async def variable(var):
         elif variable in heroku_var:
             if BOTLOG:
                 await var.client.send_message(
-                    BOTLOG_CHATID, "#CONFIGVARS\n\n"
+                    BOTLOG_CHATID,
+                    "#CONFIGVARS\n\n"
                     "**Config Vars** :\n"
-                    f"`{variable}` **=** `{heroku_var[variable]}`\n"
+                    f"`{variable}` **=** `{heroku_var[variable]}`\n",
                 )
                 await var.edit("`Diterima Ke BOTLOG_CHATID...`")
                 return True
@@ -76,24 +75,27 @@ async def variable(var):
     elif exe == "del":
         await var.edit("`Menghapus Config Vars...`")
         variable = var.pattern_match.group(2)
-        if variable == '':
+        if variable == "":
             await var.edit("`Mohon Tentukan Config Vars Yang Mau Anda Hapus.`")
             return False
         if variable in heroku_var:
             if BOTLOG:
                 await var.client.send_message(
-                    BOTLOG_CHATID, "#DELCONFIGVARS\n\n"
+                    BOTLOG_CHATID,
+                    "#DELCONFIGVARS\n\n"
                     "**Menghapus Config Vars** :\n"
-                    f"`{variable}`"
+                    f"`{variable}`",
                 )
             await var.edit("`Config Vars Telah Dihapus`")
             del heroku_var[variable]
         else:
-            await var.edit("`Tidak Dapat Menemukan Config Vars, Kemungkinan Telah Anda Hapus.`")
+            await var.edit(
+                "`Tidak Dapat Menemukan Config Vars, Kemungkinan Telah Anda Hapus.`"
+            )
             return True
 
 
-@register(outgoing=True, pattern=r'^.set var (\w*) ([\s\S]*)')
+@register(outgoing=True, pattern=r"^.set var (\w*) ([\s\S]*)")
 async def set_var(var):
     if app is None:
         return await var.edit(
@@ -106,17 +108,19 @@ async def set_var(var):
     if variable in heroku_var:
         if BOTLOG:
             await var.client.send_message(
-                BOTLOG_CHATID, "#SETCONFIGVARS\n\n"
+                BOTLOG_CHATID,
+                "#SETCONFIGVARS\n\n"
                 "**Mengganti Config Vars**:\n"
-                f"`{variable}` = `{value}`"
+                f"`{variable}` = `{value}`",
             )
         await var.edit("`Sedang Dalam Prosess...\nMohon Menunggu Dalam Beberapa Detik.")
     else:
         if BOTLOG:
             await var.client.send_message(
-                BOTLOG_CHATID, "#ADDCONFIGVARS\n\n"
+                BOTLOG_CHATID,
+                "#ADDCONFIGVARS\n\n"
                 "**Menambahkan Config Vars** :\n"
-                f"`{variable}` **=** `{value}`"
+                f"`{variable}` **=** `{value}`",
             )
         await var.edit("`Sedang Menambahkan Config Vars...`")
     heroku_var[variable] = value
@@ -172,8 +176,7 @@ async def dyno_usage(dyno):
             for apps in Apps:
                 if apps.get("app_uuid") == app.id:
                     AppQuotaUsed = apps.get("quota_used") / 60
-                    AppPercentage = math.floor(
-                        apps.get("quota_used") * 100 / quota)
+                    AppPercentage = math.floor(apps.get("quota_used") * 100 / quota)
                     break
             else:
                 AppQuotaUsed = 0
@@ -199,15 +202,19 @@ async def dyno_usage(dyno):
             return True
 
 
-CMD_HELP.update({"herokuapp": "✘ Pʟᴜɢɪɴ : Heroku App"
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.kuota`"
-                 "\n↳ : Check Quota Dyno Heroku"
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.set var <NEW VAR> <VALUE>`"
-                 "\n↳ : Tambahkan Variabel Baru Atau Memperbarui Variabel"
-                 "\nSetelah Menyetel Variabel Tersebut, Lynx-Userbot Akan Di Restart."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.get var atau .get var <VAR>`"
-                 "\n↳ : Dapatkan Variabel Yang Ada, !!PERINGATAN!! Gunakanlah Di Group Privasi Anda."
-                 "\nIni Mengembalikan Semua Informasi Pribadi Anda, Harap berhati-hati."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.del var <VAR>`"
-                 "\n↳ : Menghapus Variabel Yang Ada"
-                 "\nSetelah Menghapus Variabel, Bot Akan Di Restart."})
+CMD_HELP.update(
+    {
+        "herokuapp": "✘ Pʟᴜɢɪɴ : Heroku App"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.kuota`"
+        "\n↳ : Check Quota Dyno Heroku"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.set var <NEW VAR> <VALUE>`"
+        "\n↳ : Tambahkan Variabel Baru Atau Memperbarui Variabel"
+        "\nSetelah Menyetel Variabel Tersebut, Lynx-Userbot Akan Di Restart."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.get var atau .get var <VAR>`"
+        "\n↳ : Dapatkan Variabel Yang Ada, !!PERINGATAN!! Gunakanlah Di Group Privasi Anda."
+        "\nIni Mengembalikan Semua Informasi Pribadi Anda, Harap berhati-hati."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.del var <VAR>`"
+        "\n↳ : Menghapus Variabel Yang Ada"
+        "\nSetelah Menghapus Variabel, Bot Akan Di Restart."
+    }
+)

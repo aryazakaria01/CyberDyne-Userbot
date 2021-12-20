@@ -20,7 +20,9 @@ async def help(event):
         if args in CMD_HELP:
             await event.edit(str(CMD_HELP[args]))
         else:
-            await event.edit(f"#WRONG\n**PLUGIN** : `{args}` ❌ **\nMohon Ketik Nama Plugin Dengan Benar.**")
+            await event.edit(
+                f"#WRONG\n**PLUGIN** : `{args}` ❌ **\nMohon Ketik Nama Plugin Dengan Benar.**"
+            )
             await asyncio.sleep(200)
             await event.delete()
     else:
@@ -30,14 +32,16 @@ async def help(event):
             string += "`\t|  "
         await event.edit("⚡")
         await asyncio.sleep(2.5)
-        await event.edit(f"**[⚡ℂ𝕪𝕓𝕖𝕣𝔻𝕪𝕓𝕖-𝕌𝕤𝕖𝕣𝕓𝕠𝕥⚡](t.me/Badboyanim01_bot)**\n\n"
-                         f"**◑» Bᴏᴛ ᴏꜰ {DEFAULTUSER}**\n**◑» Pʟᴜɢɪɴ : {len(modules)}**\n\n"
-                         "**• Mᴀɪɴ Mᴇɴᴜ :**\n"
-                         f"╰►| {string} ◄─\n\n"
-                         f"**License : [Raphielscape Public License 1.d](https://github.com/aryazakaria01/CyberDyne-Userbot/blob/CyberDyne-Userbot/LICENSE)**\n"
-                         f"**Copyright © 2021 [CyberDyne-Userbot LLC Company](https://aryazakaria01.github.io/CyberDyne-Userbot/)**")
+        await event.edit(
+            f"**[⚡ℂ𝕪𝕓𝕖𝕣𝔻𝕪𝕓𝕖-𝕌𝕤𝕖𝕣𝕓𝕠𝕥⚡](t.me/Badboyanim01_bot)**\n\n"
+            f"**◑» Bᴏᴛ ᴏꜰ {DEFAULTUSER}**\n**◑» Pʟᴜɢɪɴ : {len(modules)}**\n\n"
+            "**• Mᴀɪɴ Mᴇɴᴜ :**\n"
+            f"╰►| {string} ◄─\n\n"
+            f"**License : [Raphielscape Public License 1.d](https://github.com/aryazakaria01/CyberDyne-Userbot/blob/CyberDyne-Userbot/LICENSE)**\n"
+            f"**Copyright © 2021 [CyberDyne-Userbot LLC Company](https://aryazakaria01.github.io/CyberDyne-Userbot/)**"
+        )
         await event.reply(
-            '\n**Contoh** : Ketik » `.help admin` Untuk Informasi Pengunaan Plugin Admin.'
+            "\n**Contoh** : Ketik » `.help admin` Untuk Informasi Pengunaan Plugin Admin."
         )
 
         await asyncio.sleep(1000)

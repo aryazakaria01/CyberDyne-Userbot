@@ -26,12 +26,11 @@ async def _(event):
     animation_interval = 10
 
     animation_ttl = range(22)
-   # input_str = event.pattern_match.group(1)
+    # input_str = event.pattern_match.group(1)
 
     await event.edit("Deploying...")
 
     animation_chars = [
-
         "Heroku Connecting To Latest Github Build (KENZO-404/Lynx-Userbot)",
         f"Build started by user `{DEFAULTUSER}`",
         f"Deploy `535a74f0` by user `{DEFAULTUSER}`",
@@ -53,8 +52,7 @@ async def _(event):
         "INFO - Lynx-Userbot: Successfully...",
         "919852+00:00 app[worker.1]: 919 - Lynx-Userbot -",
         "INFO - ⚡𝗟𝘆𝗻𝘅-𝙐𝙎𝙀𝙍𝘽𝙊𝙏⚡ ⚙️ V4.0 [TELAH DIAKTIFKAN!]",
-        "**Build Succeeded**"
-
+        "**Build Succeeded**",
     ]
 
     for i in animation_ttl:
@@ -64,6 +62,6 @@ async def _(event):
         await event.edit(animation_chars[i % 22])
 
 
-CMD_HELP.update({
-    "deploy": "⚡𝘾𝙈𝘿⚡: `.deploy`"
-    "\n↳ : Untuk Deploy ke Heroku.. <Animasi> :v haha"})
+CMD_HELP.update(
+    {"deploy": "⚡𝘾𝙈𝘿⚡: `.deploy`" "\n↳ : Untuk Deploy ke Heroku.. <Animasi> :v haha"}
+)

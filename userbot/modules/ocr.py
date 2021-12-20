@@ -64,7 +64,11 @@ async def ocr(event):
     os.remove(downloaded_file_name)
 
 
-CMD_HELP.update({"ocr": "✘ Pʟᴜɢɪɴ : OCR Space"
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.ocr <Language>`"
-                 "\n↳ : Reply to an Image or Sticker to Extract Text From it."
-                 "\n\nGet Language Codes From [HERE](https://ocr.space/OCRAPI#PostParameters)"})
+CMD_HELP.update(
+    {
+        "ocr": "✘ Pʟᴜɢɪɴ : OCR Space"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.ocr <Language>`"
+        "\n↳ : Reply to an Image or Sticker to Extract Text From it."
+        "\n\nGet Language Codes From [HERE](https://ocr.space/OCRAPI#PostParameters)"
+    }
+)

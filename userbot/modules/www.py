@@ -27,9 +27,7 @@ async def get_readable_time(seconds: int) -> str:
 
     while count < 4:
         count += 1
-        remainder, result = divmod(
-            seconds, 60) if count < 3 else divmod(
-            seconds, 24)
+        remainder, result = divmod(seconds, 60) if count < 3 else divmod(seconds, 24)
         if seconds == 0 and remainder == 0:
             break
         time_list.append(int(result))
@@ -62,12 +60,14 @@ async def sping(pong):
     await pong.edit("__Connecting to server...__")
     end = datetime.now()
     duration = (end - start).microseconds / 1000
-    await pong.edit(f"**╭━━━━━━━━━━━━━━━━━╮** \n"
-                    f"**          - 𝐍 𝐄 𝐓 𝐖 𝐎 𝐑 𝐊 -** \n"
-                    f"**   ▰▱▰▱▰▱▰▱▰▱▰▱** \n"
-                    f"**        • ꜱɪɢɴᴀʟ  :** `%sms` \n"
-                    f"**        • ᴏᴡɴᴇʀ   :** `{ALIVE_NAME}` \n"
-                    f"**╰━━━━━━━━━━━━━━━━━╯** \n" % (duration))
+    await pong.edit(
+        f"**╭━━━━━━━━━━━━━━━━━╮** \n"
+        f"**          - 𝐍 𝐄 𝐓 𝐖 𝐎 𝐑 𝐊 -** \n"
+        f"**   ▰▱▰▱▰▱▰▱▰▱▰▱** \n"
+        f"**        • ꜱɪɢɴᴀʟ  :** `%sms` \n"
+        f"**        • ᴏᴡɴᴇʀ   :** `{ALIVE_NAME}` \n"
+        f"**╰━━━━━━━━━━━━━━━━━╯** \n" % (duration)
+    )
 
 
 @register(outgoing=True, pattern="^.lping$")
@@ -78,11 +78,13 @@ async def lping(pong):
     await pong.edit("`Connecting to server...`")
     end = datetime.now()
     duration = (end - start).microseconds / 1000
-    await pong.edit(f"**`{ALIVE_NAME}`**\n"
-                    f"✧ **-ꜱɪɢɴᴀʟ- :** "
-                    f"`%sms` \n"
-                    f"✧ **-ᴜᴘᴛɪᴍᴇ- :** "
-                    f"`{uptime}` \n" % (duration))
+    await pong.edit(
+        f"**`{ALIVE_NAME}`**\n"
+        f"✧ **-ꜱɪɢɴᴀʟ- :** "
+        f"`%sms` \n"
+        f"✧ **-ᴜᴘᴛɪᴍᴇ- :** "
+        f"`{uptime}` \n" % (duration)
+    )
 
 
 @register(outgoing=True, pattern="^.xping$")
@@ -101,11 +103,13 @@ async def xping(pong):
     await pong.edit("__Connecting to data center...__")
     end = datetime.now()
     duration = (end - start).microseconds / 1000
-    await pong.edit(f"**⚡𝐂𝐲𝐛𝐞𝐫𝐃𝐲𝐧𝐞-𝙐𝙎𝙀𝙍𝘽𝙊𝙏⚡**\n"
-                    f"➾ __Signal__    __:__ "
-                    f"`%sms` \n"
-                    f"➾ __Uptime__ __:__ "
-                    f"`{uptime}` \n" % (duration))
+    await pong.edit(
+        f"**⚡𝐂𝐲𝐛𝐞𝐫𝐃𝐲𝐧𝐞-𝙐𝙎𝙀𝙍𝘽𝙊𝙏⚡**\n"
+        f"➾ __Signal__    __:__ "
+        f"`%sms` \n"
+        f"➾ __Uptime__ __:__ "
+        f"`{uptime}` \n" % (duration)
+    )
 
 
 @register(outgoing=True, pattern="^.ping$")
@@ -126,15 +130,17 @@ async def ping(pong):
     await asyncio.sleep(2)
     end = datetime.now()
     duration = (end - start).microseconds / 1000
-    await pong.edit(f"**╭─━━━━━━━━━━━━━━━─╮** \n"
-                    f"**       ⚡𝐂𝐲𝐛𝐞𝐫𝐃𝐲𝐧𝐞-𝐔𝐬𝐞𝐫𝐛𝐨𝐭⚡** \n"
-                    f"**╭─━━━━━━━━━━━━━━━─╯** \n"
-                    f"**│⊙  𝕊𝕚𝕘𝕟𝕒𝕝   :** "
-                    f"`%sms` \n"
-                    f"**│⊙  𝕌𝕡𝕥𝕚𝕞𝕖  :** "
-                    f"`{uptime}` \n"
-                    f"**│⊙  𝕆𝕨𝕟𝕖𝕣   :** `{ALIVE_NAME}` \n"
-                    f"**╰━━━━━━━━━━━━━━━━━╯**" % (duration))
+    await pong.edit(
+        f"**╭─━━━━━━━━━━━━━━━─╮** \n"
+        f"**       ⚡𝐂𝐲𝐛𝐞𝐫𝐃𝐲𝐧𝐞-𝐔𝐬𝐞𝐫𝐛𝐨𝐭⚡** \n"
+        f"**╭─━━━━━━━━━━━━━━━─╯** \n"
+        f"**│⊙  𝕊𝕚𝕘𝕟𝕒𝕝   :** "
+        f"`%sms` \n"
+        f"**│⊙  𝕌𝕡𝕥𝕚𝕞𝕖  :** "
+        f"`{uptime}` \n"
+        f"**│⊙  𝕆𝕨𝕟𝕖𝕣   :** `{ALIVE_NAME}` \n"
+        f"**╰━━━━━━━━━━━━━━━━━╯**" % (duration)
+    )
 
 
 # Port WeebProject
@@ -196,8 +202,9 @@ async def pingme(pong):
     await pong.edit(f"**🙅 Oᴡɴᴇʀ : {ALIVE_NAME}**\n`%sms`" % (duration))
 
 
-CMD_HELP.update({
-    "speedtest": "✘ Pʟᴜɢɪɴ : `Speed Test`\
+CMD_HELP.update(
+    {
+        "speedtest": "✘ Pʟᴜɢɪɴ : `Speed Test`\
          \n\n⚡𝘾𝙈𝘿⚡: `.ping` | `.lping` | `.xping` | `.sping`\
          \n↳ : Untuk Menunjukkan Ping Bot Anda.\
          \n\n⚡𝘾𝙈𝘿⚡: `.pong`\
@@ -205,4 +212,6 @@ CMD_HELP.update({
          \n\n⚡𝘾𝙈𝘿⚡: `.speedtest`\
          \n↳ : Untuk Menunjukkan Kecepatan Jaringan Anda.\
          \n\n⚡𝘾𝙈𝘿⚡: `.dc`\
-         \n↳ : Menemukan Server Dari Datacenter Kamu."})
+         \n↳ : Menemukan Server Dari Datacenter Kamu."
+    }
+)

@@ -3,7 +3,7 @@ from userbot import CMD_HELP
 from userbot.events import register
 
 
-@register(outgoing=True, pattern=r'^\.santet(?: |$)(.*)')
+@register(outgoing=True, pattern=r"^\.santet(?: |$)(.*)")
 async def typewriter(typew):
     typew.pattern_match.group(1)
     await typew.edit("`Lord Telah Mengaktifkan Perintah Santet Online ツ`")
@@ -316,8 +316,9 @@ async def typewriter(typew):
     await typew.edit("`Target Berhasil Tersantet Online:v`")
 
 
-CMD_HELP.update({
-    'santetonline':
-    '`.santet`\
-        \nUsage: Santet Online Buat Bercanda.'
-})
+CMD_HELP.update(
+    {
+        "santetonline": "`.santet`\
+        \nUsage: Santet Online Buat Bercanda."
+    }
+)

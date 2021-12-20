@@ -28,5 +28,5 @@ from .tools import (
     edit_or_reply,
     edit_delete,
     is_admin,
-    check_media
+    check_media,
 )

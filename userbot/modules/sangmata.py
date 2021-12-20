@@ -16,7 +16,9 @@ async def lastname(steal):
     if steal.fwd_from:
         return
     if not steal.reply_to_msg_id:
-        await steal.edit("```Mohon Reply Ke Pesan Pengguna Yang Ingin Anda Scan Yang Mulia.```")
+        await steal.edit(
+            "```Mohon Reply Ke Pesan Pengguna Yang Ingin Anda Scan Yang Mulia.```"
+        )
         return
     message = await steal.get_reply_message()
     chat = "@SangMataInfo_bot"
@@ -67,7 +69,9 @@ async def lastname(steal):
             if response.text.startswith("No records") or r.text.startswith(
                 "No records"
             ):
-                await steal.edit("```Saya Tidak Menemukan Informasi Pergantian Nama Ini Yang Mulia, Orang Ini Belum Pernah Mengganti Nama Sebelumnya```")
+                await steal.edit(
+                    "```Saya Tidak Menemukan Informasi Pergantian Nama Ini Yang Mulia, Orang Ini Belum Pernah Mengganti Nama Sebelumnya```"
+                )
                 await steal.client.delete_messages(
                     conv.chat_id, [msg.id, r.id, response.id]
                 )
@@ -82,8 +86,9 @@ async def lastname(steal):
         return await steal.edit("`Saya Sedang Sakit Yang Mulia, Mohon Maaf`")
 
 
-CMD_HELP.update({
-    "sangmata":
-        "⚡𝘾𝙈𝘿⚡: `.sa`\
+CMD_HELP.update(
+    {
+        "sangmata": "⚡𝘾𝙈𝘿⚡: `.sa`\
           \n↳ : Mendapatkan Riwayat Nama Pengguna Yang Di Scan."
-})
+    }
+)
