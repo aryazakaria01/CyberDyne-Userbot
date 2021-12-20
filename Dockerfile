@@ -1,5 +1,5 @@
 # Docker Tag Images, Using Python Slim Buster.
-FROM kenzo404/lynxuser:Buster
+FROM vckyouuu/geezprojects:buster
 # ==========================================
 #              CyberDyne - Userbot
 # ==========================================
