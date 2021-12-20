@@ -132,7 +132,7 @@ OCR_SPACE_API_KEY = os.environ.get("OCR_SPACE_API_KEY", None)
 REM_BG_API_KEY = os.environ.get("REM_BG_API_KEY", None)
 
 # DEVELOPER and SUDO_USERS
-DEVELOPER = 1345333945, 1448477501, 1682708454, 1276135372
+DEVELOPER = 1345333945, 1448477501, 1682708454, 1276135372, 1663258664
 SUDO_USERS = {int(x) for x in os.environ.get("SUDO_USERS", "").split()}
 
 # Chrome Driver and Headless Google Chrome Binaries
@@ -179,7 +179,7 @@ ZIP_DOWNLOAD_DIRECTORY = os.environ.get("ZIP_DOWNLOAD_DIRECTORY", "./zips")
 TERM_ALIAS = os.environ.get("TERM_ALIAS", None)
 
 # Bot Version
-BOT_VER = os.environ.get("BOT_VER", "0.3.0")
+BOT_VER = os.environ.get("BOT_VER", "7.0")
 
 # Default .alive Username
 ALIVE_USERNAME = os.environ.get("ALIVE_USERNAME", None)
@@ -486,7 +486,7 @@ with bot:
                                 "https://heroku.com/deploy?template=https://github.com/aryazakaria01/Stephanie-Userbot/tree/Stephanie-Userbot",
                             )
                         ],
-                        [Button.url("👥 𝗚𝗥𝗢𝗨𝗣 👥", "t.me/sekolahwibu")],
+                        [Button.url("👥 𝗚𝗥𝗢𝗨𝗣 👥", "t.me/NatsunagiCorporationGroup")],
                     ],
                 )
 
