@@ -26,14 +26,9 @@ from userbot.events import register
 
 
 async def gen_chlog(repo, diff):
-    ch_log = ""
     d_form = "%d/%m/%y"
-    for c in repo.iter_commits(diff):
-        ch_log += (
-            f"•[{c.committed_datetime.strftime(d_form)}]: "
-            f"{c.summary} <{c.author}>\n"
-        )
-    return ch_log
+    return "".join(f"•[{c.committed_datetime.strftime(d_form)}]: "
+            f"{c.summary} <{c.author}>\n" for c in repo.iter_commits(diff))
 
 
 async def print_changelogs(event, ac_br, changelog):
@@ -42,9 +37,8 @@ async def print_changelogs(event, ac_br, changelog):
     )
     if len(changelog_str) > 4096:
         await event.edit("`Changelog is too big, view the file to see it.`")
-        file = open("output.txt", "w+")
-        file.write(changelog_str)
-        file.close()
+        with open("output.txt", "w+") as file:
+            file.write(changelog_str)
         await event.client.send_file(
             event.chat_id,
             "output.txt",
@@ -150,8 +144,11 @@ async def upstream(event):
     off_repo = UPSTREAM_REPO_URL
     force_update = False
     try:
-        txt = "`Oops.. Updater cannot continue due to "
-        txt += "some problems occured`\n\n**LOGTRACE:**\n"
+        txt = (
+            "`Oops.. Updater cannot continue due to "
+            + "some problems occured`\n\n**LOGTRACE:**\n"
+        )
+
         repo = Repo()
     except NoSuchPathError as error:
         await event.edit(f"{txt}\n`directory {error} is not found`")
@@ -200,14 +197,14 @@ async def upstream(event):
         await push(event, repo, ups_rem, ac_br, txt)
         return
 
-    if changelog == "" and force_update is False:
+    if changelog == "" and not force_update:
         await event.edit(
             "\n`Your USERBOT is`  **up-to-date**  `with`  "
             f"**{UPSTREAM_REPO_BRANCH}**\n"
         )
         return repo.__del__()
 
-    if conf == "" and force_update is False:
+    if conf == "" and not force_update:
         await print_changelogs(event, ac_br, changelog)
         await event.delete()
         return await event.respond('`".update -pull or .update -push"\n\nTo Update CyberDyne-Userbot.`')

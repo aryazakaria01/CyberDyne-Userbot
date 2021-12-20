@@ -885,7 +885,7 @@ async def slap(replied_user, event):
     else:
         slapped = f"[{first_name}](tg://user?id={user_id})"
     slap_str = event.pattern_match.group(1)
-    if slap_str == "en" or slap_str != "id" and slap_str != "jutsu":
+    if slap_str == "en" or slap_str not in ["id", "jutsu"]:
         temp = choice(SLAP_TEMPLATES_EN)
         item = choice(ITEMS_EN)
         hit = choice(HIT_EN)
@@ -919,7 +919,7 @@ async def llol(lel):
 @register(outgoing=True, pattern=r"^\.(yes|no|maybe|decide)$")
 async def decide(event):
     decision = event.pattern_match.group(1).lower()
-    message_id = event.reply_to_msg_id if event.reply_to_msg_id else None
+    message_id = event.reply_to_msg_id or None
     if decision != "decide":
         r = requests.get(f"https://yesno.wtf/api?force={decision}").json()
     else:

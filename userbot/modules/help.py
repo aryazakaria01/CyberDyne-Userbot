@@ -36,6 +36,9 @@ async def help(event):
                          f"╰►| {string} ◄─\n\n"
                          f"**License : [Raphielscape Public License 1.d](https://github.com/aryazakaria01/CyberDyne-Userbot/blob/CyberDyne-Userbot/LICENSE)**\n"
                          f"**Copyright © 2021 [CyberDyne-Userbot LLC Company](https://aryazakaria01.github.io/CyberDyne-Userbot/)**")
-        await event.reply(f"\n**Contoh** : Ketik » `.help admin` Untuk Informasi Pengunaan Plugin Admin.")
+        await event.reply(
+            '\n**Contoh** : Ketik » `.help admin` Untuk Informasi Pengunaan Plugin Admin.'
+        )
+
         await asyncio.sleep(1000)
         await event.delete()

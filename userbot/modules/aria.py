@@ -149,7 +149,6 @@ async def resume_all(event):
 
 @register(outgoing=True, pattern=r"^\.ashow(?: |$)(.*)")
 async def show_all(event):
-    output = "output.txt"
     downloads = aria2.get_downloads()
     msg = ""
     for download in downloads:
@@ -175,6 +174,7 @@ async def show_all(event):
         await event.delete()
     else:
         await event.edit("`Output is too big, sending it as a file...`")
+        output = "output.txt"
         with open(output, "w") as f:
             f.write(msg)
         await sleep(2)
