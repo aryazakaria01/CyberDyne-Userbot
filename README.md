@@ -112,7 +112,7 @@ and you ended up in a Finale Battle with Telegram and at the end
 
 ### <h1 align="center"> DEPLOY </p>
 
-<p align="left"> 𝗨𝘀𝗶𝗻𝗴 𝗛𝗲𝗿𝗼𝗸𝘂 </p> <p align="left"><a href="https://heroku.com/deploy?template=https://github.com/mrismanaziz/Man-Userbot/tree/Man-Userbot"><img src="https://www.herokucdn.com/deploy/button.png" alt="Deploy to Heroku"/></a></p>
+<p align="left"> 𝗨𝘀𝗶𝗻𝗴 𝗛𝗲𝗿𝗼𝗸𝘂 </p> <p align="left"><a href="https://heroku.com/deploy?template=https://github.com/aryazakaria01/CyberDyne-Userbot"><img src="https://www.herokucdn.com/deploy/button.png" alt="Deploy to Heroku"/></a></p>
 
  𝗨𝘀𝗶𝗻𝗴 𝗚𝗶𝘁 𝗮𝗻𝗱 𝗣𝘆𝘁𝗵𝗼𝗻𝟯 -- 𝗼𝗻 (𝗟𝗶𝗻𝘂𝘅, 𝗺𝗮𝗰𝗢𝗦, 𝗮𝗻𝗱 𝗔𝗻𝗱𝗿𝗼𝗶𝗱 [𝘃𝗶𝗮 𝗧𝗲𝗿𝗺𝘂𝘅])
 1. Clone this repository on your local machine and `cd` (or `chdir`, anti bloat guy) to it
