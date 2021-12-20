@@ -21,10 +21,10 @@ async def _(event):
     if event.fwd_from:
         return
     start = datetime.now()
-    BASE_URL = "http://images.google.com"
     if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
         previous_message_text = previous_message.message
+        BASE_URL = "http://images.google.com"
         if previous_message.media:
             downloaded_file_name = await bot.download_media(
                 previous_message, TEMP_DOWNLOAD_DIRECTORY

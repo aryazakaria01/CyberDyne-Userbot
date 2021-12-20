@@ -149,14 +149,16 @@ async def get_dogbin_content(dog_url):
                 paste_content = await resp.text()
         except aiohttp.ClientResponseError as err:
             return await dog_url.edit(
-                f"Request returned an unsuccessful status code.\n\n{str(err)}"
+                f'Request returned an unsuccessful status code.\n\n{err}'
             )
+
         except aiohttp.ServerTimeoutError as err:
-            return await dog_url.edit(f"Requests timed out.\n\n{str(err)}")
+            return await dog_url.edit(f'Requests timed out.\n\n{err}')
         except aiohttp.TooManyRedirects as err:
             return await dog_url.edit(
-                f"Request exceeded the configured number of maximum redirections.\n\n{str(err)}"
+                f'Request exceeded the configured number of maximum redirections.\n\n{err}'
             )
+
         reply_text = (
             f"Fetched Dogbin content successfully!\n\nContent :\n`{paste_content}`"
         )

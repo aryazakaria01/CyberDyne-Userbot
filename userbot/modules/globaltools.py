@@ -31,7 +31,7 @@ UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
 async def get_full_user(event):
     args = event.pattern_match.group(1).split(':', 1)
     extra = None
-    if event.reply_to_msg_id and not len(args) == 2:
+    if event.reply_to_msg_id and len(args) != 2:
         previous_message = await event.get_reply_message()
         user_obj = await event.client.get_entity(previous_message.sender_id)
         extra = event.pattern_match.group(1)
@@ -71,38 +71,39 @@ async def get_user_from_id(user, event):
 
 @bot.on(ChatAction)
 async def handler(tele):
-    if tele.user_joined or tele.user_added:
-        try:
-            from userbot.modules.sql_helper.gmute_sql import is_gmuted
+    if not tele.user_joined and not tele.user_added:
+        return
+    try:
+        from userbot.modules.sql_helper.gmute_sql import is_gmuted
 
-            guser = await tele.get_user()
-            gmuted = is_gmuted(guser.id)
-        except BaseException:
-            return
-        if gmuted:
-            for i in gmuted:
-                if i.sender == str(guser.id):
-                    chat = await tele.get_chat()
-                    admin = chat.admin_rights
-                    creator = chat.creator
-                    if admin or creator:
-                        try:
-                            await client.edit_permissions(
-                                tele.chat_id, guser.id, view_messages=False
-                            )
-                            await tele.reply(
-                                f"**Pengguna GBAN Telah Bergabung** \n"
-                                f"**Pengguna** : [{guser.id}](tg://user?id={guser.id})\n"
-                                f"**Aksi**  : `Global Banned`"
-                            )
-                        except BaseException:
-                            return
+        guser = await tele.get_user()
+        gmuted = is_gmuted(guser.id)
+    except BaseException:
+        return
+    if gmuted:
+        for i in gmuted:
+            if i.sender == str(guser.id):
+                chat = await tele.get_chat()
+                admin = chat.admin_rights
+                creator = chat.creator
+                if admin or creator:
+                    try:
+                        await client.edit_permissions(
+                            tele.chat_id, guser.id, view_messages=False
+                        )
+                        await tele.reply(
+                            f"**Pengguna GBAN Telah Bergabung** \n"
+                            f"**Pengguna** : [{guser.id}](tg://user?id={guser.id})\n"
+                            f"**Aksi**  : `Global Banned`"
+                        )
+                    except BaseException:
+                        return
 
 
 async def get_user_from_event(event):
     args = event.pattern_match.group(1).split(':', 1)
     extra = None
-    if event.reply_to_msg_id and not len(args) == 2:
+    if event.reply_to_msg_id and len(args) != 2:
         previous_message = await event.get_reply_message()
         user_obj = await event.client.get_entity(previous_message.from_id)
         extra = event.pattern_match.group(1)
@@ -150,7 +151,7 @@ async def gspide(rk):
     lazy = rk
     sender = await lazy.get_sender()
     me = await lazy.client.get_me()
-    if not sender.id == me.id:
+    if sender.id != me.id:
         rkp = await lazy.reply("`Memproses Global Kick...`")
     else:
         rkp = await lazy.edit("`Memproses Global Kick...`")

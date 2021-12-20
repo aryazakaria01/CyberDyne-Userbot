@@ -18,7 +18,7 @@ from telethon.errors import (
     ChannelPrivateError,
     ChannelPublicGroupNaError)
 from telethon.utils import get_input_location
-from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantsBots
+from telethon.tl.types import ChannelParticipantsBots
 from userbot.events import register
 from userbot.modules.admin import get_user_from_event
 from telethon.utils import pack_bot_file_id
@@ -73,12 +73,8 @@ async def _(event):
             return None
     try:
         async for x in bot.iter_participants(chat, filter=ChannelParticipantsBots):
-            if isinstance(x.participant, ChannelParticipantAdmin):
-                mentions += "\n• [{}](tg://user?id={}) `{}`".format(
-                    x.first_name, x.id, x.id)
-            else:
-                mentions += "\n• [{}](tg://user?id={}) `{}`".format(
-                    x.first_name, x.id, x.id)
+            mentions += "\n• [{}](tg://user?id={}) `{}`".format(
+                x.first_name, x.id, x.id)
     except Exception as e:
         mentions += " " + str(e) + "\n"
     await event.edit(mentions)
@@ -250,10 +246,10 @@ async def fetch_info(chat, event):
         msg_info = None
         print("Exception:", e)
     # No chance for IndexError as it checks for msg_info.messages first
-    first_msg_valid = True if msg_info and msg_info.messages and msg_info.messages[
-        0].id == 1 else False
+    first_msg_valid = bool(
+        msg_info and msg_info.messages and msg_info.messages[0].id == 1)
     # Same for msg_info.users
-    creator_valid = True if first_msg_valid and msg_info.users else False
+    creator_valid = bool(first_msg_valid and msg_info.users)
     creator_id = msg_info.users[0].id if creator_valid else None
     creator_firstname = msg_info.users[0].first_name if creator_valid and msg_info.users[
         0].first_name is not None else "Akun Terhapus"
@@ -318,7 +314,7 @@ async def fetch_info(chat, event):
         except Exception as e:
             print("Exception:", e)
     if bots_list:
-        for bot in bots_list:
+        for _ in bots_list:
             bots += 1
 
     caption = "<b>INFORMASI OBROLAN:</b>\n"
@@ -373,7 +369,6 @@ async def fetch_info(chat, event):
             caption += f", <code>{slowmode_time}s</code>\n\n"
         else:
             caption += "\n\n"
-    if not broadcast:
         caption += f"Supergrup: {supergroup}\n\n"
     if hasattr(chat_obj_info, "Terbatas"):
         caption += f"Terbatas: {restricted}\n"
@@ -413,9 +408,6 @@ async def _(event):
                     )
                 except Exception as e:
                     return await event.edit(str(e))
-            await event.edit("`Invited Successfully🔥`")
-            await sleep(3)
-            await event.delete()
         else:
             # https://lonamiwebs.github.io/Telethon/methods/channels/invite_to_channel.html
             for user_id in to_add_users.split():
@@ -429,9 +421,10 @@ async def _(event):
                     )
                 except Exception as e:
                     return await event.edit(str(e))
-            await event.edit("`Invited Successfully🔥`")
-            await sleep(3)
-            await event.delete()
+
+        await event.edit("`Invited Successfully🔥`")
+        await sleep(3)
+        await event.delete()
 
 CMD_HELP.update({
     "chat":

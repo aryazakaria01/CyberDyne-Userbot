@@ -80,7 +80,7 @@ async def download_video(event):
         with YoutubeDL(opts) as rip:
             rip_data = rip.extract_info(url)
     except DownloadError as DE:
-        await event.edit(f"`{str(DE)}`")
+        await event.edit(f'`{DE}`')
         return
     except ContentTooShortError:
         await event.edit("`The download content was too short.`")
@@ -104,7 +104,7 @@ async def download_video(event):
     except ExtractorError:
         return await event.edit("`There was an error during info extraction.`")
     except Exception as e:
-        return await event.edit(f"{str(type(e)): {str(e)}}")
+        return await event.edit(f'{str(type(e)): {e}}')
     dir = os.listdir()
     if f"{rip_data['id']}.mp3.jpg" in dir:
         thumb = f"{rip_data['id']}.mp3.jpg"

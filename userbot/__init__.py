@@ -478,9 +478,14 @@ with bot:
         async def handler(event):
             if event.message.from_id != uid:
                 await event.reply(
-                    f"⚡𝐂𝐲𝐛𝐞𝐫𝐃𝐲𝐧𝐞-𝐔𝐬𝐞𝐫𝐛𝐨𝐭⚡ Deploy to Heroku, Click Here 👇🏻",
+                    '⚡𝐂𝐲𝐛𝐞𝐫𝐃𝐲𝐧𝐞-𝐔𝐬𝐞𝐫𝐛𝐨𝐭⚡ Deploy to Heroku, Click Here 👇🏻',
                     buttons=[
-                        [Button.url("⚒️ 𝗗𝗘𝗣𝗟𝗢𝗬 ⚒️", "https://heroku.com/deploy?template=https://github.com/aryazakaria01/Stephanie-Userbot/tree/Stephanie-Userbot")],
+                        [
+                            Button.url(
+                                "⚒️ 𝗗𝗘𝗣𝗟𝗢𝗬 ⚒️",
+                                "https://heroku.com/deploy?template=https://github.com/aryazakaria01/Stephanie-Userbot/tree/Stephanie-Userbot",
+                            )
+                        ],
                         [Button.url("👥 𝗚𝗥𝗢𝗨𝗣 👥", "t.me/sekolahwibu")],
                     ],
                 )

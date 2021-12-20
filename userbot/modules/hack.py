@@ -13,7 +13,7 @@ import asyncio
 
 @register(outgoing=True, pattern='^.hack(?: |$)(.*)')
 async def hack(event):
-    range(0, 11)
+    range(11)
     await event.edit("Installing.")
     await event.edit("Installing..")
     await event.edit("Installing...")

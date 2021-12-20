@@ -66,7 +66,7 @@ async def fban(event):
         except BaseException:
             failed.append(i.fed_name)
 
-    reason = reason if reason else "Not specified."
+    reason = reason or "Not specified."
 
     if failed:
         status = f"Failed to fban in {len(failed)}/{total} feds.\n"
@@ -134,7 +134,7 @@ async def unfban(event):
         except BaseException:
             failed.append(i.fed_name)
 
-    reason = reason if reason else "Not specified."
+    reason = reason or "Not specified."
 
     if failed:
         status = f"Failed to un-fban in {len(failed)}/{total} feds.\n"
@@ -143,7 +143,7 @@ async def unfban(event):
     else:
         status = f"Success! Un-fbanned in {total} feds."
 
-    reason = reason if reason else "Not specified."
+    reason = reason or "Not specified."
     await event.edit(
         f"**Un-fbanned** {user_link}!\n**Reason:** {reason}\n**Status:** {status}"
     )

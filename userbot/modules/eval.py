@@ -70,10 +70,13 @@ async def aexec(code, smessatatus):
 
     reply = await event.get_reply_message()
     exec(
-        f"async def __aexec(message, reply, client): "
-        + "\n event = smessatatus = message"
+        (
+            'async def __aexec(message, reply, client): '
+            + "\n event = smessatatus = message"
+        )
         + "".join(f"\n {l}" for l in code.split("\n"))
     )
+
     return await locals()["__aexec"](message, reply, message.client)
 
 
@@ -121,9 +124,8 @@ async def run(run_q):
 
     if result:
         if len(result) > 4096:
-            file = open("output.txt", "w+")
-            file.write(result)
-            file.close()
+            with open("output.txt", "w+") as file:
+                file.write(result)
             await run_q.client.send_file(
                 run_q.chat_id,
                 "output.txt",
@@ -144,7 +146,7 @@ async def run(run_q):
 @register(outgoing=True, pattern=r"^\.term(?: |$|\n)(.*)")
 async def terminal_runner(term):
     """For .term command, runs bash commands and scripts on your server."""
-    curruser = TERM_ALIAS if TERM_ALIAS else getuser()
+    curruser = TERM_ALIAS or getuser()
     command = term.pattern_match.group(1)
     try:
         from os import geteuid
@@ -165,7 +167,7 @@ async def terminal_runner(term):
         if command.find(i) != -1:
             return await term.edit("`That's a dangerous operation! Not Permitted!`")
 
-    if not re.search(r"echo[ \-\w]*\$\w+", command) is None:
+    if re.search(r"echo[ \-\w]*\$\w+", command) is not None:
         return await term.edit("`That's a dangerous operation! Not Permitted!`")
 
     process = await asyncio.create_subprocess_shell(
@@ -175,9 +177,8 @@ async def terminal_runner(term):
     result = str(stdout.decode().strip()) + str(stderr.decode().strip())
 
     if len(result) > 4096:
-        output = open("output.txt", "w+")
-        output.write(result)
-        output.close()
+        with open("output.txt", "w+") as output:
+            output.write(result)
         await term.client.send_file(
             term.chat_id,
             "output.txt",

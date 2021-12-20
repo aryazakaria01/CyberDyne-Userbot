@@ -108,10 +108,10 @@ async def psu(event):
     bw = "📁 **Bandwith Digunakan**\n"
     bw += f"`Unggah  : {get_size(psutil.net_io_counters().bytes_sent)}`\n"
     bw += f"`Download: {get_size(psutil.net_io_counters().bytes_recv)}`\n"
-    help_string = f"{str(softw)}\n"
-    help_string += f"{str(cpuu)}\n"
-    help_string += f"{str(memm)}\n"
-    help_string += f"{str(bw)}\n"
+    help_string = f'{softw}\n'
+    help_string += f'{cpuu}\n'
+    help_string += f'{memm}\n'
+    help_string += f'{bw}\n'
     help_string += "⚙️ **Informasi Mesin**\n"
     help_string += f"`Python {sys.version}`\n"
     help_string += f"`Telethon {__version__}`"
@@ -149,40 +149,40 @@ async def sysdetails(sysd):
 @register(outgoing=True, pattern=r"^\.botver$")
 async def bot_ver(event):
     """For .botver command, get the bot version."""
-    if not event.text[0].isalpha() and event.text[0] not in (
-            "/", "#", "@", "!"):
-        if which("git") is not None:
-            ver = await asyncrunapp(
-                "git",
-                "describe",
-                "--all",
-                "--long",
-                stdout=asyncPIPE,
-                stderr=asyncPIPE,
-            )
-            stdout, stderr = await ver.communicate()
-            verout = str(stdout.decode().strip()) + \
-                str(stderr.decode().strip())
+    if event.text[0].isalpha() or event.text[0] in ("/", "#", "@", "!"):
+        return
+    if which("git") is not None:
+        ver = await asyncrunapp(
+            "git",
+            "describe",
+            "--all",
+            "--long",
+            stdout=asyncPIPE,
+            stderr=asyncPIPE,
+        )
+        stdout, stderr = await ver.communicate()
+        verout = str(stdout.decode().strip()) + \
+            str(stderr.decode().strip())
 
-            rev = await asyncrunapp(
-                "git",
-                "rev-list",
-                "--all",
-                "--count",
-                stdout=asyncPIPE,
-                stderr=asyncPIPE,
-            )
-            stdout, stderr = await rev.communicate()
-            revout = str(stdout.decode().strip()) + \
-                str(stderr.decode().strip())
+        rev = await asyncrunapp(
+            "git",
+            "rev-list",
+            "--all",
+            "--count",
+            stdout=asyncPIPE,
+            stderr=asyncPIPE,
+        )
+        stdout, stderr = await rev.communicate()
+        revout = str(stdout.decode().strip()) + \
+            str(stderr.decode().strip())
 
-            await event.edit(
-                "`CyberDyne Version: " f"{verout}" "` \n" "`Revision: " f"{revout}" "`"
-            )
-        else:
-            await event.edit(
-                "Shame that you don't have git, you're running - 'v1.beta.4' anyway!"
-            )
+        await event.edit(
+            "`CyberDyne Version: " f"{verout}" "` \n" "`Revision: " f"{revout}" "`"
+        )
+    else:
+        await event.edit(
+            "Shame that you don't have git, you're running - 'v1.beta.4' anyway!"
+        )
 
 
 @register(outgoing=True, pattern=r"^\.pip(?: |$)(.*)")
@@ -206,9 +206,8 @@ async def pipcheck(pip):
         if pipout:
             if len(pipout) > 4096:
                 await pip.edit("`Output Terlalu Besar, Dikirim Sebagai File`")
-                file = open("output.txt", "w+")
-                file.write(pipout)
-                file.close()
+                with open("output.txt", "w+") as file:
+                    file.write(pipout)
                 await pip.client.send_file(
                     pip.chat_id,
                     "output.txt",
@@ -350,7 +349,7 @@ async def amireallyaliveuser(username):
     """For .dealiveu command, change the username in the .alive command."""
     message = username.text
     output = ".dealiveu [new user without brackets] nor can it be empty"
-    if not (message == ".dealiveu" or message[7:8] != " "):
+    if message != ".dealiveu" and message[7:8] == " ":
         newuser = message[8:]
         global DEFAULTUSER
         DEFAULTUSER = newuser

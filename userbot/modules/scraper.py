@@ -140,27 +140,26 @@ async def img_sampler(event):
 async def moni(event):
     input_str = event.pattern_match.group(1)
     input_sgra = input_str.split(" ")
-    if len(input_sgra) == 3:
-        try:
-            number = float(input_sgra[0])
-            currency_from = input_sgra[1].upper()
-            currency_to = input_sgra[2].upper()
-            request_url = f"https://api.ratesapi.io/api/latest?base={currency_from}"
-            current_response = get(request_url).json()
-            if currency_to in current_response["rates"]:
-                current_rate = float(current_response["rates"][currency_to])
-                rebmun = round(number * current_rate, 2)
-                await event.edit(
-                    "{} {} = {} {}".format(number, currency_from, rebmun, currency_to)
-                )
-            else:
-                await event.edit(
-                    "`This seems to be some alien currency, which I can't convert right now.`"
-                )
-        except Exception as e:
-            await event.edit(str(e))
-    else:
+    if len(input_sgra) != 3:
         return await event.edit("`Invalid syntax.`")
+    try:
+        number = float(input_sgra[0])
+        currency_from = input_sgra[1].upper()
+        currency_to = input_sgra[2].upper()
+        request_url = f"https://api.ratesapi.io/api/latest?base={currency_from}"
+        current_response = get(request_url).json()
+        if currency_to in current_response["rates"]:
+            current_rate = float(current_response["rates"][currency_to])
+            rebmun = round(number * current_rate, 2)
+            await event.edit(
+                "{} {} = {} {}".format(number, currency_from, rebmun, currency_to)
+            )
+        else:
+            await event.edit(
+                "`This seems to be some alien currency, which I can't convert right now.`"
+            )
+    except Exception as e:
+        await event.edit(str(e))
 
 
 @register(outgoing=True, pattern=r"^\.google (.*)")
@@ -212,9 +211,8 @@ async def wiki(wiki_q):
         return await wiki_q.edit(f"Page not found.\n\n{pageerror}")
     result = summary(match)
     if len(result) >= 4096:
-        file = open("output.txt", "w+")
-        file.write(result)
-        file.close()
+        with open("output.txt", "w+") as file:
+            file.write(result)
         await wiki_q.client.send_file(
             wiki_q.chat_id,
             "output.txt",
@@ -246,17 +244,16 @@ async def urban_dict(ud_e):
     if int(meanlen) >= 0:
         if int(meanlen) >= 4096:
             await ud_e.edit("`Output too large, sending as file.`")
-            file = open("output.txt", "w+")
-            file.write(
-                "Text: "
-                + query
-                + "\n\nMeaning: "
-                + mean[0]["def"]
-                + "\n\n"
-                + "Example: \n"
-                + mean[0]["example"]
-            )
-            file.close()
+            with open("output.txt", "w+") as file:
+                file.write(
+                    "Text: "
+                    + query
+                    + "\n\nMeaning: "
+                    + mean[0]["def"]
+                    + "\n\n"
+                    + "Example: \n"
+                    + mean[0]["example"]
+                )
             await ud_e.client.send_file(
                 ud_e.chat_id,
                 "output.txt",
@@ -364,24 +361,18 @@ async def imdb(e):
         else:
             mov_details = ""
         credits = soup.findAll("div", "credit_summary_item")
+        director = credits[0].a.text
         if len(credits) == 1:
-            director = credits[0].a.text
             writer = "Not available"
             stars = "Not available"
         elif len(credits) > 2:
-            director = credits[0].a.text
             writer = credits[1].a.text
-            actors = []
-            for x in credits[2].findAll("a"):
-                actors.append(x.text)
+            actors = [x.text for x in credits[2].findAll("a")]
             actors.pop()
             stars = actors[0] + "," + actors[1] + "," + actors[2]
         else:
-            director = credits[0].a.text
             writer = "Not available"
-            actors = []
-            for x in credits[1].findAll("a"):
-                actors.append(x.text)
+            actors = [x.text for x in credits[1].findAll("a")]
             actors.pop()
             stars = actors[0] + "," + actors[1] + "," + actors[2]
         if soup.find("div", "inline canwrap"):
@@ -625,7 +616,7 @@ async def download_video(v_url):
         with YoutubeDL(opts) as rip:
             rip_data = rip.extract_info(url)
     except DownloadError as DE:
-        return await v_url.edit(f"`{str(DE)}`")
+        return await v_url.edit(f'`{DE}`')
     except ContentTooShortError:
         return await v_url.edit("`The download content was too short.`")
     except GeoRestrictedError:
@@ -644,7 +635,7 @@ async def download_video(v_url):
     except ExtractorError:
         return await v_url.edit("`There was an error during info extraction.`")
     except Exception as e:
-        return await v_url.edit(f"{str(type(e)): {str(e)}}")
+        return await v_url.edit(f'{str(type(e)): {e}}')
     c_time = time.time()
     if audio:
         await v_url.edit(
@@ -671,9 +662,8 @@ async def download_video(v_url):
         ]
         thumb_image = img_filenames[0]
         metadata = extractMetadata(createParser(f_name))
-        duration = 0
-        if metadata.has("duration"):
-            duration = metadata.get("duration").seconds
+        duration = metadata.get(
+            "duration").seconds if metadata.has("duration") else 0
         await v_url.client.send_file(
             v_url.chat_id,
             result,
@@ -721,15 +711,10 @@ async def download_video(v_url):
             )
         thumb_image = await get_video_thumb(f_path, "thumb.png")
         metadata = extractMetadata(createParser(f_path))
-        duration = 0
-        width = 0
-        height = 0
-        if metadata.has("duration"):
-            duration = metadata.get("duration").seconds
-        if metadata.has("width"):
-            width = metadata.get("width")
-        if metadata.has("height"):
-            height = metadata.get("height")
+        duration = metadata.get(
+            "duration").seconds if metadata.has("duration") else 0
+        width = metadata.get("width") if metadata.has("width") else 0
+        height = metadata.get("height") if metadata.has("height") else 0
         await v_url.client.send_file(
             v_url.chat_id,
             result,
