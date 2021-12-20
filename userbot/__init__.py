@@ -50,19 +50,22 @@ if CONSOLE_LOGGER_VERBOSE:
     )
 else:
     basicConfig(
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        level=INFO)
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=INFO
+    )
 LOGS = getLogger(__name__)
 
 if version_info[0] < 3 or version_info[1] < 8:
-    LOGS.info("You MUST have a python version of at least 3.8."
-              "Multiple features depend on this. Bot quitting.")
+    LOGS.info(
+        "You MUST have a python version of at least 3.8."
+        "Multiple features depend on this. Bot quitting."
+    )
     quit(1)
 
 # Check if the config was edited by using the already used variable.
 # Basically, its the 'virginity check' for the config file ;)
 CONFIG_CHECK = os.environ.get(
-    "___________PLOX_______REMOVE_____THIS_____LINE__________", None)
+    "___________PLOX_______REMOVE_____THIS_____LINE__________", None
+)
 
 if CONFIG_CHECK:
     LOGS.info(
@@ -88,9 +91,10 @@ LOGSPAMMER = sb(os.environ.get("LOGSPAMMER", "False"))
 CUSTOM_PMPERMIT_TEXT = os.environ.get("CUSTOM_PMPERMIT_TEXT", None)
 
 # Pm Permit Img
-PM_PERMIT_PIC = os.environ.get(
-    "PM_PERMIT_PIC",
-    None) or "https://telegra.ph/file/7e2f02c9ed20a81481dc4.jpg"
+PM_PERMIT_PIC = (
+    os.environ.get("PM_PERMIT_PIC", None)
+    or "https://telegra.ph/file/7e2f02c9ed20a81481dc4.jpg"
+)
 
 # Bleep Blop, this is a bot ;)
 PM_AUTO_BAN = sb(os.environ.get("PM_AUTO_BAN", "False"))
@@ -114,10 +118,9 @@ GITHUB_ACCESS_TOKEN = os.environ.get("GITHUB_ACCESS_TOKEN", None)
 
 # Custom (forked) repo URL for updater.
 UPSTREAM_REPO_URL = os.environ.get(
-    "UPSTREAM_REPO_URL",
-    "https://github.com/aryazakaria01/CyberDyne-Userbot")
-UPSTREAM_REPO_BRANCH = os.environ.get(
-    "UPSTREAM_REPO_BRANCH", "CyberDyne-Userbot")
+    "UPSTREAM_REPO_URL", "https://github.com/aryazakaria01/CyberDyne-Userbot"
+)
+UPSTREAM_REPO_BRANCH = os.environ.get("UPSTREAM_REPO_BRANCH", "CyberDyne-Userbot")
 
 # Console verbose logging
 CONSOLE_LOGGER_VERBOSE = sb(os.environ.get("CONSOLE_LOGGER_VERBOSE", "False"))
@@ -137,8 +140,7 @@ SUDO_USERS = {int(x) for x in os.environ.get("SUDO_USERS", "").split()}
 
 # Chrome Driver and Headless Google Chrome Binaries
 CHROME_DRIVER = os.environ.get("CHROME_DRIVER") or "/usr/bin/chromedriver"
-GOOGLE_CHROME_BIN = os.environ.get(
-    "GOOGLE_CHROME_BIN") or "/usr/bin/google-chrome"
+GOOGLE_CHROME_BIN = os.environ.get("GOOGLE_CHROME_BIN") or "/usr/bin/google-chrome"
 
 # set to True if you want to log PMs to your PM_LOGGR_BOT_API_ID
 NC_LOG_P_M_S = bool(os.environ.get("NC_LOG_P_M_S", False))
@@ -188,13 +190,13 @@ ALIVE_USERNAME = os.environ.get("ALIVE_USERNAME", None)
 S_PACK_NAME = os.environ.get("S_PACK_NAME", None)
 
 # Default .alive Logo
-ALIVE_LOGO = os.environ.get(
-    "ALIVE_LOGO",
-    None) or "https://telegra.ph/file/7e2f02c9ed20a81481dc4.jpg"
+ALIVE_LOGO = (
+    os.environ.get("ALIVE_LOGO", None)
+    or "https://telegra.ph/file/7e2f02c9ed20a81481dc4.jpg"
+)
 
 # Link Instagram for CMD Alive
-INSTAGRAM_ALIVE = os.environ.get(
-    "INSTAGRAM_ALIVE") or "instagram.com/geezingsupport"
+INSTAGRAM_ALIVE = os.environ.get("INSTAGRAM_ALIVE") or "instagram.com/geezingsupport"
 
 # Last.fm Module
 BIO_PREFIX = os.environ.get("BIO_PREFIX", None)
@@ -225,8 +227,7 @@ G_DRIVE_CLIENT_SECRET = os.environ.get("G_DRIVE_CLIENT_SECRET", None)
 G_DRIVE_AUTH_TOKEN_DATA = os.environ.get("G_DRIVE_AUTH_TOKEN_DATA", None)
 G_DRIVE_FOLDER_ID = os.environ.get("G_DRIVE_FOLDER_ID", None)
 G_DRIVE_INDEX_URL = os.environ.get("G_DRIVE_INDEX_URL", None)
-TEMP_DOWNLOAD_DIRECTORY = os.environ.get(
-    "TMP_DOWNLOAD_DIRECTORY", "./downloads")
+TEMP_DOWNLOAD_DIRECTORY = os.environ.get("TMP_DOWNLOAD_DIRECTORY", "./downloads")
 
 # Google Photos
 G_PHOTOS_CLIENT_ID = os.environ.get("G_PHOTOS_CLIENT_ID", None)
@@ -347,7 +348,8 @@ async def check_botlog_chatid():
     if entity.default_banned_rights.send_messages:
         LOGS.info(
             "Your account doesn't have rights to send messages to BOTLOG_CHATID "
-            "group. Check if you typed the Chat ID correctly.")
+            "group. Check if you typed the Chat ID correctly."
+        )
         quit(1)
 
 
@@ -357,7 +359,8 @@ with bot:
     except BaseException:
         LOGS.info(
             "BOTLOG_CHATID environment variable isn't a "
-            "valid entity. Check your environment variables/config.env file.")
+            "valid entity. Check your environment variables/config.env file."
+        )
         quit(1)
 
 
@@ -379,9 +382,7 @@ try:
     chat_id, msg_id = gvarstatus("restartstatus").split("\n")
     try:
         with bot:
-            bot.loop.run_until_complete(
-                update_restart_msg(
-                    int(chat_id), int(msg_id)))
+            bot.loop.run_until_complete(update_restart_msg(int(chat_id), int(msg_id)))
     except BaseException:
         pass
     delgvar("restartstatus")
@@ -416,15 +417,14 @@ def paginate_help(page_number, loaded_modules, prefix):
         custom.Button.inline("{} {} 」◑".format("◐「", x), data="ub_modul_{}".format(x))
         for x in helpable_modules
     ]
-    pairs = list(zip(modules[::number_of_cols],
-                     modules[1::number_of_cols]))
+    pairs = list(zip(modules[::number_of_cols], modules[1::number_of_cols]))
     if len(modules) % number_of_cols == 1:
         pairs.append((modules[-1],))
     max_num_pages = ceil(len(pairs) / number_of_rows)
     modulo_page = page_number % max_num_pages
     if len(pairs) > number_of_rows:
         pairs = pairs[
-            modulo_page * number_of_rows: number_of_rows * (modulo_page + 1)
+            modulo_page * number_of_rows : number_of_rows * (modulo_page + 1)
         ] + [
             (
                 custom.Button.inline(
@@ -435,7 +435,7 @@ def paginate_help(page_number, loaded_modules, prefix):
                 ),
                 custom.Button.inline(
                     "Nᴇxᴛ╰⋗", data="{}_next({})".format(prefix, modulo_page)
-                )
+                ),
             )
         ]
     return pairs
@@ -443,11 +443,9 @@ def paginate_help(page_number, loaded_modules, prefix):
 
 with bot:
     try:
-        tgbot = TelegramClient(
-            "TG_BOT_TOKEN",
-            api_id=API_KEY,
-            api_hash=API_HASH).start(
-            bot_token=BOT_TOKEN)
+        tgbot = TelegramClient("TG_BOT_TOKEN", api_id=API_KEY, api_hash=API_HASH).start(
+            bot_token=BOT_TOKEN
+        )
 
         dugmeler = CMD_HELP
         me = bot.get_me()
@@ -465,20 +463,20 @@ with bot:
                     f"Hai 👋 [{get_display_name(u)}](tg://user?id={u.id}) Selamat Datang di ⚡𝐂𝐲𝐛𝐞𝐫𝐃𝐲𝐧𝐞-𝐔𝐬𝐞𝐫𝐛𝐨𝐭⚡\nJika Kalian Datang Kesini dan Ingin Mengetahui CyberDyne-Robot Lebih Lanjut,\nSilahkan Pilih **Menu Bantuan** Dibawah Ini.\n",
                     buttons=[
                         [
-                            Button.url("📢 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 📢",
-                                       "t.me/Lunatic0de"),
-                            Button.url("🚨 𝗠𝗲𝗻𝘂-𝗕𝗮𝗻𝘁𝘂𝗮𝗻 🚨",
-                                       "https://telegra.ph/Bantuan-06-11")],
-                        [Button.url("👤 𝗗𝗲𝘃𝗲𝗹𝗼𝗽𝗲𝗿 👤",
-                                    "t.me/GeezSupportGroup")],
-                    ]
+                            Button.url("📢 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 📢", "t.me/Lunatic0de"),
+                            Button.url(
+                                "🚨 𝗠𝗲𝗻𝘂-𝗕𝗮𝗻𝘁𝘂𝗮𝗻 🚨", "https://telegra.ph/Bantuan-06-11"
+                            ),
+                        ],
+                        [Button.url("👤 𝗗𝗲𝘃𝗲𝗹𝗼𝗽𝗲𝗿 👤", "t.me/GeezSupportGroup")],
+                    ],
                 )
 
         @tgbot.on(events.NewMessage(pattern=r"/deploy"))
         async def handler(event):
             if event.message.from_id != uid:
                 await event.reply(
-                    '⚡𝐂𝐲𝐛𝐞𝐫𝐃𝐲𝐧𝐞-𝐔𝐬𝐞𝐫𝐛𝐨𝐭⚡ Deploy to Heroku, Click Here 👇🏻',
+                    "⚡𝐂𝐲𝐛𝐞𝐫𝐃𝐲𝐧𝐞-𝐔𝐬𝐞𝐫𝐛𝐨𝐭⚡ Deploy to Heroku, Click Here 👇🏻",
                     buttons=[
                         [
                             Button.url(
@@ -499,18 +497,21 @@ with bot:
                     f"Haii 😼 [{get_display_name(u)}](tg://user?id={u.id}) My Name is 𝐂𝐲𝐛𝐞𝐫𝐃𝐲𝐧𝐞 🐈\n"
                     f"CyberDyne Used For Fun On Telegram✨,\n"
                     f"and For Maintaining Your Group 🛠️.\n"
-                    f"I was **Created by :** @Badboyanim For Various Userbots on Github.\n")
-                await tgbot.send_file(event.chat_id, file=lynxlogo,
-                                      caption=text,
-                                      buttons=[
-                                          [
-                                              custom.Button.url(
-                                                  text="🇮🇩 𝗥𝗲𝗽𝗼𝘀𝗶𝘁𝗼𝗿𝘆 🇮🇩",
-                                                  url="https://aryazakaria01.github.io/CyberDyne-Userbot/"
-                                              )
-                                          ]
-                                      ]
-                                      )
+                    f"I was **Created by :** @Badboyanim For Various Userbots on Github.\n"
+                )
+                await tgbot.send_file(
+                    event.chat_id,
+                    file=lynxlogo,
+                    caption=text,
+                    buttons=[
+                        [
+                            custom.Button.url(
+                                text="🇮🇩 𝗥𝗲𝗽𝗼𝘀𝗶𝘁𝗼𝗿𝘆 🇮🇩",
+                                url="https://aryazakaria01.github.io/CyberDyne-Userbot/",
+                            )
+                        ]
+                    ],
+                )
 
         @tgbot.on(events.NewMessage(pattern=r"/ping"))
         async def handler(event):
@@ -543,7 +544,8 @@ with bot:
                     "Bantuan Dari ⚡𝐂𝐲𝐛𝐞𝐫𝐃𝐲𝐧𝐞-𝙐𝙎𝙀𝙍𝘽𝙊𝙏⚡ ",
                     text="Daftar Plugins",
                     buttons=[],
-                    link_preview=False)
+                    link_preview=False,
+                )
             else:
                 result = builder.article(
                     " ╔╡⚡𝐂𝐲𝐛𝐞𝐫𝐃𝐲𝐧𝐞-𝐔𝐬𝐞𝐫𝐛𝐨𝐭⚡╞╗ ",
@@ -552,10 +554,11 @@ with bot:
                         [
                             custom.Button.url(
                                 "⚡𝐂𝐲𝐛𝐞𝐫𝐃𝐲𝐧𝐞⚡",
-                                "https://aryazakaria01.github.io/CyberDyne-Userbot"),
-                            custom.Button.url(
-                                "Dᴇᴠᴇʟᴏᴘᴇʀ",
-                                "t.me/GeezSupportGroup")]],
+                                "https://aryazakaria01.github.io/CyberDyne-Userbot",
+                            ),
+                            custom.Button.url("Dᴇᴠᴇʟᴏᴘᴇʀ", "t.me/GeezSupportGroup"),
+                        ]
+                    ],
                     link_preview=True,
                 )
             await event.answer([result] if result else None)
@@ -567,14 +570,14 @@ with bot:
         )
         async def on_plug_in_callback_query_handler(event):
             if event.query.user_id == uid:  # pylint:disable=E0602
-                current_page_number = int(
-                    event.data_match.group(1).decode("UTF-8"))
-                buttons = paginate_help(
-                    current_page_number + 1, dugmeler, "helpme")
+                current_page_number = int(event.data_match.group(1).decode("UTF-8"))
+                buttons = paginate_help(current_page_number + 1, dugmeler, "helpme")
                 # https://t.me/TelethonChat/115200
                 await event.edit(buttons=buttons)
             else:
-                reply_pop_up_alert = f"🚫!WARNING!🚫 Jangan Menggunakan Milik {DEFAULTUSER}."
+                reply_pop_up_alert = (
+                    f"🚫!WARNING!🚫 Jangan Menggunakan Milik {DEFAULTUSER}."
+                )
                 await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
 
         @tgbot.on(
@@ -591,7 +594,7 @@ with bot:
                     buttons=[
                         [Button.url("⚡𝐂𝐲𝐛𝐞𝐫𝐃𝐲𝐧𝐞-𝐔𝐬𝐞𝐫𝐛𝐨𝐭⚡", "t.me/Badboyanim01_bot")],
                         [Button.url("[⊙] 𝗠𝘆 𝗜𝗻𝘀𝘁𝗮𝗴𝗿𝗮𝗺", f"{INSTAGRAM_ALIVE}")],
-                    ]
+                    ],
                 )
                 await event.delete()
 
@@ -602,15 +605,16 @@ with bot:
         )
         async def on_plug_in_callback_query_handler(event):
             if event.query.user_id == uid:  # pylint:disable=E0602
-                current_page_number = int(
-                    event.data_match.group(1).decode("UTF-8"))
+                current_page_number = int(event.data_match.group(1).decode("UTF-8"))
                 buttons = paginate_help(
                     current_page_number - 1, dugmeler, "helpme"  # pylint:disable=E0602
                 )
                 # https://t.me/TelethonChat/115200
                 await event.edit(buttons=buttons)
             else:
-                reply_pop_up_alert = f"🚫!WARNING!🚫 Jangan Menggunakan Milik {DEFAULTUSER}."
+                reply_pop_up_alert = (
+                    f"🚫!WARNING!🚫 Jangan Menggunakan Milik {DEFAULTUSER}."
+                )
                 await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
 
         @tgbot.on(
@@ -625,13 +629,14 @@ with bot:
                 cmdhel = str(CMD_HELP[modul_name])
                 if len(cmdhel) > 150:
                     help_string = (
-                        str(CMD_HELP[modul_name]).replace('`', '')[:150] + "..."
+                        str(CMD_HELP[modul_name]).replace("`", "")[:150]
+                        + "..."
                         + "\n\nBaca Text Berikutnya Ketik .help "
                         + modul_name
                         + " "
                     )
                 else:
-                    help_string = str(CMD_HELP[modul_name]).replace('`', '')
+                    help_string = str(CMD_HELP[modul_name]).replace("`", "")
 
                 reply_pop_up_alert = (
                     help_string
@@ -641,7 +646,9 @@ with bot:
                     )
                 )
             else:
-                reply_pop_up_alert = f"🚫!WARNING!🚫 Jangan Menggunakan Milik {DEFAULTUSER}."
+                reply_pop_up_alert = (
+                    f"🚫!WARNING!🚫 Jangan Menggunakan Milik {DEFAULTUSER}."
+                )
 
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
 

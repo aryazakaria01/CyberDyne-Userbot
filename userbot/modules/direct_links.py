@@ -82,8 +82,7 @@ async def direct_link_generator(request):
             await uptobox(request, link)
             return None
         else:
-            reply += re.findall(r"\bhttps?://(.*?[^/]+)",
-                                link)[0] + "is not supported"
+            reply += re.findall(r"\bhttps?://(.*?[^/]+)", link)[0] + "is not supported"
     await request.edit(reply)
 
 
@@ -93,11 +92,11 @@ async def zippy_share(url: str) -> str:
     bs_obj = BeautifulSoup(response_content, "lxml")
 
     try:
-        js_script = bs_obj.find("div", {"class": "center", }).find_all(
+        js_script = bs_obj.find("div", {"class": "center",}).find_all(
             "script"
         )[1]
     except BaseException:
-        js_script = bs_obj.find("div", {"class": "right", }).find_all(
+        js_script = bs_obj.find("div", {"class": "right",}).find_all(
             "script"
         )[0]
 
@@ -211,11 +210,7 @@ async def osdn(url: str) -> str:
     except IndexError:
         reply = "`No OSDN links found`\n"
         return reply
-    page = BeautifulSoup(
-        requests.get(
-            link,
-            allow_redirects=True).content,
-        "lxml")
+    page = BeautifulSoup(requests.get(link, allow_redirects=True).content, "lxml")
     info = page.find("a", {"class": "mirror_link"})
     link = urllib.parse.unquote(osdn_link + info["href"])
     reply = f"Mirrors for __{link.split('/')[-1]}__\n"
@@ -271,10 +266,7 @@ async def androidfilehost(url: str) -> str:
         "authority": "androidfilehost.com",
         "x-requested-with": "XMLHttpRequest",
     }
-    data = {
-        "submit": "submit",
-        "action": "getdownloadmirrors",
-        "fid": f"{fid}"}
+    data = {"submit": "submit", "action": "getdownloadmirrors", "fid": f"{fid}"}
     mirrors = None
     reply = ""
     error = "`Error: Can't find Mirrors for the link`\n"

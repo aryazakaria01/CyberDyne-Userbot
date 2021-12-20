@@ -80,8 +80,7 @@ async def bq(event):
 
     bar_code_type = "code128"
     try:
-        bar_code_mode_f = barcode.get(
-            bar_code_type, message, writer=ImageWriter())
+        bar_code_mode_f = barcode.get(bar_code_type, message, writer=ImageWriter())
         filename = bar_code_mode_f.save(bar_code_type)
         await event.client.send_file(event.chat_id, filename, reply_to=reply_msg_id)
         os.remove(filename)
@@ -106,9 +105,7 @@ async def make_qr(makeqr):
             m_list = None
             with open(downloaded_file_name, "rb") as file:
                 m_list = file.readlines()
-            message = "".join(
-                media.decode("UTF-8") +
-                "\r\n" for media in m_list)
+            message = "".join(media.decode("UTF-8") + "\r\n" for media in m_list)
             os.remove(downloaded_file_name)
         else:
             message = previous_message.message
@@ -130,14 +127,17 @@ async def make_qr(makeqr):
     await makeqr.delete()
 
 
-CMD_HELP.update({"qr": "✘ Pʟᴜɢɪɴ : QR Code"
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.makeqr` <Content>"
-                 "\n↳ : Make a QR Code From The Given Content."
-                 "\nExample: `.makeqr www.google.com`"
-                 "\nNote: use `.decode <Reply to BarCode/QRcode>` to Get Decoded Content.",
-                 "barcode": "✘ Pʟᴜɢɪɴ : BarCode"
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.barcode <Content>`"
-                 "\n↳ : Make a BarCode From The Given Content."
-                 "\nExample: `.barcode www.google.com`"
-                 "\nNote: use `.decode <Reply to BarCode/QRcode>` to Get Decoded Content.",
-                 })
+CMD_HELP.update(
+    {
+        "qr": "✘ Pʟᴜɢɪɴ : QR Code"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.makeqr` <Content>"
+        "\n↳ : Make a QR Code From The Given Content."
+        "\nExample: `.makeqr www.google.com`"
+        "\nNote: use `.decode <Reply to BarCode/QRcode>` to Get Decoded Content.",
+        "barcode": "✘ Pʟᴜɢɪɴ : BarCode"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.barcode <Content>`"
+        "\n↳ : Make a BarCode From The Given Content."
+        "\nExample: `.barcode www.google.com`"
+        "\nNote: use `.decode <Reply to BarCode/QRcode>` to Get Decoded Content.",
+    }
+)

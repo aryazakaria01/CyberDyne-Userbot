@@ -40,7 +40,7 @@ async def ascii(event):
             reply_message,
             "ASCII.tgs",
         )
-        os.system('lottie_convert.py ASCII.tgs ascii.png', shell=False)
+        os.system("lottie_convert.py ASCII.tgs ascii.png", shell=False)
         IMG = "ascii.png"
     elif reply_message.video:
         video = await bot.download_media(
@@ -49,8 +49,8 @@ async def ascii(event):
         )
         extractMetadata(createParser(video))
         os.system(
-            'ffmpeg -i ascii.mp4 -vframes 1 -an -s 480x360 -ss 1 ascii.png',
-            shell=False)
+            "ffmpeg -i ascii.mp4 -vframes 1 -an -s 480x360 -ss 1 ascii.png", shell=False
+        )
         IMG = "ascii.png"
     else:
         IMG = await bot.download_media(
@@ -66,7 +66,7 @@ async def ascii(event):
         await asciiart(IMG, color1, color2, bgcolor)
         cmd = event.pattern_match.group(1)
         if cmd == "asciis":
-            os.system('cp ascii.png ascii.webp', shell=False)
+            os.system("cp ascii.png ascii.webp", shell=False)
             ascii_file = "ascii.webp"
         else:
             ascii_file = "ascii.png"
@@ -77,9 +77,9 @@ async def ascii(event):
             reply_to=event.reply_to_msg_id,
         )
         await event.delete()
-        os.system('rm *.png *.webp *.mp4 *.tgs', shell=False)
+        os.system("rm *.png *.webp *.mp4 *.tgs", shell=False)
     except BaseException as e:
-        os.system('rm *.png *.webp *.mp4 *.png', shell=False)
+        os.system("rm *.png *.webp *.mp4 *.png", shell=False)
         return await event.edit(str(e))
 
 
@@ -97,8 +97,7 @@ async def asciiart(IMG, color1, color2, bgcolor):
     img = np.sum(np.asarray(img), axis=2)
     img -= img.min()
     img = (1.0 - img / img.max()) ** 2.2 * (chars.size - 1)
-    lines = ("\n".join(("".join(r)
-                        for r in chars[img.astype(int)]))).split("\n")
+    lines = ("\n".join(("".join(r) for r in chars[img.astype(int)]))).split("\n")
     nbins = len(lines)
     colorRange = list(Color(color1).range_to(Color(color2), nbins))
     newImg_width = letter_width * widthByLetter

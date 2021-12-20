@@ -60,16 +60,26 @@ async def set_afk(afk_e):
     afk_start = start_1.replace(microsecond=0)
     if string:
         AFKREASON = string
-        await afk_e.edit(f"**👤 {ALIVE_NAME} ⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡**\
-        \n╰► **Reason :** `{string}`")
+        await afk_e.edit(
+            f"**👤 {ALIVE_NAME} ⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡**\
+        \n╰► **Reason :** `{string}`"
+        )
     else:
         await afk_e.edit(f"**👤 {ALIVE_NAME} ⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡**")
     if user.last_name:
-        await afk_e.client(UpdateProfileRequest(first_name=user.first_name, last_name=user.last_name + "⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡"))
+        await afk_e.client(
+            UpdateProfileRequest(
+                first_name=user.first_name, last_name=user.last_name + "⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡"
+            )
+        )
     else:
-        await afk_e.client(UpdateProfileRequest(first_name=user.first_name, last_name="⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡"))
+        await afk_e.client(
+            UpdateProfileRequest(first_name=user.first_name, last_name="⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡")
+        )
     if BOTLOG:
-        await afk_e.client.send_message(BOTLOG_CHATID, f"#UPDATE\n{ALIVE_NAME} ⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡!")
+        await afk_e.client.send_message(
+            BOTLOG_CHATID, f"#UPDATE\n{ALIVE_NAME} ⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡!"
+        )
     ISAFK = True
     afk_time = datetime.now()  # pylint:disable=E0602
     raise StopPropagation
@@ -99,20 +109,32 @@ async def type_afk_is_not_true(notafk):
         msg = await notafk.respond(f"**{ALIVE_NAME} Telah 𝗢𝗻𝗹𝗶𝗻𝗲 !**")
         time.sleep(7)
         await msg.delete()
-        await notafk.client(UpdateProfileRequest(first_name=user.first_name, last_name=last1))
+        await notafk.client(
+            UpdateProfileRequest(first_name=user.first_name, last_name=last1)
+        )
         if BOTLOG:
             await notafk.client.send_message(
                 BOTLOG_CHATID,
-                "#INFO\nAnda Mendapatkan " + str(COUNT_MSG) + " Pesan.\nDari " +
-                str(len(USERS)) + " Obrolan.\nSaat Anda Sedang ⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡",
+                "#INFO\nAnda Mendapatkan "
+                + str(COUNT_MSG)
+                + " Pesan.\nDari "
+                + str(len(USERS))
+                + " Obrolan.\nSaat Anda Sedang ⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡",
             )
             for i in USERS:
                 name = await notafk.client.get_entity(i)
                 name0 = str(name.first_name)
                 await notafk.client.send_message(
                     BOTLOG_CHATID,
-                    "[" + name0 + "](tg://user?id=" + str(i) + ")" +
-                    " Mengirim Mu " + "`" + str(USERS[i]) + " Pesan`",
+                    "["
+                    + name0
+                    + "](tg://user?id="
+                    + str(i)
+                    + ")"
+                    + " Mengirim Mu "
+                    + "`"
+                    + str(USERS[i])
+                    + " Pesan`",
                 )
         COUNT_MSG = 0
         USERS = {}
@@ -133,11 +155,7 @@ async def mention_afk(mention):
     back_alivee = datetime.now()
     afk_end = back_alivee.replace(microsecond=0)
     afk_since = "**Terakhir Online**"
-    if (
-        mention.message.mentioned
-        and not (await mention.get_sender()).bot
-        and ISAFK
-    ):
+    if mention.message.mentioned and not (await mention.get_sender()).bot and ISAFK:
         now = datetime.now()
         datime_since_afk = now - afk_time  # pylint:disable=E0602
         time = float(datime_since_afk.seconds)
@@ -152,13 +170,13 @@ async def mention_afk(mention):
             afk_since = "**Kemarin**"
         elif days > 1:
             if days > 6:
-                date = now + \
-                    datetime.timedelta(
-                        days=-days, hours=-hours, minutes=-minutes)
+                date = now + datetime.timedelta(
+                    days=-days, hours=-hours, minutes=-minutes
+                )
                 afk_since = date.strftime("%A, %Y %B %m, %H:%I")
             else:
                 wday = now + datetime.timedelta(days=-days)
-                afk_since = wday.strftime('%A')
+                afk_since = wday.strftime("%A")
         elif hours > 1:
             afk_since = f"`{int(hours)} Jam {int(minutes)} Menit`"
         elif minutes > 0:
@@ -167,16 +185,20 @@ async def mention_afk(mention):
             afk_since = f"`{int(seconds)} Detik`"
         if mention.sender_id not in USERS:
             if AFKREASON:
-                await mention.reply(f"{ALIVE_NAME} Sedang ⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡\nSejak {afk_since} Yang Lalu.\n**Noted** : __Bila Anda Melakukan Spam Pada Saya, Anda Akan Terkena Global Banned Secara Otomatis.__ **Terimakasih.**\
-                        \n╰► **Reason :** `{AFKREASON}`")
+                await mention.reply(
+                    f"{ALIVE_NAME} Sedang ⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡\nSejak {afk_since} Yang Lalu.\n**Noted** : __Bila Anda Melakukan Spam Pada Saya, Anda Akan Terkena Global Banned Secara Otomatis.__ **Terimakasih.**\
+                        \n╰► **Reason :** `{AFKREASON}`"
+                )
             else:
                 await mention.reply(str(choice(AFKSTR)))
             USERS.update({mention.sender_id: 1})
         else:
             if USERS[mention.sender_id] % randint(2, 4) == 0:
                 if AFKREASON:
-                    await mention.reply(f"{ALIVE_NAME} Masih ⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡\nSejak {afk_since} Yang Lalu.\n**Noted** : __Bila Anda Melakukan Spam Pada Saya, Anda Akan Terkena Global Banned Secara Otomatis.__ **Terimakasih.**\
-                            \n╰► **Reason :** `{AFKREASON}`")
+                    await mention.reply(
+                        f"{ALIVE_NAME} Masih ⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡\nSejak {afk_since} Yang Lalu.\n**Noted** : __Bila Anda Melakukan Spam Pada Saya, Anda Akan Terkena Global Banned Secara Otomatis.__ **Terimakasih.**\
+                            \n╰► **Reason :** `{AFKREASON}`"
+                    )
                 else:
                     await mention.reply(str(choice(AFKSTR)))
             USERS[mention.sender_id] = USERS[mention.sender_id] + 1
@@ -200,11 +222,15 @@ async def afk_on_pm(sender):
     back_alivee = datetime.now()
     afk_end = back_alivee.replace(microsecond=0)
     afk_since = "**Belum Lama**"
-    if sender.is_private and sender.sender_id != 777000 and not (
-            await sender.get_sender()).bot:
+    if (
+        sender.is_private
+        and sender.sender_id != 777000
+        and not (await sender.get_sender()).bot
+    ):
         if PM_AUTO_BAN:
             try:
                 from userbot.modules.sql_helper.pm_permit_sql import is_approved
+
                 apprv = is_approved(sender.sender_id)
             except AttributeError:
                 apprv = True
@@ -225,13 +251,13 @@ async def afk_on_pm(sender):
                 afk_since = "**Kemarin**"
             elif days > 1:
                 if days > 6:
-                    date = now + \
-                        datetime.timedelta(
-                            days=-days, hours=-hours, minutes=-minutes)
+                    date = now + datetime.timedelta(
+                        days=-days, hours=-hours, minutes=-minutes
+                    )
                     afk_since = date.strftime("%A, %Y %B %m, %H:%I")
                 else:
                     wday = now + datetime.timedelta(days=-days)
-                    afk_since = wday.strftime('%A')
+                    afk_since = wday.strftime("%A")
             elif hours > 1:
                 afk_since = f"`{int(hours)} Jam {int(minutes)} Menit`"
             elif minutes > 0:
@@ -240,8 +266,10 @@ async def afk_on_pm(sender):
                 afk_since = f"`{int(seconds)} Detik`"
             if sender.sender_id not in USERS:
                 if AFKREASON:
-                    await sender.reply(f"{ALIVE_NAME} Sedang ⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡\nSejak {afk_since} Yang Lalu.\n**Noted** : __Bila Anda Melakukan Spam Pada Saya, Anda Akan Terkena Global Banned Secara Otomatis.__ **Terimakasih.**\
-                        \n╰► **Reason :** `{AFKREASON}`")
+                    await sender.reply(
+                        f"{ALIVE_NAME} Sedang ⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡\nSejak {afk_since} Yang Lalu.\n**Noted** : __Bila Anda Melakukan Spam Pada Saya, Anda Akan Terkena Global Banned Secara Otomatis.__ **Terimakasih.**\
+                        \n╰► **Reason :** `{AFKREASON}`"
+                    )
                 else:
                     await sender.reply(str(choice(AFKSTR)))
                 USERS.update({sender.sender_id: 1})
@@ -249,17 +277,21 @@ async def afk_on_pm(sender):
             elif apprv:
                 if USERS[sender.sender_id] % randint(2, 4) == 0:
                     if AFKREASON:
-                        await sender.reply(f"{ALIVE_NAME} Sedang ⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡\nSejak {afk_since} Yang Lalu.\n**Noted** : __Bila Anda Melakukan Spam Pada Saya, Anda Akan Terkena Global Banned Secara Otomatis.__ **Terimakasih.**\
-                            \n╰► **Reason :** `{AFKREASON}`")
+                        await sender.reply(
+                            f"{ALIVE_NAME} Sedang ⚡𝓞𝓕𝓕𝓛𝓘𝓝𝓔⚡\nSejak {afk_since} Yang Lalu.\n**Noted** : __Bila Anda Melakukan Spam Pada Saya, Anda Akan Terkena Global Banned Secara Otomatis.__ **Terimakasih.**\
+                            \n╰► **Reason :** `{AFKREASON}`"
+                        )
                     else:
                         await sender.reply(str(choice(AFKSTR)))
                 USERS[sender.sender_id] = USERS[sender.sender_id] + 1
                 COUNT_MSG = COUNT_MSG + 1
 
 
-CMD_HELP.update({
-    "offline": "✘ Pʟᴜɢɪɴ : Offline\
+CMD_HELP.update(
+    {
+        "offline": "✘ Pʟᴜɢɪɴ : Offline\
     \n\n⚡𝘾𝙈𝘿⚡: `.off` <Reason/Alasan Off>\
     \n↳ : Sama Seperti Plugin Busy, Lakukan ketika ingin OFF.\nSiapapun Yang Balas, Tag, Atau Chat Kamu\
     Mereka Akan Tau Alasan Kamu OFF.\n\nNoted: OFF Bisa Dilakukan Dan Dibatalkan Dimanapun."
-})
+    }
+)

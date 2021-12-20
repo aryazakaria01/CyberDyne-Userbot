@@ -27,7 +27,9 @@ async def gcast(event):
                 await bot.send_message(chat, msg)
             except BaseException:
                 er += 1
-    await kk.edit(f"**✔️Berhasil** Mengirim Pesan Ke : `{done}` Group.\n**❌Gagal** Mengirim Pesan Ke : `{er}` Group.")
+    await kk.edit(
+        f"**✔️Berhasil** Mengirim Pesan Ke : `{done}` Group.\n**❌Gagal** Mengirim Pesan Ke : `{er}` Group."
+    )
 
 
 @register(outgoing=True, pattern=r"^\.gucast (.*)")
@@ -49,4 +51,6 @@ async def gucast(event):
                 await bot.send_message(chat, msg)
             except BaseException:
                 er += 1
-    await kk.edit(f"**✔️Berhasil** Mengirim Pesan Ke : `{done}` Orang.\n**❌Gagal** Mengirim Pesan Ke : `{er}` Orang.")
+    await kk.edit(
+        f"**✔️Berhasil** Mengirim Pesan Ke : `{done}` Orang.\n**❌Gagal** Mengirim Pesan Ke : `{er}` Orang."
+    )

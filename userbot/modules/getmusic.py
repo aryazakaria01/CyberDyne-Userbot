@@ -118,8 +118,7 @@ async def _(event):
     try:
         loa = l[0]
         metadata = extractMetadata(createParser(loa))
-        duration = metadata.get(
-            "duration").seconds if metadata.has("duration") else 0
+        duration = metadata.get("duration").seconds if metadata.has("duration") else 0
         width = metadata.get("width") if metadata.has("width") else 0
         height = metadata.get("height") if metadata.has("height") else 0
         os.system("cp *mp4 thumb.mp4")
@@ -281,18 +280,22 @@ async def _(event):
         )
 
 
-CMD_HELP.update({"getmusic": "✘ Pʟᴜɢɪɴ : Get Music"
-                 "⚡𝘾𝙈𝘿⚡: `.song` <Artist - Title>"
-                 "\n↳ : Finding and Uploading Song.\n\n"
-                 "⚡𝘾𝙈𝘿⚡: `.vsong` <Artist - Title>"
-                 "\n↳ : Finding and Uploading Videoclip.\n\n"
-                 "⚡𝘾𝙈𝘿⚡: `.smd` <Artist - Title>"
-                 "\n↳ : Download Music From Spotify use `@SpotifyMusicDownloaderBot`.\n\n"
-                 "⚡𝘾𝙈𝘿⚡: `.smd now`"
-                 "\n↳ : Download Current LastFM Scrobble use `@SpotifyMusicDownloaderBot`.\n\n"
-                 "⚡𝘾𝙈𝘿⚡: `.net` <Artist - Title>"
-                 "\n↳ : Download Music Use `@WooMaiBot`.\n\n"
-                 "⚡𝘾𝙈𝘿⚡: `.net now`"
-                 "\n↳ : Download Current LastFM Scrobble use `@WooMaiBot`.\n\n"
-                 "⚡𝘾𝙈𝘿⚡: `.mhb <Spotify/Deezer Link>`"
-                 "\n↳ : Download Music From Spotify or Deezer use `@MusicsHunterBot`."})
+CMD_HELP.update(
+    {
+        "getmusic": "✘ Pʟᴜɢɪɴ : Get Music"
+        "⚡𝘾𝙈𝘿⚡: `.song` <Artist - Title>"
+        "\n↳ : Finding and Uploading Song.\n\n"
+        "⚡𝘾𝙈𝘿⚡: `.vsong` <Artist - Title>"
+        "\n↳ : Finding and Uploading Videoclip.\n\n"
+        "⚡𝘾𝙈𝘿⚡: `.smd` <Artist - Title>"
+        "\n↳ : Download Music From Spotify use `@SpotifyMusicDownloaderBot`.\n\n"
+        "⚡𝘾𝙈𝘿⚡: `.smd now`"
+        "\n↳ : Download Current LastFM Scrobble use `@SpotifyMusicDownloaderBot`.\n\n"
+        "⚡𝘾𝙈𝘿⚡: `.net` <Artist - Title>"
+        "\n↳ : Download Music Use `@WooMaiBot`.\n\n"
+        "⚡𝘾𝙈𝘿⚡: `.net now`"
+        "\n↳ : Download Current LastFM Scrobble use `@WooMaiBot`.\n\n"
+        "⚡𝘾𝙈𝘿⚡: `.mhb <Spotify/Deezer Link>`"
+        "\n↳ : Download Music From Spotify or Deezer use `@MusicsHunterBot`."
+    }
+)

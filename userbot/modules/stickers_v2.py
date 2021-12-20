@@ -21,16 +21,17 @@ async def _(event):
     async with event.client.conversation(chat) as conv:
         try:
             response = conv.wait_event(
-                events.NewMessage(
-                    incoming=True,
-                    from_users=164977173))
+                events.NewMessage(incoming=True, from_users=164977173)
+            )
             msg = await event.client.forward_messages(chat, reply_message)
             response = await response
         except YouBlockedUserError:
             await event.reply("unblock me (@buildstickerbot) and try again")
             return
         if response.text.startswith("Hi!"):
-            await event.edit("Can you kindly disable your forward privacy settings for good?")
+            await event.edit(
+                "Can you kindly disable your forward privacy settings for good?"
+            )
         else:
             await event.delete()
             await bot.send_read_acknowledge(conv.chat_id)
@@ -54,30 +55,33 @@ async def _(event):
     async with event.client.conversation(chat) as conv:
         try:
             response = conv.wait_event(
-                events.NewMessage(
-                    incoming=True,
-                    from_users=611085086))
+                events.NewMessage(incoming=True, from_users=611085086)
+            )
             msg = await event.client.forward_messages(chat, reply_message)
             response = await response
         except YouBlockedUserError:
-            await event.reply("Mohon Maaf Yang Mulia, Buka Blokir @stickers_to_image_bot Lalu Coba Lagi.")
+            await event.reply(
+                "Mohon Maaf Yang Mulia, Buka Blokir @stickers_to_image_bot Lalu Coba Lagi."
+            )
             return
         if response.text.startswith("I understand only stickers"):
-            await event.edit("`Maaf Yang Mulia, Saya Tidak Bisa Mengubah Ini Menjadi Gambar, Periksa Kembali Apakah Itu Sticker Animasi ?`")
+            await event.edit(
+                "`Maaf Yang Mulia, Saya Tidak Bisa Mengubah Ini Menjadi Gambar, Periksa Kembali Apakah Itu Sticker Animasi ?`"
+            )
         else:
             response = conv.wait_event(
-                events.NewMessage(
-                    incoming=True,
-                    from_users=611085086))
+                events.NewMessage(incoming=True, from_users=611085086)
+            )
             response = await response
             if response.text.startswith("..."):
                 response = conv.wait_event(
-                    events.NewMessage(
-                        incoming=True,
-                        from_users=611085086))
+                    events.NewMessage(incoming=True, from_users=611085086)
+                )
                 response = await response
                 await event.delete()
-                await event.client.send_message(event.chat_id, response.message, reply_to=reply_message.id)
+                await event.client.send_message(
+                    event.chat_id, response.message, reply_to=reply_message.id
+                )
                 await event.client.delete_message(event.chat_id, [msg.id, response.id])
             else:
                 await event.edit("`Tolong Coba Lagi.`")
@@ -107,9 +111,13 @@ async def sticker_to_png(sticker):
     return
 
 
-CMD_HELP.update({"stickers2": "⚡𝘾𝙈𝘿⚡: `.itos`"
-                 "\n↳ : Balas ke sticker atau gambar .itos untuk mengambil sticker bukan ke pack."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.get`"
-                 "\n↳ : Balas ke sticker untuk mendapatkan file 'PNG' sticker."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.stoi`"
-                 "\n↳ : Balas Ke sticker untuk mendapatkan file 'PNG' sticker."})
+CMD_HELP.update(
+    {
+        "stickers2": "⚡𝘾𝙈𝘿⚡: `.itos`"
+        "\n↳ : Balas ke sticker atau gambar .itos untuk mengambil sticker bukan ke pack."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.get`"
+        "\n↳ : Balas ke sticker untuk mendapatkan file 'PNG' sticker."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.stoi`"
+        "\n↳ : Balas Ke sticker untuk mendapatkan file 'PNG' sticker."
+    }
+)

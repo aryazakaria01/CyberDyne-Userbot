@@ -252,9 +252,9 @@ async def ban(bon):
     # is done gracefully
     # Shout out the ID, so that fedadmins can fban later
     if reason:
-        await bon.edit(f'`{user.id}` was banned !!\nReason: {reason}')
+        await bon.edit(f"`{user.id}` was banned !!\nReason: {reason}")
     else:
-        await bon.edit(f'`{user.id}` was banned !!')
+        await bon.edit(f"`{user.id}` was banned !!")
     # Announce to the logging group if we have banned the person
     # successfully!
     if BOTLOG:
@@ -474,7 +474,8 @@ async def rm_deletedacc(show):
         if del_u > 0:
             del_status = (
                 f"`Found` **{del_u}** `ghost/deleted/zombie account(s) in this group,"
-                "\nclean them by using .zombies clean`")
+                "\nclean them by using .zombies clean`"
+            )
         return await show.edit(del_status)
 
     # Here laying the sanity check
@@ -606,7 +607,7 @@ async def kick(usr):
         await usr.client.kick_participant(usr.chat_id, user.id)
         await sleep(0.5)
     except Exception as e:
-        return await usr.edit(NO_PERM + f'\n{e}')
+        return await usr.edit(NO_PERM + f"\n{e}")
 
     if reason:
         await usr.edit(
@@ -689,9 +690,7 @@ async def get_user_from_event(event):
         if event.message.entities is not None:
             probable_user_mention_entity = event.message.entities[0]
 
-            if isinstance(
-                    probable_user_mention_entity,
-                    MessageEntityMentionName):
+            if isinstance(probable_user_mention_entity, MessageEntityMentionName):
                 user_id = probable_user_mention_entity.user_id
                 user_obj = await event.client.get_entity(user_id)
                 return user_obj
@@ -782,9 +781,7 @@ async def get_userdel_from_event(event):
         if event.message.entities is not None:
             probable_user_mention_entity = event.message.entities[0]
 
-            if isinstance(
-                    probable_user_mention_entity,
-                    MessageEntityMentionName):
+            if isinstance(probable_user_mention_entity, MessageEntityMentionName):
                 user_id = probable_user_mention_entity.user_id
                 user_obj = await event.client.get_entity(user_id)
                 return user_obj
@@ -857,40 +854,50 @@ async def allkick(event):
     everyone = await event.client.get_participants(event.chat_id)
     for user in everyone:
         try:
-            await event.client(EditBannedRequest(event.chat_id, int(user.id), ChatBannedRights(until_date=None, view_messages=True)))
+            await event.client(
+                EditBannedRequest(
+                    event.chat_id,
+                    int(user.id),
+                    ChatBannedRights(until_date=None, view_messages=True),
+                )
+            )
         except Exception as e:
             await event.edit(str(e))
-        await sleep(.5)
+        await sleep(0.5)
     await event.edit("☑️Berhasil, Anda Telah Menendang Semua Member Disini.")
 
 
-CMD_HELP.update({"admin": "✘ Pʟᴜɢɪɴ : Administrator Group"
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.promote` <Username/Reply> <Nama Title (Optional)>"
-                 "\n↳ : Mempromosikan Member Sebagai Admin. (u/Owner)"
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.demote` <Username/Reply>"
-                 "\n↳ : Menurunkan Posisi Admin Sebagai Member. (u/Owner)"
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.ban` <Username/Reply> <Alasan(Optional)>"
-                 "\n↳ : Memblokir Seseorang, Secara Pribadi Maupun Group."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.unban <Username/Reply>`"
-                 "\n↳ : Menghapus Blokir."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.mute` <Username/Reply> <Alasan(Optional)>"
-                 "\n↳ : Membisukan Seseorang Di Group, Bisa Ke Admin Juga. :v"
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.unmute` <Username/Reply>"
-                 "\n↳ : Membuka bisu orang yang dibisukan."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.zombies`"
-                 "\n↳ : Untuk Mencari Akun Terhapus di Dalam Group."
-                 "Gunakan `.zombies clean` Untuk Membersihkan Akun Terhapus di Group."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.all`"
-                 "\n↳ : Tag Semua Member Dalam Group, Membutuhkan Bot @MentionBot."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.admins`"
-                 "\n↳ : Melihat Daftar Admin di Group."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.bots`"
-                 "\n↳ : Melihat Daftar Bot Dalam Group."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.users` Atau >`.users` <Nama Member>"
-                 "\n↳ : Mendapatkan Daftar Pengguna Dalamm Group."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.setgpic` <Reply ke Gambar>"
-                 "\n↳ : Mengganti Photo Profile Group."
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.allkick`"
-                 "\n↳ : Mengeluarkan Semua Member Di Dalam Group. (Only Owner)"
-                 "\n\n⚡𝘾𝙈𝘿⚡: `.allunban`"
-                 "\n↳ : Menghapus/Membatalkan Semua Orang Yang Telah Di Ban Di Dalam Group."})
+CMD_HELP.update(
+    {
+        "admin": "✘ Pʟᴜɢɪɴ : Administrator Group"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.promote` <Username/Reply> <Nama Title (Optional)>"
+        "\n↳ : Mempromosikan Member Sebagai Admin. (u/Owner)"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.demote` <Username/Reply>"
+        "\n↳ : Menurunkan Posisi Admin Sebagai Member. (u/Owner)"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.ban` <Username/Reply> <Alasan(Optional)>"
+        "\n↳ : Memblokir Seseorang, Secara Pribadi Maupun Group."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.unban <Username/Reply>`"
+        "\n↳ : Menghapus Blokir."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.mute` <Username/Reply> <Alasan(Optional)>"
+        "\n↳ : Membisukan Seseorang Di Group, Bisa Ke Admin Juga. :v"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.unmute` <Username/Reply>"
+        "\n↳ : Membuka bisu orang yang dibisukan."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.zombies`"
+        "\n↳ : Untuk Mencari Akun Terhapus di Dalam Group."
+        "Gunakan `.zombies clean` Untuk Membersihkan Akun Terhapus di Group."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.all`"
+        "\n↳ : Tag Semua Member Dalam Group, Membutuhkan Bot @MentionBot."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.admins`"
+        "\n↳ : Melihat Daftar Admin di Group."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.bots`"
+        "\n↳ : Melihat Daftar Bot Dalam Group."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.users` Atau >`.users` <Nama Member>"
+        "\n↳ : Mendapatkan Daftar Pengguna Dalamm Group."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.setgpic` <Reply ke Gambar>"
+        "\n↳ : Mengganti Photo Profile Group."
+        "\n\n⚡𝘾𝙈𝘿⚡: `.allkick`"
+        "\n↳ : Mengeluarkan Semua Member Di Dalam Group. (Only Owner)"
+        "\n\n⚡𝘾𝙈𝘿⚡: `.allunban`"
+        "\n↳ : Menghapus/Membatalkan Semua Orang Yang Telah Di Ban Di Dalam Group."
+    }
+)

@@ -29,7 +29,9 @@ async def _(event):
             except YouBlockedUserError:
                 return await event.reply("`Maaf Tidak Bisa`")
             if r1.text.startswith("No"):
-                return await event.edit(f"`Saya Tidak Menemukan Wallpaper Yang Anda Cari`")
+                return await event.edit(
+                    f"`Saya Tidak Menemukan Wallpaper Yang Anda Cari`"
+                )
             img = await event.client.download_media(r1)
             img2 = await event.client.download_media(r2)
             await event.edit("`Sedang Mengunggah Wallpaper....`")
@@ -47,14 +49,11 @@ async def _(event):
                 caption=f"{query}",
                 reply_to=p,
             )
-            await event.client.delete_messages(
-                conv.chat_id, [r1.id, r2.id, query1.id]
-            )
+            await event.client.delete_messages(conv.chat_id, [r1.id, r2.id, query1.id])
         await event.delete()
         os.system("rm *.png *.jpg")
     except TimeoutError:
         return await event.edit("`Saya Tidak Menemukan Wallpaper Yang Anda Cari`")
 
 
-CMD_HELP.update({"wallpaper": ">`.wall <query>`"
-                 "\nUsage: Mencari Wallpaper Bagus."})
+CMD_HELP.update({"wallpaper": ">`.wall <query>`" "\nUsage: Mencari Wallpaper Bagus."})

@@ -29,12 +29,15 @@ from userbot import CMD_HELP, DEFAULTUSER
 
 
 # Fixes Bug by @Spidy
-a1 = base64.b64decode(
-    "QUl6YVN5QXlEQnNZM1dSdEI1WVBDNmFCX3c4SkF5NlpkWE5jNkZV").decode("ascii")
-a2 = base64.b64decode(
-    "QUl6YVN5QkYwenhMbFlsUE1wOXh3TVFxVktDUVJxOERnZHJMWHNn").decode("ascii")
-a3 = base64.b64decode(
-    "QUl6YVN5RGRPS253blB3VklRX2xiSDVzWUU0Rm9YakFLSVFWMERR").decode("ascii")
+a1 = base64.b64decode("QUl6YVN5QXlEQnNZM1dSdEI1WVBDNmFCX3c4SkF5NlpkWE5jNkZV").decode(
+    "ascii"
+)
+a2 = base64.b64decode("QUl6YVN5QkYwenhMbFlsUE1wOXh3TVFxVktDUVJxOERnZHJMWHNn").decode(
+    "ascii"
+)
+a3 = base64.b64decode("QUl6YVN5RGRPS253blB3VklRX2xiSDVzWUU0Rm9YakFLSVFWMERR").decode(
+    "ascii"
+)
 
 
 @register(outgoing=True, pattern=r"^\.musik (.*)")
@@ -45,7 +48,9 @@ async def download_video(event):
     await event.edit("`Sedang Memproses Musik, Mohon Tunggu Sebentar...`")
     url = event.pattern_match.group(1)
     if not url:
-        return await event.edit("**List Error**\nCara Penggunaan : -`.musik <Judul Lagu>`")
+        return await event.edit(
+            "**List Error**\nCara Penggunaan : -`.musik <Judul Lagu>`"
+        )
     search = SearchVideos(url, offset=1, mode="json", max_results=1)
     test = search.result()
     p = json.loads(test)
@@ -80,15 +85,16 @@ async def download_video(event):
         with YoutubeDL(opts) as rip:
             rip_data = rip.extract_info(url)
     except DownloadError as DE:
-        await event.edit(f'`{DE}`')
+        await event.edit(f"`{DE}`")
         return
     except ContentTooShortError:
         await event.edit("`The download content was too short.`")
         return
     except GeoRestrictedError:
-        await event.edit("`Video is not available from your geographic location due to"
-                         + " geographic restrictions imposed by a website.`"
-                         )
+        await event.edit(
+            "`Video is not available from your geographic location due to"
+            + " geographic restrictions imposed by a website.`"
+        )
         return
     except MaxDownloadsReached:
         await event.edit("`Max-downloads limit has been reached.`")
@@ -104,7 +110,7 @@ async def download_video(event):
     except ExtractorError:
         return await event.edit("`There was an error during info extraction.`")
     except Exception as e:
-        return await event.edit(f'{str(type(e)): {e}}')
+        return await event.edit(f"{str(type(e)): {e}}")
     dir = os.listdir()
     if f"{rip_data['id']}.mp3.jpg" in dir:
         thumb = f"{rip_data['id']}.mp3.jpg"
@@ -146,7 +152,9 @@ Connected to server...
 @register(outgoing=True, pattern=r"^\.lirik (.*)")
 async def original(event):
     if not event.pattern_match.group(1):
-        return await event.edit("Beri Saya Sebuah Judul Lagu Untuk Mencari Lirik.\n**Contoh** : `.lirik` <Judul Lagu>")
+        return await event.edit(
+            "Beri Saya Sebuah Judul Lagu Untuk Mencari Lirik.\n**Contoh** : `.lirik` <Judul Lagu>"
+        )
     kenzo = event.pattern_match.group(1)
     event = await event.edit("`🔍 Sedang Mencari Lirik Lagu...`")
     dc = random.randrange(1, 3)
@@ -161,6 +169,7 @@ async def original(event):
     ax3l = k3nz["lyrics"]
     await event.client.send_message(event.chat_id, ax3l, reply_to=event.reply_to_msg_id)
     await event.delete()
+
 
 # For Lynx-Userbot
 CMD_HELP.update(

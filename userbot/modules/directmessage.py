@@ -30,9 +30,11 @@ async def remoteaccess(event):
     except BaseException:
         await event.edit("**Terjadi Error. Lu limit kayanya tot.**")
 
+
 CMD_HELP.update(
     {
         "dm": "✘ Pʟᴜɢɪɴ : `Direct Message`\
     \n\n⚡𝘾𝙈𝘿⚡: `.dm` <Username> <Pesan/Message>\
     \n↳ : Direct Message Mampu Mengirim Pesan Dimanapun Anda Berada\n Contoh : .dm <Username> <Pesan/Message>."
-    })
+    }
+)

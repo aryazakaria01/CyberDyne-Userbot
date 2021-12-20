@@ -79,8 +79,7 @@ async def carbon_api(e):
     driver = await chrome()
     driver.get(url)
     await e.edit("`Processing...\n50%`")
-    driver.find_element_by_css_selector(
-        '[data-cy="quick-export-button"]').click()
+    driver.find_element_by_css_selector('[data-cy="quick-export-button"]').click()
     await e.edit("`Processing...\n75%`")
     # Waiting for downloading
     while not os.path.isfile(file_path):
@@ -340,15 +339,13 @@ async def imdb(e):
         movie_name = e.pattern_match.group(1)
         remove_space = movie_name.split(" ")
         final_name = "+".join(remove_space)
-        page = get(
-            "https://www.imdb.com/find?ref_=nv_sr_fn&q=" +
-            final_name +
-            "&s=all")
+        page = get("https://www.imdb.com/find?ref_=nv_sr_fn&q=" + final_name + "&s=all")
         soup = BeautifulSoup(page.content, "lxml")
         odds = soup.findAll("tr", "odd")
         mov_title = odds[0].findNext("td").findNext("td").text
-        mov_link = ("http://www.imdb.com/" +
-                    odds[0].findNext("td").findNext("td").a["href"])
+        mov_link = (
+            "http://www.imdb.com/" + odds[0].findNext("td").findNext("td").a["href"]
+        )
         page1 = get(mov_link)
         soup = BeautifulSoup(page1.content, "lxml")
         if soup.find("div", "poster"):
@@ -376,8 +373,7 @@ async def imdb(e):
             actors.pop()
             stars = actors[0] + "," + actors[1] + "," + actors[2]
         if soup.find("div", "inline canwrap"):
-            story_line = soup.find(
-                "div", "inline canwrap").findAll("p")[0].text
+            story_line = soup.find("div", "inline canwrap").findAll("p")[0].text
         else:
             story_line = "Not available"
         info = soup.findAll("div", "txt-block")
@@ -530,10 +526,7 @@ async def yt_search(event):
     await event.edit("`Processing...`")
 
     try:
-        results = json.loads(
-            YoutubeSearch(
-                query,
-                max_results=counter).to_json())
+        results = json.loads(YoutubeSearch(query, max_results=counter).to_json())
     except KeyError:
         return await event.edit(
             "`Youtube Search gone retard.\nCan't search this query!`"
@@ -616,7 +609,7 @@ async def download_video(v_url):
         with YoutubeDL(opts) as rip:
             rip_data = rip.extract_info(url)
     except DownloadError as DE:
-        return await v_url.edit(f'`{DE}`')
+        return await v_url.edit(f"`{DE}`")
     except ContentTooShortError:
         return await v_url.edit("`The download content was too short.`")
     except GeoRestrictedError:
@@ -635,7 +628,7 @@ async def download_video(v_url):
     except ExtractorError:
         return await v_url.edit("`There was an error during info extraction.`")
     except Exception as e:
-        return await v_url.edit(f'{str(type(e)): {e}}')
+        return await v_url.edit(f"{str(type(e)): {e}}")
     c_time = time.time()
     if audio:
         await v_url.edit(
@@ -662,8 +655,7 @@ async def download_video(v_url):
         ]
         thumb_image = img_filenames[0]
         metadata = extractMetadata(createParser(f_name))
-        duration = metadata.get(
-            "duration").seconds if metadata.has("duration") else 0
+        duration = metadata.get("duration").seconds if metadata.has("duration") else 0
         await v_url.client.send_file(
             v_url.chat_id,
             result,
@@ -685,20 +677,12 @@ async def download_video(v_url):
             f"`Preparing to upload video:`\n**{rip_data.get('title')}**"
             f"\nby **{rip_data.get('uploader')}**"
         )
-        f_path = glob(
-            os.path.join(
-                TEMP_DOWNLOAD_DIRECTORY,
-                str(s_time),
-                "*"))[0]
+        f_path = glob(os.path.join(TEMP_DOWNLOAD_DIRECTORY, str(s_time), "*"))[0]
         # Noob way to convert from .mkv to .mp4
         if f_path.endswith(".mkv"):
             base = os.path.splitext(f_path)[0]
             os.rename(f_path, base + ".mp4")
-            f_path = glob(
-                os.path.join(
-                    TEMP_DOWNLOAD_DIRECTORY,
-                    str(s_time),
-                    "*"))[0]
+            f_path = glob(os.path.join(TEMP_DOWNLOAD_DIRECTORY, str(s_time), "*"))[0]
         f_name = os.path.basename(f_path)
         with open(f_path, "rb") as f:
             result = await upload_file(
@@ -711,8 +695,7 @@ async def download_video(v_url):
             )
         thumb_image = await get_video_thumb(f_path, "thumb.png")
         metadata = extractMetadata(createParser(f_path))
-        duration = metadata.get(
-            "duration").seconds if metadata.has("duration") else 0
+        duration = metadata.get("duration").seconds if metadata.has("duration") else 0
         width = metadata.get("width") if metadata.has("width") else 0
         height = metadata.get("height") if metadata.has("height") else 0
         await v_url.client.send_file(
@@ -780,4 +763,5 @@ CMD_HELP.update(
         "\nQuality Examples : `144` `240` `360` `480` `720` `1080` `2160`"
         "\n↳ : Download Videos from YouTube"
         "\n\n[Other supported sites](https://ytdl-org.github.io/youtube-dl/supportedsites.html)",
-    })
+    }
+)
